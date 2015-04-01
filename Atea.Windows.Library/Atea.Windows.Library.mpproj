@@ -71,6 +71,9 @@
       <SubType>Code</SubType>
       <DependentUpon>HealthModel\Discoveries\PSDiscoveries.mptg</DependentUpon>
     </Compile>
+    <Compile Include="ManagementPack.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServiceModel\Classes\Server.PSEnabled.mpx">
       <SubType>Code</SubType>
     </Compile>
