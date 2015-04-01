@@ -2,7 +2,7 @@
   <TypeDefinitions>
     <EntityTypes>
       <ClassTypes>
-        <ClassType ID="Atea.Windows.Server.PSEnabled" Base="Windows!Microsoft.Windows.Server.Computer" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+        <ClassType ID="Atea.Windows.Server.PSEnabled" Base="Windows!Microsoft.Windows.Server.Computer" Accessibility="Public" Abstract="false" Hosted="false" Singleton="false">
           <Property ID="PSVersion" Key="false" Type="string" />
           <Property ID="PSCompatibleVersion" Key="false" Type="string" />
           <Property ID="PSRuntimeVersion" Key="false" Type="string" />
@@ -15,8 +15,24 @@
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
         <DisplayString ElementID="Atea.Windows.Server.PSEnabled">
-          <Name>PS-Enabled Windows Server</Name>
+          <Name>Windows Server with PowerShell</Name>
           <Description>A windows server with confirmed powershell installation. Good target class for powershell based discoveries.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.PSEnabled" SubElementID="PSVersion">
+          <Name>PowerShell Version</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.PSEnabled" SubElementID="PSCompatibleVersion">
+          <Name>Compatible PS-version</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.PSEnabled" SubElementID="PSRuntimeVersion">
+          <Name>Poweshell Runtime Version</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.PSEnabled" SubElementID="PSApplicationBase">
+          <Name>PowerShell Installation Folder</Name>
+          <Description></Description>
         </DisplayString>
       </DisplayStrings>
     </LanguagePack>
