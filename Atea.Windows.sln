@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "Atea.Windows.Library", "Atea.Windows.Library\Atea.Windows.Library.mpproj", "{361E64DE-7730-493D-8464-C22911EB5791}"
 EndProject
+Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "Atea.Windows.Server.Monitoring", "Atea.Windows.Server.Monitoring\Atea.Windows.Server.Monitoring.mpproj", "{E346D1C7-2CA1-4E15-A871-663F747FBFDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -15,6 +17,10 @@ Global
 		{361E64DE-7730-493D-8464-C22911EB5791}.Debug|x86.Build.0 = Debug|x86
 		{361E64DE-7730-493D-8464-C22911EB5791}.Release|x86.ActiveCfg = Release|x86
 		{361E64DE-7730-493D-8464-C22911EB5791}.Release|x86.Build.0 = Release|x86
+		{E346D1C7-2CA1-4E15-A871-663F747FBFDE}.Debug|x86.ActiveCfg = Debug|x86
+		{E346D1C7-2CA1-4E15-A871-663F747FBFDE}.Debug|x86.Build.0 = Debug|x86
+		{E346D1C7-2CA1-4E15-A871-663F747FBFDE}.Release|x86.ActiveCfg = Release|x86
+		{E346D1C7-2CA1-4E15-A871-663F747FBFDE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
