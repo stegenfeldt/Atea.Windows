@@ -1,0 +1,24 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+        <ClassType ID="Atea.Windows.Server.PSEnabled" Base="Windows!Microsoft.Windows.Server.Computer" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+          <Property ID="PSVersion" Key="false" Type="string" />
+          <Property ID="PSCompatibleVersion" Key="false" Type="string" />
+          <Property ID="PSRuntimeVersion" Key="false" Type="string" />
+          <Property ID="PSApplicationBase" Key="false" Type="string" />
+        </ClassType>
+      </ClassTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Server.PSEnabled">
+          <Name>PS-Enabled Windows Server</Name>
+          <Description>A windows server with confirmed powershell installation. Good target class for powershell based discoveries.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>
