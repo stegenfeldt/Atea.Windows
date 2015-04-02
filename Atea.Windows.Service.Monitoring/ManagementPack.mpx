@@ -3,7 +3,7 @@
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
         <DisplayString ElementID="Atea.Windows.Service.Monitoring">
-          <Name>Atea Windows Service Monitorin</Name>
+          <Name>Atea Windows Service Monitoring</Name>
           <Description>Extends and simplifies monitoring of Windows Services.</Description>
         </DisplayString>
       </DisplayStrings>
