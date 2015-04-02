@@ -1,7 +1,7 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Monitoring>
     <Discoveries>
-      <Discovery ID="Atea.Windows.Service.ServiceDiscovery" Enabled="false" Target="Windows!Microsoft.Windows.Server.Computer" ConfirmDelivery="true" Remotable="false" Priority="Normal">
+      <Discovery ID="Atea.Windows.Service.AutoServiceDiscovery" Enabled="false" Target="Windows!Microsoft.Windows.Server.Computer" ConfirmDelivery="true" Remotable="false" Priority="Normal">
         <Category>Discovery</Category>
         <DiscoveryTypes>
           <DiscoveryClass TypeID="Atea.Windows.Service.Service">
