@@ -1,0 +1,58 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+    <Discoveries>
+      <Discovery ID="Atea.Windows.Service.ServiceDiscovery" Enabled="false" Target="Windows!Microsoft.Windows.Server.Computer" ConfirmDelivery="true" Remotable="false" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="Atea.Windows.Service.Service">
+            <Property TypeID="MSNL!Microsoft.SystemCenter.NTService" PropertyID="ServiceName" />
+            <Property TypeID="MSNL!Microsoft.SystemCenter.NTService" PropertyID="ServiceProcessName" />
+            <Property TypeID="MSNL!Microsoft.SystemCenter.NTService" PropertyID="DisplayName" />
+            <Property TypeID="MSNL!Microsoft.SystemCenter.NTService" PropertyID="Description" />
+          </DiscoveryClass>
+        </DiscoveryTypes>
+        <DataSource ID="ServiceDS" TypeID="Atea.Windows.Service.AutoServiceDiscoveryDS">
+          <IntervalSeconds>14400</IntervalSeconds>
+          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+          <TimeoutSeconds>300</TimeoutSeconds>
+          <ScriptName>TGWinAutoSvcDiscovery.vbs</ScriptName>
+          <Debug>false</Debug>
+          <ClassId>$MPElement[Name="Atea.Windows.Service.Service"]$</ClassId>
+          <InstanceSettings>
+            <Settings>
+              <Setting>
+                <Name>$MPElement[Name='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$</Name>
+                <Value>$Data/Property[@Name='Name']$</Value>
+              </Setting>
+              <Setting>
+                <Name>$MPElement[Name='MSNL!Microsoft.SystemCenter.NTService']/DisplayName$</Name>
+                <Value>$Data/Property[@Name='DisplayName']$</Value>
+              </Setting>
+              <Setting>
+                <Name>$MPElement[Name='MSNL!Microsoft.SystemCenter.NTService']/ServiceProcessName$</Name>
+                <Value>$Data/Property[@Name='PathName']$</Value>
+              </Setting>
+              <Setting>
+                <Name>$MPElement[Name='MSNL!Microsoft.SystemCenter.NTService']/Description$</Name>
+                <Value>$Data/Property[@Name='Description']$</Value>
+              </Setting>
+              <Setting>
+                <Name>$MPElement[Name="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Name>
+                <Value>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Value>
+              </Setting>
+            </Settings>
+          </InstanceSettings>
+          <Filter>
+            <RegExExpression>
+              <ValueExpression>
+                <XPathQuery>Property[@Name='ServiceType']</XPathQuery>
+              </ValueExpression>
+              <Operator>ContainsSubstring</Operator>
+              <Pattern>Own Process</Pattern>
+            </RegExExpression>
+          </Filter>
+        </DataSource>
+      </Discovery>
+    </Discoveries>
+  </Monitoring>
+</ManagementPackFragment>
