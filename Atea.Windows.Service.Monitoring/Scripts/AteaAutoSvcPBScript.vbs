@@ -1,21 +1,4 @@
-﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <TypeDefinitions>
-    <ModuleTypes>
-      <ProbeActionModuleType ID="Atea.Windows.Service.AutoServiceDiscoveryVBSProbe" Accessibility="Internal" Batching="false" PassThrough="false">
-        <Configuration>
-          <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" />
-          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean" />
-          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" />
-        </Configuration>
-        <ModuleImplementation Isolation="Any">
-          <Composite>
-            <MemberModules>
-              <ProbeAction ID="PropertyBag" TypeID="Windows!Microsoft.Windows.ScriptPropertyBagProbe">
-                <ScriptName>AteaAutoSvcPBScript.vbs</ScriptName>
-                <Arguments>$Config/ComputerName$ $Config/Debug$</Arguments>
-                <ScriptBody>
-                  <![CDATA[
-Option Explicit
+﻿Option Explicit
 
 Dim computerName, keyPath, wmiObject, automaticServices, automaticService, serviceName, debugEnabled, scriptParameters, serviceClass
 Dim scomApi, scomPropertyBag, serviceObject, returnValue
@@ -166,19 +149,3 @@ Sub LogEvent(logEventID, logSeverity, logMessage)
 	End If
 End Sub
 
-]]>
-                </ScriptBody>
-                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
-              </ProbeAction>
-            </MemberModules>
-            <Composition>
-              <Node ID="PropertyBag" />
-            </Composition>
-          </Composite>
-        </ModuleImplementation>
-        <OutputType>System!System.PropertyBagData</OutputType>
-        <InputType>System!System.TriggerData</InputType>
-      </ProbeActionModuleType>
-    </ModuleTypes>
-  </TypeDefinitions>
-</ManagementPackFragment>
