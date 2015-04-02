@@ -61,5 +61,13 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Atea.Windows.Library\Atea.Windows.Library.mpproj">
+      <Name>Atea.Windows.Library</Name>
+      <Project>{361e64de-7730-493d-8464-c22911eb5791}</Project>
+      <Private>True</Private>
+      <Alias>AWL</Alias>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
