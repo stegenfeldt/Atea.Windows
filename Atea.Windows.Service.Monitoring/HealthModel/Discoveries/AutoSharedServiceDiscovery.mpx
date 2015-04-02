@@ -11,7 +11,7 @@
             <Property TypeID="MSNL!Microsoft.SystemCenter.NTService" PropertyID="Description" />
           </DiscoveryClass>
         </DiscoveryTypes>
-        <DataSource ID="ServiceDS" TypeID="TG.WinAutoSvc.ServiceDiscoveryDS">
+        <DataSource ID="ServiceDS" TypeID="Atea.Windows.Service.AutoServiceDiscoveryDS">
           <IntervalSeconds>14400</IntervalSeconds>
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
           <TimeoutSeconds>300</TimeoutSeconds>

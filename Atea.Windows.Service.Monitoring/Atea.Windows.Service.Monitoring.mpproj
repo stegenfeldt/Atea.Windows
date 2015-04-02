@@ -71,6 +71,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HealthModel\Discoveries\AutoServiceDiscovery.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HealthModel\Discoveries\AutoSharedServiceDiscovery.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ManagementPack.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -88,12 +94,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="HealthModel" />
+    <Folder Include="HealthModel\Discoveries" />
+    <Folder Include="Scripts" />
     <Folder Include="TypeLibrary" />
     <Folder Include="ServiceModel" />
     <Folder Include="ServiceModel\Classes" />
     <Folder Include="TypeLibrary\ModuleTypes" />
     <Folder Include="TypeLibrary\ModuleTypes\DataSources" />
     <Folder Include="TypeLibrary\ModuleTypes\ProbeActions" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\AteaAutoSvcPBScript.vbs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
