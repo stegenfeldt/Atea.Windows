@@ -2,7 +2,7 @@
   <TypeDefinitions>
     <EntityTypes>
       <ClassTypes>
-        <ClassType ID="Atea.Windows.Service.Service" Base="Windows!Microsoft.Windows.ApplicationComponent" Accessibility="Internal" Abstract="false" Hosted="false" Singleton="false">
+        <ClassType ID="Atea.Windows.Service.Service" Base="MSNL!Microsoft.SystemCenter.OwnProcessNTService" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
         </ClassType>
       </ClassTypes>
     </EntityTypes>
