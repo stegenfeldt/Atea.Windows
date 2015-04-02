@@ -80,10 +80,20 @@
     <Compile Include="ServiceModel\Classes\SharedService.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\DataSources\AutoServiceDiscoveryDS.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\AutoServiceDiscoveryVBSProbe.mpx">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="TypeLibrary" />
     <Folder Include="ServiceModel" />
     <Folder Include="ServiceModel\Classes" />
+    <Folder Include="TypeLibrary\ModuleTypes" />
+    <Folder Include="TypeLibrary\ModuleTypes\DataSources" />
+    <Folder Include="TypeLibrary\ModuleTypes\ProbeActions" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>

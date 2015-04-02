@@ -33,7 +33,7 @@
                   <ExcludeDates />
                 </Scheduler>
               </DataSource>
-              <ProbeAction ID="PropertyBag" TypeID="Atea.Windows.Service.VBSPropertyBagProbe">
+              <ProbeAction ID="PropertyBag" TypeID="Atea.Windows.Service.AutoServiceDiscoveryVBSProbe">
                 <ScriptName>$Config/ScriptName$</ScriptName>
                 <ComputerName>$Config/ComputerName$</ComputerName>
                 <Debug>$Config/Debug$</Debug>
