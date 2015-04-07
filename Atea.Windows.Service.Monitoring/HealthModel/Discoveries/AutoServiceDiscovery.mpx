@@ -15,7 +15,6 @@
           <IntervalSeconds>14400</IntervalSeconds>
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
           <TimeoutSeconds>300</TimeoutSeconds>
-          <ScriptName>TGWinAutoSvcDiscovery.vbs</ScriptName>
           <Debug>false</Debug>
           <ClassId>$MPElement[Name="Atea.Windows.Service.Service"]$</ClassId>
           <InstanceSettings>
