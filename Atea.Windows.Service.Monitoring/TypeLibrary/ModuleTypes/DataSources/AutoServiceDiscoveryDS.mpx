@@ -10,7 +10,6 @@
           <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" />
           <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" />
           <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" />
-          <xsd:element minOccurs="1" name="ScriptName" type="xsd:string" />
           <xsd:element minOccurs="1" name="Debug" type="xsd:boolean" />
           <xsd:element minOccurs="1" name="ClassId" type="xsd:string" />
           <xsd:element minOccurs="1" name="InstanceSettings" type="SettingsType" />
@@ -28,7 +27,7 @@
                 <Scheduler>
                   <SimpleReccuringSchedule>
                     <Interval>$Config/IntervalSeconds$</Interval>
-                    <SyncTime>23:30</SyncTime>
+                    <SyncTime />
                   </SimpleReccuringSchedule>
                   <ExcludeDates />
                 </Scheduler>
