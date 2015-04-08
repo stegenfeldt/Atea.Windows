@@ -148,4 +148,3 @@ Sub LogEvent(logEventID, logSeverity, logMessage)
 		End If
 	End If
 End Sub
-
