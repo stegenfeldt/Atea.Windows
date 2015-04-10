@@ -28,4 +28,15 @@
       </ProbeActionModuleType>
     </ModuleTypes>
   </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Service.AutoServiceDiscoveryVBSProbe">
+          <Name>Atea Windows Automatic Service Discovery Probe</Name>
+          <Description></Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+
 </ManagementPackFragment>

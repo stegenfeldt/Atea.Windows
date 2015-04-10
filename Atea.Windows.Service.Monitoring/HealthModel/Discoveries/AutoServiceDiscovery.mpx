@@ -55,4 +55,14 @@
       </Discovery>
     </Discoveries>
   </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Service.AutoServiceDiscovery">
+          <Name>Atea Windows Automatic Service Discovery</Name>
+          <Description>Discover all windows services running in it's own process configured to start automatically.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
 </ManagementPackFragment>

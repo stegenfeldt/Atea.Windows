@@ -55,4 +55,15 @@
       </Discovery>
     </Discoveries>
   </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Service.AutoSharedServiceDiscovery">
+          <Name>Atea Windows Automatic Service (svchost) Discovery</Name>
+          <Description>Discover all windows services running in a shared process (svchost) configured to start automatically.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+
 </ManagementPackFragment>
