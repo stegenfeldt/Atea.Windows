@@ -63,4 +63,30 @@
       </DataSourceModuleType>
     </ModuleTypes>
   </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Service.AutoServiceDiscoveryDS">
+          <Name>Atea Windows Service Automatic Service Discovery DataSource</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.AutoServiceDiscoveryDS" SubElementID="IntervalSeconds">
+          <Name>Interval (seconds)</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.AutoServiceDiscoveryDS" SubElementID="Debug">
+          <Name>Debug Logging</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.AutoServiceDiscoveryDS" SubElementID="TimeoutSeconds">
+          <Name>Script Timeout (seconds)</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.AutoServiceDiscoveryDS" SubElementID="ServiceExceptions">
+          <Name>Service Exclusions</Name>
+          <Description>Comma-separated list of services to exclude from discovery.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
 </ManagementPackFragment>
