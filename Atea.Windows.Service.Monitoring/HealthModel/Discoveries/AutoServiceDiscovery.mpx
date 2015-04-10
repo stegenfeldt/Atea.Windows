@@ -50,6 +50,7 @@
               <Pattern>Own Process</Pattern>
             </RegExExpression>
           </Filter>
+          <ServiceExceptions>sppsvc,RemoteRegistry</ServiceExceptions>
         </DataSource>
       </Discovery>
     </Discoveries>

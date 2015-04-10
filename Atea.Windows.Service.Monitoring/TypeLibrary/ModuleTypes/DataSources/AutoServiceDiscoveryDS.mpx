@@ -14,11 +14,13 @@
           <xsd:element minOccurs="1" name="ClassId" type="xsd:string" />
           <xsd:element minOccurs="1" name="InstanceSettings" type="SettingsType" />
           <xsd:element minOccurs="1" name="Filter" type="ExpressionType" />
+          <xsd:element minOccurs="1" name="ServiceExceptions" type="xsd:string" />
         </Configuration>
         <OverrideableParameters>
           <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
           <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool" />
           <OverrideableParameter ID="TimeoutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="ServiceExceptions" Selector="$Config/ServiceExceptions$" ParameterType="string" />
         </OverrideableParameters>
         <ModuleImplementation Isolation="Any">
           <Composite>
@@ -36,6 +38,7 @@
                 <ComputerName>$Config/ComputerName$</ComputerName>
                 <Debug>$Config/Debug$</Debug>
                 <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+                <ServiceExceptions>$Config/ServiceExceptions$</ServiceExceptions>
               </ProbeAction>
               <ConditionDetection ID="Mapper" TypeID="System!System.Discovery.ClassSnapshotDataMapper">
                 <ClassId>$Config/ClassId$</ClassId>
