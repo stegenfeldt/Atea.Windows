@@ -6,13 +6,14 @@
           <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" />
           <xsd:element minOccurs="1" name="Debug" type="xsd:boolean" />
           <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" />
+          <xsd:element minOccurs="1" name="ServiceExceptions" type="xsd:string" />
         </Configuration>
         <ModuleImplementation Isolation="Any">
           <Composite>
             <MemberModules>
               <ProbeAction ID="PropertyBag" TypeID="Windows!Microsoft.Windows.ScriptPropertyBagProbe">
                 <ScriptName>AteaAutoSvcPBScript.vbs</ScriptName>
-                <Arguments>$Config/ComputerName$ $Config/Debug$</Arguments>
+                <Arguments>$Config/ComputerName$ $Config/Debug$ $Config/ServiceExceptions$</Arguments>
                 <ScriptBody>$IncludeFileContent/Scripts/AteaAutoSvcPBScript.vbs$</ScriptBody>
                 <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
               </ProbeAction>
