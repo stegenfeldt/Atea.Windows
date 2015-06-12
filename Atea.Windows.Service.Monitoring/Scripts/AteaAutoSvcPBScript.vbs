@@ -41,7 +41,7 @@ If NOT IsNull(automaticServices) Then
 			' Add one property bag per service
 			LogEvent SCOM_DEBUG,SCOM_INFO,"Found automatic service: " & serviceName
 
-            If Ubound(Filter(serviceExceptions, serviceName)) > -1 Then
+            If Ubound(Filter(serviceExceptions, serviceName,True,1)) > -1 Then
                 'Got match, service shound be excluded from discovery
                 LogEvent SCOM_DEBUG,SCOM_INFO,"Service is ignored due to exclusion list: " & serviceName
             Else
