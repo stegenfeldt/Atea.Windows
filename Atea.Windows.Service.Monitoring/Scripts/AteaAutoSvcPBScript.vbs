@@ -28,7 +28,7 @@ debugEnabled = CBool(scriptParameters(1))
 serviceExceptions = Split(scriptParameters(2),",")
 
 wmiQuery = "Select * from Win32_Service where StartMode = 'Auto' AND NOT DisplayName Like 'Windows%' AND NOT DisplayName Like 'SQL%'"
-standardExclusions = "sppsvc,RemoteRegistry,clr_optimization_v4.0.30319_32,clr_optimization_v4.0.30319_64,clr_optimization_v2.0.50727_32,VSS,gupdate,TrustedInstaller,SysmonLog,Citrix.Xip.ClientService,msiserver"
+standardExclusions = Split("sppsvc,RemoteRegistry,clr_optimization_v4.0.30319_32,clr_optimization_v4.0.30319_64,clr_optimization_v2.0.50727_32,VSS,gupdate,TrustedInstaller,SysmonLog,Citrix.Xip.ClientService,msiserver,OMSDK,healthservice,cshost,LanmanWorkstation,LanmanServer,WinRM,MpsSvc,EventLog,lmhosts,Browser,Dhcp,Winmgmt",",")
 
 Set wmiObject = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & computerName & "\root\cimv2")
 Set automaticServices = wmiObject.ExecQuery(wmiQuery)
