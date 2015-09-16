@@ -28,7 +28,7 @@ debugEnabled = CBool(scriptParameters(1))
 serviceExceptions = Split(scriptParameters(2),",")
 
 wmiQuery = "Select * from Win32_Service where StartMode = 'Auto' AND NOT DisplayName Like 'Windows%' AND NOT DisplayName Like 'SQL%'"
-standardExclusions = Split("sppsvc,RemoteRegistry,clr_optimization_v4.0.30319_32,clr_optimization_v4.0.30319_64,clr_optimization_v2.0.50727_32,VSS,gupdate,TrustedInstaller,SysmonLog,msiserver,OMSDK,healthservice,cshost,LanmanWorkstation,LanmanServer,WinRM,MpsSvc,EventLog,lmhosts,Browser,Dhcp,Winmgmt,clussvc,wuauserv,gpsvc,MSMQ,DiagTrack,Spooler",",")
+standardExclusions = Split("sppsvc,RemoteRegistry,clr_optimization_v4.0.30319_32,clr_optimization_v4.0.30319_64,clr_optimization_v2.0.50727_32,VSS,gupdate,TrustedInstaller,SysmonLog,msiserver,OMSDK,healthservice,cshost,LanmanWorkstation,LanmanServer,WinRM,MpsSvc,EventLog,lmhosts,Browser,Dhcp,Winmgmt,clussvc,wuauserv,gpsvc,MSMQ,DiagTrack,Spooler,RpcSs,MSDTC,Slsvc,SNMP",",")
 xylemExclusions = Split("PatrolAgent,Citrix.Xip.ClientService",",")
 
 Set wmiObject = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & computerName & "\root\cimv2")
