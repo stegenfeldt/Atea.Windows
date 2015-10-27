@@ -1,0 +1,16 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+    <Recoveries>
+      <Recovery ID="Atea.Windows.Service.Service.RecoveryTask" Accessibility="Public" Target="Atea.Windows.Service.Service" Enabled="true" ExecuteOnState="Error" Monitor="Atea.Windows.Service.RecoveryMonitor" ResetMonitor="true" Timeout="300" Remotable="false">
+        <Category>AvailabilityHealth</Category>
+        <WriteAction ID="StartService" TypeID="System!System.CommandExecuter">
+          <ApplicationName><![CDATA[%windir%\system32\net.exe]]></ApplicationName>
+          <WorkingDirectory><![CDATA[%windir%\system32]]></WorkingDirectory>
+          <CommandLine>start $Target/Property[Type='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$</CommandLine>
+          <TimeoutSeconds>300</TimeoutSeconds>
+          <RequireOutput>true</RequireOutput>
+        </WriteAction>
+      </Recovery>
+    </Recoveries>
+  </Monitoring>
+</ManagementPackFragment>
