@@ -55,6 +55,11 @@
       <Alias>Visualization</Alias>
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
+    <ManagementPackReference Include="System.Performance.Library">
+      <HintPath>C:\Program Files (x86)\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\System.Performance.Library.mp</HintPath>
+      <Alias>Perf</Alias>
+      <MinVersion>7.0.8427.0</MinVersion>
+    </ManagementPackReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="AteaST.snk">
