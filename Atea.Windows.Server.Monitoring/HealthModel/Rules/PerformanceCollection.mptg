@@ -1,0 +1,24 @@
+<TemplateGroup>
+  <Instances>
+    <Instance ID="Instance6e6966ef64584dabab974d07aee03c69" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>DiskUsageGB</Id>
+        <DisplayName>Disk Usage (GB)</DisplayName>
+        <Description>Collects the server Disk Usage in GB</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>Windows!Microsoft.Windows.LogicalDisk</Target>
+        <Enabled>false</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;14400&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;ScriptName&gt;DiskUsageProbe.vbs&lt;/ScriptName&gt;&lt;Arguments&gt;$Target/Property[Type="Windows!Microsoft.Windows.LogicalDevice"]/DeviceID$&lt;/Arguments&gt;&lt;ScriptBody&gt;$IncludeFileContent/Scripts/DiskUsageProbe.vbs$&lt;/ScriptBody&gt;&lt;TimeoutSeconds&gt;300&lt;/TimeoutSeconds&gt;&lt;ObjectName&gt;LogicalDisk&lt;/ObjectName&gt;&lt;CounterName&gt;DiskUsedGB&lt;/CounterName&gt;&lt;InstanceName&gt;$Target/Property[Type="Windows!Microsoft.Windows.LogicalDevice"]/DeviceID$&lt;/InstanceName&gt;&lt;Value&gt;$Data/Property[@Name='DiskUsed']$&lt;/Value&gt;</DataSourceConfig>
+        <DataSourceType>Windows!Microsoft.Windows.TimedScript.PerformanceProvider</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+  </Instances>
+</TemplateGroup>
