@@ -1,0 +1,44 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <ModuleTypes>
+      <ProbeActionModuleType ID="Atea.WinSvc.Probe.AddServicePS" Accessibility="Internal" Batching="false" >
+        <Configuration>
+          <xsd:element name="ServiceName" type="xsd:string" />
+          <xsd:element name="RegistryPath" type="xsd:string" />
+          <xsd:element name="TimeoutSeconds" type="xsd:int" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="ServiceName" Selector="$Config/ServiceName$" ParameterType="string"/>
+        </OverrideableParameters>
+        <ModuleImplementation>
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSProbe" TypeID="Windows!Microsoft.Windows.PowerShellProbe">
+                <ScriptName>Add-MonitoredServiceKey.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Add-MonitoredServiceKey.ps1$</ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>serviceName</Name>
+                    <Value>$Config/ServiceName$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>registryPath</Name>
+                    <Value>$Config/RegistryPath$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+                <StrictErrorHandling>true</StrictErrorHandling>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSProbe" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Windows!Microsoft.Windows.SerializedObjectData</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+    </ModuleTypes>
+  </TypeDefinitions>
+</ManagementPackFragment>

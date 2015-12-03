@@ -1,0 +1,43 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <ModuleTypes>
+      <ProbeActionModuleType ID="Atea.WinSvc.Probe.VBSPropertyBag" Accessibility="Internal" Batching="false" PassThrough="false">
+        <Configuration>
+          <xsd:element minOccurs="1" name="ScriptName" type="xsd:string" />
+          <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" />
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean" />
+          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PropertyBag" TypeID="Windows!Microsoft.Windows.ScriptPropertyBagProbe">
+                <ScriptName>$Config/ScriptName$</ScriptName>
+                <Arguments>$Config/ComputerName$ $Config/Debug$</Arguments>
+                <ScriptBody>$IncludeFileContent/Scripts/AteaWinSvcServiceDiscoveryDS.vbs$</ScriptBody>
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PropertyBag" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <InputType>System!System.TriggerData</InputType>
+      </ProbeActionModuleType>
+    </ModuleTypes>
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.WinSvc.Probe.VBSPropertyBag">
+          <Name>Atea WinSvc Probe VBS PropertyBag</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.WinSvc.Probe.VBSPropertyBag" SubElementID="PropertyBag">
+          <Name>Atea WinSvc Probe VBS PropertyBag Module</Name>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>
