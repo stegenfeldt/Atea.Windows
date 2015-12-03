@@ -1,12 +1,12 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Monitoring>
     <Discoveries>
-      <Discovery ID="Atea.WinSvc.Server.Discovery" Enabled="true" Target="Windows!Microsoft.Windows.Server.Computer" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+      <Discovery ID="Atea.Windows.Service.Seed.Discovery" Enabled="true" Target="Windows!Microsoft.Windows.Server.Computer" ConfirmDelivery="false" Remotable="true" Priority="Normal">
         <Category>Discovery</Category>
         <DiscoveryTypes>
-          <DiscoveryClass TypeID="Atea.WinSvc.Server">
+          <DiscoveryClass TypeID="Atea.Windows.Service.Seed">
             <Property TypeID="System!System.Entity" PropertyID="DisplayName" />
-            <Property TypeID="Atea.WinSvc.Server" PropertyID="RegistryPath"/>
+            <Property TypeID="Atea.Windows.Service.Seed" PropertyID="RegistryPath"/>
           </DiscoveryClass>
         </DiscoveryTypes>
         <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.FilteredRegistryDiscoveryProvider">
@@ -20,7 +20,7 @@
             </RegistryAttributeDefinition>
           </RegistryAttributeDefinitions>
           <Frequency>14400</Frequency>
-          <ClassId>$MPElement[Name="Atea.WinSvc.Server"]$</ClassId>
+          <ClassId>$MPElement[Name="Atea.Windows.Service.Seed"]$</ClassId>
           <InstanceSettings>
             <Settings>
               <Setting>
@@ -32,7 +32,7 @@
                 <Value>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetbiosComputerName$</Value>
               </Setting>
               <Setting>
-                <Name>$MPElement[Name="Atea.WinSvc.Server"]/RegistryPath$</Name>
+                <Name>$MPElement[Name="Atea.Windows.Service.Seed"]/RegistryPath$</Name>
                 <Value>Software\Atea\WinSvc</Value>
               </Setting>
             </Settings>
@@ -55,12 +55,12 @@
   <LanguagePacks>
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
-        <DisplayString ElementID="Atea.WinSvc.Server.Discovery">
-          <Name>Atea WinSvc Server Seed Discovery</Name>
+        <DisplayString ElementID="Atea.Windows.Service.Seed.Discovery">
+          <Name>Atea Windows Service Server Seed Discovery</Name>
           <Description>Initial Seed discovery</Description>
         </DisplayString>
-        <DisplayString ElementID="Atea.WinSvc.Server.Discovery" SubElementID="DS">
-          <Name>Atea WinSvc Server Discovery Data Source</Name>
+        <DisplayString ElementID="Atea.Windows.Service.Seed.Discovery" SubElementID="DS">
+          <Name>Atea Windows Service Server Discovery Data Source</Name>
         </DisplayString>
       </DisplayStrings>
     </LanguagePack>

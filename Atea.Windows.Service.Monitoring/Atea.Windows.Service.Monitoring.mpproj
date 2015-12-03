@@ -94,6 +94,9 @@
     <Compile Include="HealthModel\Discoveries\AutoSharedServiceDiscovery.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HealthModel\Discoveries\ServiceDiscovery.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="HealthModel\Discoveries\ServiceSeedDiscovery.mpx">
       <SubType>Code</SubType>
     </Compile>

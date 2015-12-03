@@ -1,7 +1,7 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <TypeDefinitions>
     <ModuleTypes>
-      <ProbeActionModuleType ID="Atea.WinSvc.Probe.VBSPropertyBag" Accessibility="Internal" Batching="false" PassThrough="false">
+      <ProbeActionModuleType ID="Atea.Windows.Service.Probe.VBSPropertyBag" Accessibility="Internal" Batching="false" PassThrough="false">
         <Configuration>
           <xsd:element minOccurs="1" name="ScriptName" type="xsd:string" />
           <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" />
@@ -31,11 +31,11 @@
   <LanguagePacks>
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
-        <DisplayString ElementID="Atea.WinSvc.Probe.VBSPropertyBag">
-          <Name>Atea WinSvc Probe VBS PropertyBag</Name>
+        <DisplayString ElementID="Atea.Windows.Service.Probe.VBSPropertyBag">
+          <Name>Atea Windows Service Probe VBS PropertyBag</Name>
         </DisplayString>
-        <DisplayString ElementID="Atea.WinSvc.Probe.VBSPropertyBag" SubElementID="PropertyBag">
-          <Name>Atea WinSvc Probe VBS PropertyBag Module</Name>
+        <DisplayString ElementID="Atea.Windows.Service.Probe.VBSPropertyBag" SubElementID="PropertyBag">
+          <Name>Atea Windows Service Probe VBS PropertyBag Module</Name>
         </DisplayString>
       </DisplayStrings>
     </LanguagePack>
