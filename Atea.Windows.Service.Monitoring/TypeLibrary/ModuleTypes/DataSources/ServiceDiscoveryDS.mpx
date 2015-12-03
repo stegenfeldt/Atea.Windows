@@ -1,7 +1,7 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <TypeDefinitions>
     <ModuleTypes>
-      <DataSourceModuleType ID="Atea.WinSvc.ServiceDiscoveryDS" Accessibility="Public" Batching="false">
+      <DataSourceModuleType ID="Atea.Windows.Service.ServiceDiscoveryDS" Accessibility="Public" Batching="false">
         <Configuration>
           <IncludeSchemaTypes>
             <SchemaType>System!System.Discovery.MapperSchema</SchemaType>
@@ -31,7 +31,7 @@
                   <ExcludeDates />
                 </Scheduler>
               </DataSource>
-              <ProbeAction ID="PropertyBag" TypeID="Atea.WinSvc.Probe.VBSPropertyBag">
+              <ProbeAction ID="PropertyBag" TypeID="Atea.Windows.Service.Probe.VBSPropertyBag">
                 <ScriptName>$Config/ScriptName$</ScriptName>
                 <ComputerName>$Config/ComputerName$</ComputerName>
                 <Debug>$Config/Debug$</Debug>
@@ -58,17 +58,17 @@
   <LanguagePacks>
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
-        <DisplayString ElementID="Atea.WinSvc.ServiceDiscoveryDS">
-          <Name>Atea WinSvc ServiceDiscovery Data Source Module</Name>
-          <Description>Atea WinSvc ServiceDiscovery Data Source Module</Description>
+        <DisplayString ElementID="Atea.Windows.Service.ServiceDiscoveryDS">
+          <Name>Atea Windows Service ServiceDiscovery Data Source Module</Name>
+          <Description>Atea Windows Service ServiceDiscovery Data Source Module</Description>
         </DisplayString>
-        <DisplayString ElementID="Atea.WinSvc.ServiceDiscoveryDS" SubElementID="Debug">
+        <DisplayString ElementID="Atea.Windows.Service.ServiceDiscoveryDS" SubElementID="Debug">
           <Name>Use Debug Logging</Name>
         </DisplayString>
-        <DisplayString ElementID="Atea.WinSvc.ServiceDiscoveryDS" SubElementID="IntervalSeconds">
+        <DisplayString ElementID="Atea.Windows.Service.ServiceDiscoveryDS" SubElementID="IntervalSeconds">
           <Name>Interval Seconds</Name>
         </DisplayString>
-        <DisplayString ElementID="Atea.WinSvc.ServiceDiscoveryDS" SubElementID="TimeoutSeconds">
+        <DisplayString ElementID="Atea.Windows.Service.ServiceDiscoveryDS" SubElementID="TimeoutSeconds">
           <Name>Timeout Seconds</Name>
         </DisplayString>
       </DisplayStrings>

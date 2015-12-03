@@ -1,9 +1,9 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Monitoring>
     <Tasks>
-      <Task ID="Atea.WinSvc.Atea.WinSvc.Task.AddService" Accessibility="Public" Target="Windows!Microsoft.Windows.Computer" Enabled="true" Timeout="300" Remotable="false">
+      <Task ID="Atea.Windows.Service.Task.AddService" Accessibility="Public" Target="Windows!Microsoft.Windows.Computer" Enabled="true" Timeout="300" Remotable="false">
         <Category>Maintenance</Category>
-        <ProbeAction ID="Probe" TypeID="Atea.WinSvc.Probe.AddServicePS">
+        <ProbeAction ID="Probe" TypeID="Atea.Windows.Service.Probe.AddServicePS">
           <ServiceName>CHANGEME</ServiceName>
           <RegistryPath>SOFTWARE\Atea\WinSvc</RegistryPath>
           <TimeoutSeconds>300</TimeoutSeconds>
@@ -14,7 +14,7 @@
   <LanguagePacks>
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
-        <DisplayString ElementID="Atea.WinSvc.Atea.WinSvc.Task.AddService">
+        <DisplayString ElementID="Atea.Windows.Service.Task.AddService">
           <Name>Add Monitored Service</Name>
           <Description>Use this task to add a monitored service on this computer. Use overrides to set the service name.</Description>
         </DisplayString>
