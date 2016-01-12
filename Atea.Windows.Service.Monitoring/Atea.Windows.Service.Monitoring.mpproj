@@ -83,6 +83,9 @@
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>
+    <Content Include="kundmail.txt">
+      <SubType>Content</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HealthModel\Discoveries\AutoServiceDiscovery.mpx">
@@ -91,14 +94,26 @@
     <Compile Include="HealthModel\Discoveries\AutoSharedServiceDiscovery.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HealthModel\Discoveries\ServiceDiscovery.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HealthModel\Discoveries\ServiceSeedDiscovery.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="HealthModel\Monitors\UnitMonitors\ServiceMonitors.mptg.mpx">
       <SubType>Code</SubType>
       <DependentUpon>HealthModel\Monitors\UnitMonitors\ServiceMonitors.mptg</DependentUpon>
+    </Compile>
+    <Compile Include="HealthModel\Tasks\AgentTasks\AddMonitoredServiceTask.mpx">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="HealthModel\Tasks\Recoveries\ServiceStartRecoveryTask.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ManagementPack.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServiceModel\Classes\ServiceSeed.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ServiceModel\Classes\Service.mpx">
@@ -110,7 +125,16 @@
     <Compile Include="TypeLibrary\ModuleTypes\DataSources\AutoServiceDiscoveryDS.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\DataSources\ServiceDiscoveryDS.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\AddServiceTaskPSProbe.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\AutoServiceDiscoveryVBSProbe.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\SelectedServiceVBSProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -120,6 +144,7 @@
     <Folder Include="HealthModel\Monitors" />
     <Folder Include="HealthModel\Monitors\UnitMonitors" />
     <Folder Include="HealthModel\Tasks" />
+    <Folder Include="HealthModel\Tasks\AgentTasks" />
     <Folder Include="HealthModel\Tasks\Recoveries" />
     <Folder Include="Scripts" />
     <Folder Include="TypeLibrary" />
@@ -130,7 +155,9 @@
     <Folder Include="TypeLibrary\ModuleTypes\ProbeActions" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\Add-MonitoredServiceKey.ps1" />
     <EmbeddedResource Include="Scripts\AteaAutoSvcPBScript.vbs" />
+    <EmbeddedResource Include="Scripts\AteaWinSvcServiceDiscoveryDS.vbs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
