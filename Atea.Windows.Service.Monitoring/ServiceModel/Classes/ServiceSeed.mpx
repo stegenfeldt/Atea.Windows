@@ -1,0 +1,25 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+        <ClassType ID="Atea.Windows.Service.Seed" Accessibility="Public" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false">
+          <Property ID="RegistryPath" Type="string" />
+        </ClassType>
+      </ClassTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Service.Seed">
+          <Name>Atea Windows Service Seed</Name>
+          <Description>A class for servers that Hosts monitored windows services</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.Seed" SubElementID="RegistryPath">
+          <Name>Atea Windows Service Seed Configuration Path</Name>
+          <Description>Where the configuration for the monitored services are stored.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>
