@@ -1,7 +1,7 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Monitoring>
     <Recoveries>
-      <Recovery ID="Atea.Windows.Service.Service.RecoveryTask" Accessibility="Public" Target="Atea.Windows.Service.Service" Enabled="true" ExecuteOnState="Error" Monitor="Atea.Windows.Service.RecoveryMonitor" ResetMonitor="true" Timeout="300" Remotable="false">
+      <Recovery ID="Atea.Windows.Service.Service.RecoveryTask" Accessibility="Public" Target="MSNL!Microsoft.SystemCenter.NTService" Enabled="true" ExecuteOnState="Error" Monitor="Atea.Windows.Service.RecoveryMonitor" ResetMonitor="true" Timeout="300" Remotable="false">
         <Category>AvailabilityHealth</Category>
         <WriteAction ID="StartService" TypeID="System!System.CommandExecuter">
           <ApplicationName><![CDATA[%windir%\system32\net.exe]]></ApplicationName>
@@ -13,4 +13,14 @@
       </Recovery>
     </Recoveries>
   </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Service.Service.RecoveryTask">
+          <Name>Restart Windows Service - Recovery Task</Name>
+          <Description>Will automatically restart the service if stopped. Will run once each time the monitor enters a critical state.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
 </ManagementPackFragment>
