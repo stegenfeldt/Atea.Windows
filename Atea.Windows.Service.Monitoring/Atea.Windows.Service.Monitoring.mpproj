@@ -32,7 +32,7 @@
   <ItemGroup>
     <ManagementPackReference Include="Microsoft.SystemCenter.Library">
       <Alias>SC</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.NTService.Library">
       <HintPath>C:\Program Files\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\Microsoft.SystemCenter.NTService.Library.mp</HintPath>
