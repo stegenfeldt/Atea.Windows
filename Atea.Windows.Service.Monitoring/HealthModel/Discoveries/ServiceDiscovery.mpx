@@ -46,4 +46,14 @@
       </Discovery>
     </Discoveries>
   </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Service.Service.Discovery">
+          <Name>Atea Windows Service Discovery</Name>
+          <Description>Script based (vbs) discovery that instantiates services condigured through registry or the "Add Monitored Service" task on Windows Computer objects.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
 </ManagementPackFragment>
