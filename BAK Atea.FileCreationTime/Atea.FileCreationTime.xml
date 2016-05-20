@@ -1,0 +1,601 @@
+<ManagementPack ContentReadable="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <Manifest>
+    <Identity>
+      <ID>Atea.FileCreationTime</ID>
+      <Version>1.0.0.60</Version>
+    </Identity>
+    <Name>Atea.FileCreationTime</Name>
+    <References>
+      <Reference Alias="SC">
+        <ID>Microsoft.SystemCenter.Library</ID>
+        <Version>6.1.7221.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="Windows">
+        <ID>Microsoft.Windows.Library</ID>
+        <Version>6.1.7221.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="Health">
+        <ID>System.Health.Library</ID>
+        <Version>6.1.7221.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="System">
+        <ID>System.Library</ID>
+        <Version>6.1.7221.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="Performance">
+        <ID>System.Performance.Library</ID>
+        <Version>6.1.7221.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+    </References>
+  </Manifest>
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+        <ClassType ID="Atea.FileCreationTime.Folder" Accessibility="Internal" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false">
+          <Property ID="FolderPath" Type="string" Key="false" CaseSensitive="false" Length="256" MinLength="0" />
+          <Property ID="Recursive" Type="string" Key="false" CaseSensitive="false" Length="256" MinLength="0" />
+          <Property ID="FilePattern" Type="string" Key="false" CaseSensitive="false" Length="256" MinLength="0" />
+          <Property ID="AgeInMinutes" Type="string" Key="false" CaseSensitive="false" Length="256" MinLength="0" />
+          <Property ID="Operator" Type="string" Key="false" CaseSensitive="false" Length="256" MinLength="0" />
+          <Property ID="FriendlyName" Type="string" Key="true" CaseSensitive="false" Length="256" MinLength="0" />
+        </ClassType>
+        <ClassType ID="Atea.FileCreationTime.Seed" Accessibility="Internal" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false" />
+      </ClassTypes>
+    </EntityTypes>
+    <SecureReferences>
+      <SecureReference ID="Atea.FileCreationTime.FolderAccessAccount" Accessibility="Public" Context="Atea.FileCreationTime.Folder" />
+    </SecureReferences>
+    <ModuleTypes>
+      <DataSourceModuleType ID="Atea.FileCreationTime.Discovery.DataSource" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Health!System.Health.AlertSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="MPElement" type="xsd:string" />
+          <xsd:element minOccurs="1" name="TargetID" type="xsd:string" />
+          <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" />
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.Discovery.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval>$Config/IntervalSeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="PoSHDiscovery" TypeID="Atea.FileCreationTime.ProbeAction.psFolderDiscovery">
+                <MPElement>$Config/MPElement$</MPElement>
+                <TargetID>$Config/TargetID$</TargetID>
+                <ComputerName>$Config/ComputerName$</ComputerName>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PoSHDiscovery">
+                <Node ID="Scheduler" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="Atea.FileCreationTime.Monitoring.PropertyBag" Accessibility="Public" Batching="false">
+        <Configuration>
+          <xsd:element minOccurs="1" name="TimeOutSeconds" type="xsd:integer" />
+          <xsd:element minOccurs="1" name="Interval" type="xsd:integer" />
+          <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" />
+          <xsd:element minOccurs="1" name="Arguments" type="xsd:string" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeOutSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/Interval$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval>$Config/Interval$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="Probe" TypeID="Atea.FileCreationTime.ProbeAction.vbsPropertyBag">
+                <Arguments>$Config/Arguments$</Arguments>
+                <TimeoutSeconds>$Config/TimeOutSeconds$</TimeoutSeconds>
+              </ProbeAction>
+              <ConditionDetection ID="Filter" TypeID="System!System.ExpressionFilter">
+                <Expression>
+                  <SimpleExpression>
+                    <ValueExpression>
+                      <XPathQuery>Property[@Name='FolderFriendlyName']</XPathQuery>
+                    </ValueExpression>
+                    <Operator>Equal</Operator>
+                    <ValueExpression>
+                      <Value>$Config/FolderFriendlyName$</Value>
+                    </ValueExpression>
+                  </SimpleExpression>
+                </Expression>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="Filter">
+                <Node ID="Probe">
+                  <Node ID="Scheduler" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+      </DataSourceModuleType>
+      <ProbeActionModuleType ID="Atea.FileCreationTime.ProbeAction.psFolderDiscovery" Accessibility="Internal" Batching="false" PassThrough="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+            <SchemaType>System!System.ParamListSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="MPElement" type="xsd:string" />
+          <xsd:element minOccurs="1" name="TargetID" type="xsd:string" />
+          <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSDiscovery" TypeID="Windows!Microsoft.Windows.PowerShellDiscoveryProbe">
+                <ScriptName>AteaFileCreationTimePoSHDiscovery.ps1</ScriptName>
+                <ScriptBody><![CDATA[
+# Begin with getting all the subkeys
+# http://technet.microsoft.com/en-us/library/ff730937.aspx
+# http://powershell.com/cs/blogs/tips/archive/2009/12/03/dynamically-create-script-blocks.aspx
+# http://technet.microsoft.com/sv-se/library/ee176852(en-us).aspx
+
+param([string]$sourceId,  [string]$managedEntityId, [string]$computerName)
+#$sourceId = "{f581dcb0-ebb6-460d-bf5d-9b8e6a07e18d}"
+#$managedEntityId = "{6cc513eb-f9f7-43b0-b8cd-07b4d0b55403}"
+#$computerName = "hpd0920.banverket.root.local"
+
+
+$RegistryPath = "hklm:\Software\Atea\FileCreationTime\"
+$SubKeys = Get-ChildItem $RegistryPath
+$OpsmgrAPI = New-Object -ComObject "MOM.ScriptAPI"
+#$OpsmgrAPI.LogScriptEvent("AteaFilCreationPoSHDiscovery.ps1", 242, 4, "Running File Creation Folder discovery with parameters $sourceId, $managedEntityId, $computerName")
+$discoveryData = $OpsmgrAPI.CreateDiscoveryData(0, $sourceId, $managedEntityId)
+ForEach ($SubKey in $SubKeys)
+{
+	$FriendlyName = ($SubKey.Name.Substring($SubKey.Name.LastIndexOfAny("\")+1))
+	$FolderPath = $SubKey.GetValue("FolderPath")
+	$Recursive = $SubKey.GetValue("Recursive")
+	$FilePattern = $SubKey.GetValue("FilePattern")
+	$AgeInMinutes = $SubKey.GetValue("AgeInMinutes")
+	$Operator = $SubKey.GetValue("Operator")
+	
+	
+	if (($FolderPath -ne $null) -and ($Recursive -ne $null) -and ($FilePattern -ne $null) -and ($AgeInMinutes -ne $null) -and ($Operator -ne $null))
+	{
+		$Operator = $Operator.Trim()
+		
+		#Add values to property bag for Discovery
+		$discoveryInstance = $discoveryData.CreateClassInstance("$MPElement[Name='Atea.FileCreationTime.Folder']$")
+		$discoveryInstance.AddProperty("$MPElement[Name='Windows!Microsoft.Windows.Computer']/PrincipalName$", $computerName)
+		$discoveryInstance.AddProperty("$MPElement[Name='Atea.FileCreationTime.Folder']/FriendlyName$",$FriendlyName)
+		$discoveryInstance.AddProperty("$MPElement[Name='Atea.FileCreationTime.Folder']/FolderPath$",$FolderPath)
+		$discoveryInstance.AddProperty("$MPElement[Name='Atea.FileCreationTime.Folder']/Recursive$",$Recursive)
+		$discoveryInstance.AddProperty("$MPElement[Name='Atea.FileCreationTime.Folder']/FilePattern$",$FilePattern)
+		$discoveryInstance.AddProperty("$MPElement[Name='Atea.FileCreationTime.Folder']/AgeInMinutes$",$AgeInMinutes)
+		$discoveryInstance.AddProperty("$MPElement[Name='Atea.FileCreationTime.Folder']/Operator$",$Operator)
+		$discoveryData.AddInstance($discoveryInstance)
+	}
+}
+$discoveryData
+]]></ScriptBody>
+                <Parameters>
+                  <Parameter>
+                    <Name>sourceId</Name>
+                    <Value>$Config/MPElement$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>managedEntityId</Name>
+                    <Value>$Config/TargetID$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>ComputerName</Name>
+                    <Value>$Config/ComputerName$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>300</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSDiscovery" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+        <InputType>System!System.TriggerData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="Atea.FileCreationTime.ProbeAction.vbsPropertyBag" Accessibility="Internal" Batching="false" PassThrough="false">
+        <Configuration>
+          <xsd:element minOccurs="1" name="Arguments" type="xsd:string" />
+          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="vbsProbe" TypeID="Windows!Microsoft.Windows.ScriptPropertyBagProbe">
+                <ScriptName>FCvbsPropertyBag.vbs</ScriptName>
+                <Arguments>$Config/Arguments$</Arguments>
+                <ScriptBody><![CDATA[
+'' Recursive search for filepattern
+Option Explicit
+' Some much needed constants
+CONST HKLM = &H80000002
+CONST REG_SZ = 1
+CONST REG_EXPAND_SZ = 2
+CONST REG_BINARY = 3
+Const REG_DWORD = 4
+Const REG_MULTI_SZ = 7
+Const SCOM_INFO = 2
+CONST SCOM_WARNING = 1
+CONST SCOM_ERROR = 0
+CONST SCOM_SCRIPT_INFORMATION = 19200
+CONST SCOM_SCRIPT_WARNING = 19201
+CONST SCOM_SCRIPT_ERROR = 19202
+CONST SCOM_DEBUG = 19999
+
+' Declare all variables ahead, group them by "topic"
+Dim fsObject, folderCollection, folderObject, fileCollection, fileObject, subFolder, folderInstance
+Dim fileName, fileAge, filePath, fileCreationTime
+Dim argFolder, argFilePattern, argRecursive, argFileAge, argFriendlyName, argOperator, argRegKeyPath, argComputerName 
+Dim regexObject
+Dim regSubKeyCollection, regSubKey, regValueCollection, regValue, regValueContent, regObject
+Dim scomAPI, propertyBag, propertyBagExist
+
+Set scomAPI = CreateObject("MOM.ScriptAPI")
+
+argRegKeyPath = "Software\Atea\FileCreationTime"
+argComputerName = WScript.Arguments(0)
+'argComputerName = "."
+
+Set regObject = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & argComputerName & "\root\default:StdRegProv")
+regObject.EnumKey HKLM, argRegKeyPath, regSubKeyCollection
+For each regSubKey in regSubKeyCollection
+	argFriendlyName = regSubKey
+	regSubKey = argRegKeyPath & "\" & regSubKey
+	regObject.EnumValues HKLM, regSubKey, regValueCollection
+	If Not IsNull(regValueCollection) Then
+		If UBound(regValueCollection) >= 4 And Err.Number = 0 Then
+			For Each regValue In regValueCollection
+				regObject.GetStringValue HKLM, regSubKey, regValue, regValueContent
+				Select Case regValue
+					Case "FolderPath"
+						argFolder = regValueContent
+					Case "Recursive"
+						argRecursive = regValueContent
+					Case "FilePattern"
+						argFilePattern = regValueContent
+						argFilePattern = Replace(argFilePattern,".","\.")
+						argFilePattern = Replace(argFilePattern,"?",".")
+						argFilePattern = Replace(argFilePattern,"*",".*")						
+					Case "AgeInMinutes"
+						argFileAge = regValueContent
+					Case "Operator"
+						argOperator = regValueContent
+				End Select
+			Next
+			GetFolderInfo argFolder
+		End If
+	End If
+Next
+
+'' Return whatever propertybags may have been created
+If propertyBagExist = True Then
+	scomAPI.ReturnItems
+End If
+Set scomAPI = Nothing
+Set regObject = Nothing
+
+'' This will find all files in the specified folderpath,
+'' if it does exist, and send them to GetFileInfo()
+Sub GetFolderInfo(paramFolderPath)
+	If IsEmpty(fsObject) Then
+		Set fsObject = CreateObject("Scripting.FileSystemObject")
+	End If
+	
+	If fsObject.FolderExists(paramFolderPath) Then
+		Set folderObject = fsObject.GetFolder(paramFolderPath)
+		For Each fileObject In folderObject.Files
+			GetFileInfo fileObject
+		Next
+		If CBool(argRecursive) = True Then
+			Set folderCollection = folderObject.SubFolders
+			For Each subFolder In folderCollection
+				GetFolderInfo subFolder.Path
+			Next
+		End If
+	End If
+End Sub
+
+'' GetFileInfo() will take a FSO.File object and
+'' get Name, Path, CreationTime and Age (in minutes).
+'' This information will be inserted into a scomAPI
+'' propertybag
+Sub GetFileInfo(paramFileObject)
+	Dim makePropertyBag
+	makePropertyBag = False
+	Set regexObject = New RegExp
+	regexObject.Pattern = argFilePattern
+	regexObject.IgnoreCase = True
+	
+	If regexObject.Test(paramFileObject.Name) Then
+		Select Case argOperator
+			Case "<"
+				If CDbl(DateDiff("n",paramFileObject.DateCreated,Now)) <= CDbl(argFileAge) Then
+					WScript.Echo DateDiff("n",paramFileObject.DateCreated,Now) & argOperator & argFileAge & " case ""<"""
+					makePropertyBag = True
+				End If
+			Case "<="
+				If CDbl(DateDiff("n",paramFileObject.DateCreated,Now)) <= CDbl(argFileAge) Then
+					WScript.Echo DateDiff("n",paramFileObject.DateCreated,Now) & argOperator & argFileAge & " case ""<="""
+					makePropertyBag = True
+				End If
+			Case ">"
+				If CDbl(DateDiff("n",paramFileObject.DateCreated,Now)) >= CDbl(argFileAge) Then
+					WScript.Echo DateDiff("n",paramFileObject.DateCreated,Now) & argOperator & argFileAge & " case ""<"""
+					makePropertyBag = True
+				End If
+			Case ">="
+				If CDbl(DateDiff("n",paramFileObject.DateCreated,Now)) >= CDbl(argFileAge) Then
+					WScript.Echo DateDiff("n",paramFileObject.DateCreated,Now) & argOperator & argFileAge & " case "">="""
+					makePropertyBag = True
+				End If
+		End Select
+		If makePropertyBag = True Then
+			Set propertyBag = scomAPI.CreatePropertyBag()
+			Call propertyBag.AddValue("FileName",paramFileObject.Name)
+			Call propertyBag.AddValue("FileFullname",paramFileObject.Path)
+			Call propertyBag.AddValue("FileCreationTime",paramFileObject.DateCreated)
+			Call propertyBag.AddValue("FileSize",paramFileObject.Size)
+			Call propertyBag.AddValue("FileAgeMinutes",DateDiff("n",paramFileObject.DateCreated,Now))
+			Call propertyBag.AddValue("FolderFriendlyName",argFriendlyName)
+			Call scomAPI.AddItem(propertyBag)
+			propertyBagExist = True
+			makePropertyBag = False
+		End If
+	End If	
+End Sub
+
+
+'' Simple Sub to log an event to the Operations Manager
+'' event log.
+Sub LogEvent(logEventID, logSeverity, logMessage)
+	Dim scomApiEvent, scriptName
+	scriptName = WScript.ScriptName
+	
+	If logEventID <> SCOM_DEBUG Then
+		Set scomApiEvent = CreateObject("MOM.ScriptAPI")
+		Call scomApiEvent.LogScriptEvent(scriptName,logEventID,logSeverity,logMessage)
+		Set scomApiEvent = Nothing
+	Else
+		If debugEnabled Then
+			Set scomApiEvent = CreateObject("MOM.ScriptAPI")
+			Call scomApiEvent.LogScriptEvent(scriptName,logEventID,logSeverity,logMessage)
+			Set scomApiEvent = Nothing
+		End If
+	End If
+End Sub
+
+
+'' This "Folder" class is mainly to group all it's related
+'' functionality into one container
+Class FolderClass
+	Public Path
+	Public FilePattern
+	Public Recursive
+	Public FileAgeMinutes
+	Public FriendlyName
+	Public Operator
+	
+	Private Sub Class_Initialize()
+		Path = ""
+		FilePattern = ""
+		Recursive = ""
+		FileAgeMinutes = ""
+		FriendlyName = ""
+		Operator = ""
+	End Sub
+	
+	'' Receive a regkey object and look for the settings
+	Public Function GetFolderSettings(paramRegKeyObject)
+		Dim regValueCollection, regValue 
+		paramRegKeyObject.EnumValues HKLM, paramRegKeyObject, regValueCollection
+		For Each regValue In regValueCollection
+			WScript.Echo regValue
+		Next
+		FilePattern = Replace(FilePattern,".","\.")
+		FilePattern = Replace(FilePattern,"?",".")
+		FilePattern = Replace(FilePattern,"*",".*")
+	End Function
+End Class
+]]></ScriptBody>
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="vbsProbe" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <InputType>System!System.TriggerData</InputType>
+      </ProbeActionModuleType>
+    </ModuleTypes>
+  </TypeDefinitions>
+  <Monitoring>
+    <Discoveries>
+      <Discovery ID="Atea.FileCreationTime.Folder.Discovery" Enabled="true" Target="Atea.FileCreationTime.Seed" ConfirmDelivery="true" Remotable="false" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="Atea.FileCreationTime.Folder" />
+        </DiscoveryTypes>
+        <DataSource ID="DiscoveryDS" TypeID="Atea.FileCreationTime.Discovery.DataSource">
+          <MPElement>$MPElement$</MPElement>
+          <TargetID>$Target/Id$</TargetID>
+          <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</ComputerName>
+          <IntervalSeconds>1440</IntervalSeconds>
+        </DataSource>
+      </Discovery>
+      <Discovery ID="Atea.FileCreationTime.Seed.Discovery" Enabled="true" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="Atea.FileCreationTime.Seed" />
+        </DiscoveryTypes>
+        <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.FilteredRegistryDiscoveryProvider">
+          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+          <RegistryAttributeDefinitions>
+            <RegistryAttributeDefinition>
+              <AttributeName>FCKeyExist</AttributeName>
+              <Path>SOFTWARE\Atea\FileCreationTime</Path>
+              <PathType>0</PathType>
+              <AttributeType>0</AttributeType>
+            </RegistryAttributeDefinition>
+          </RegistryAttributeDefinitions>
+          <Frequency>14400</Frequency>
+          <ClassId>$MPElement[Name="Atea.FileCreationTime.Seed"]$</ClassId>
+          <InstanceSettings>
+            <Settings>
+              <Setting>
+                <Name>$MPElement[Name="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Name>
+                <Value>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Value>
+              </Setting>
+            </Settings>
+          </InstanceSettings>
+          <Expression>
+            <SimpleExpression>
+              <ValueExpression>
+                <XPathQuery Type="String">Values/FCKeyExist</XPathQuery>
+              </ValueExpression>
+              <Operator>Equal</Operator>
+              <ValueExpression>
+                <Value Type="String">true</Value>
+              </ValueExpression>
+            </SimpleExpression>
+          </Expression>
+        </DataSource>
+      </Discovery>
+    </Discoveries>
+    <Rules>
+      <Rule ID="Atea.FileCreationTime.Folder.Alerting.Rule" Enabled="true" Target="Atea.FileCreationTime.Folder" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>Alert</Category>
+        <DataSources>
+          <DataSource ID="DS" RunAs="Atea.FileCreationTime.FolderAccessAccount" TypeID="Atea.FileCreationTime.Monitoring.PropertyBag">
+            <TimeOutSeconds>300</TimeOutSeconds>
+            <Interval>300</Interval>
+            <FolderFriendlyName>$Target/Property[Type="Atea.FileCreationTime.Folder"]/FriendlyName$</FolderFriendlyName>
+            <Arguments>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</Arguments>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteAlert" TypeID="Health!System.Health.GenerateAlert">
+            <Priority>1</Priority>
+            <Severity>1</Severity>
+            <AlertMessageId>$MPElement[Name="Atea.FileCreationTime.Folder.Alerting.Rule.Message"]$</AlertMessageId>
+            <AlertParameters>
+              <AlertParameter1>$Data/Property[@Name='FileFullname']$</AlertParameter1>
+              <AlertParameter2>$Data/Property[@Name='FileAgeMinutes']$</AlertParameter2>
+              <AlertParameter3>$Data/Property[@Name='FolderFriendlyName']$</AlertParameter3>
+              <AlertParameter4>$Data/Property[@Name='FileFullname']$</AlertParameter4>
+              <AlertParameter5>$Target/Property[Type="Atea.FileCreationTime.Folder"]/FolderPath$</AlertParameter5>
+              <AlertParameter6>$Target/Property[Type="Atea.FileCreationTime.Folder"]/Recursive$</AlertParameter6>
+              <AlertParameter7>$Target/Property[Type="Atea.FileCreationTime.Folder"]/FilePattern$</AlertParameter7>
+              <AlertParameter8>$Target/Property[Type="Atea.FileCreationTime.Folder"]/Operator$</AlertParameter8>
+              <AlertParameter9>$Target/Property[Type="Atea.FileCreationTime.Folder"]/AgeInMinutes$</AlertParameter9>
+            </AlertParameters>
+            <Suppression>
+              <SuppressionValue>$Data/Property[@Name='FileFullname']$</SuppressionValue>
+              <SuppressionValue>$Data/Property[@Name='FolderFriendlyName']$</SuppressionValue>
+            </Suppression>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+    </Rules>
+  </Monitoring>
+  <Presentation>
+    <StringResources>
+      <StringResource ID="Atea.FileCreationTime.Folder.Alerting.Rule.Message" />
+      <StringResource ID="Atea.FileCreationTime.NewElement.AlertMessage" />
+    </StringResources>
+  </Presentation>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.FileCreationTime">
+          <Name>Atea File Creation Time Monitoring</Name>
+          <Description>Management pack for various creation date monitoring.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.FileCreationTime.Discovery.DataSource">
+          <Name>Atea File Creation Time Discovery Data Source</Name>
+          <Description>This datasource provides the basic discovery data for the watched folders. </Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.FileCreationTime.Folder">
+          <Name>Atea File Creation Time Folder</Name>
+          <Description>A watched folder with all it's properties and settings. Does not have any "health" as of yet.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.FileCreationTime.Folder.Alerting.Rule">
+          <Name>Atea File Creation Time Folder Alerting Rule</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.FileCreationTime.Folder.Alerting.Rule.Message">
+          <Name>File Creation Time alert has been triggered in {2}</Name>
+          <Description>{0} was created {1} minutes ago in {2} which triggered this alert according to the configured query.
+            Full Path to file is {3}
+
+            Monitored folder: {4}
+            Recursive check is: {5}
+
+            Alerts will be triggered from this query:
+            Filename = {6} where FileAge {7} {8} minutes</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.FileCreationTime.Folder.Discovery">
+          <Name>Atea File Creation Time Folder Discovery</Name>
+          <Description />
+        </DisplayString>
+        <DisplayString ElementID="Atea.FileCreationTime.FolderAccessAccount">
+          <Name>Atea File Creation Time Folder Access Account</Name>
+          <Description>Use this account to provide access to the folders where the regular RunAs account does not have privileges.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.FileCreationTime.Monitoring.PropertyBag">
+          <Name>Atea File Creation Time Monitoring Property Bag</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.FileCreationTime.NewElement.AlertMessage">
+          <Name><![CDATA[as<zdxfcghvhb]]></Name>
+          <Description>Event Description: {0}</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.FileCreationTime.ProbeAction.psFolderDiscovery">
+          <Name>Atea File Creation Time ProbeAction psFolderDiscovery</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.FileCreationTime.ProbeAction.vbsPropertyBag">
+          <Name>Probe Action VBScript PropertyBag</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.FileCreationTime.Seed">
+          <Name>Atea File Creation Time Seed</Name>
+          <Description>Simple seed class for script based discovery targeting. Used to minimize overhead.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.FileCreationTime.Seed.Discovery">
+          <Name>Atea File Creation Time Seed Discovery</Name>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPack>
