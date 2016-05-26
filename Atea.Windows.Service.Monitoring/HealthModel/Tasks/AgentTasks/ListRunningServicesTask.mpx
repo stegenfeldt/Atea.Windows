@@ -1,0 +1,24 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+    <Tasks>
+      <Task ID="Atea.Windows.Service.Task.ListRunningServices" Accessibility="Public" Remotable="false" Enabled="true" Target="Windows!Microsoft.Windows.Computer">
+        <Category>Maintenance</Category>
+        <ProbeAction ID="Probe" TypeID="Windows!Microsoft.Windows.PowerShellProbe">
+          <ScriptName>Get-RunningServices.ps1</ScriptName>
+          <ScriptBody>$IncludeFileContent/Scripts/Get-RunningServices.ps1$</ScriptBody>
+          <TimeoutSeconds>300</TimeoutSeconds>
+        </ProbeAction> 
+      </Task>
+    </Tasks>
+  </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Service.Task.ListRunningServices">
+          <Name>List Running Services</Name>
+          <Description><![CDATA[Executes a simple powershell script on the agent, returning a list of running windows services and their Service Name and Display Name.]]></Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>
