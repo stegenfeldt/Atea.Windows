@@ -23,7 +23,7 @@
         <Id>RecoveryMonitor</Id>
         <DisplayName>Service Recovery Monitor</DisplayName>
         <Description>A service monitor with auto-restart enabled.</Description>
-        <Target>Atea.Windows.Service.Service</Target>
+        <Target>MSNL!Microsoft.SystemCenter.NTService</Target>
         <Enabled>false</Enabled>
         <Category>AvailabilityHealth</Category>
         <Remotable>true</Remotable>

@@ -6,7 +6,7 @@
     <RootNamespace>Atea.Windows.Service</RootNamespace>
     <Name>Atea.Windows.Service.Monitoring</Name>
     <ManagementPackName>Atea.Windows.Service.Monitoring</ManagementPackName>
-    <Version>1.0.1.0</Version>
+    <Version>1.0.2.0</Version>
     <MpFrameworkVersion>v7.0</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
@@ -32,7 +32,7 @@
   <ItemGroup>
     <ManagementPackReference Include="Microsoft.SystemCenter.Library">
       <Alias>SC</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.NTService.Library">
       <HintPath>C:\Program Files\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\Microsoft.SystemCenter.NTService.Library.mp</HintPath>

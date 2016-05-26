@@ -1,7 +1,7 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Monitoring>
     <Discoveries>
-      <Discovery ID="Atea.Windows.Service.Seed.Discovery" Enabled="true" Target="Windows!Microsoft.Windows.Server.Computer" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+      <Discovery ID="Atea.Windows.Service.Seed.Discovery" Enabled="true" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="true" Priority="Normal">
         <Category>Discovery</Category>
         <DiscoveryTypes>
           <DiscoveryClass TypeID="Atea.Windows.Service.Seed">
