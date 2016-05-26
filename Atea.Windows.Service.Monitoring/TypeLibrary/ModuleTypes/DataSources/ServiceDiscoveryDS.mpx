@@ -26,7 +26,7 @@
                 <Scheduler>
                   <SimpleReccuringSchedule>
                     <Interval>$Config/IntervalSeconds$</Interval>
-                    <SyncTime>23:30</SyncTime>
+                    <SyncTime />
                   </SimpleReccuringSchedule>
                   <ExcludeDates />
                 </Scheduler>
