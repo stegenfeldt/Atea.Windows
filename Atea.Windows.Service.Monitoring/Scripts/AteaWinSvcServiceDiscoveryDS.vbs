@@ -85,6 +85,14 @@ If NOT IsNull(registryValues) Then
 		LogEvent SCOM_DEBUG,SCOM_INFO,"Found no servicenames in: HKLM\" & keyPath & "\" & vbCrLf & _
 		"Error code: " & Err.Num & vbCrLf & _
 		"Error Description: " & Err.Description
+
+        ' Issue #4
+        ' Discovery never removing services efter the only remaining string value is deleted.
+        ' Needs to return an empty property bag.
+        Set scomApi = CreateObject("MOM.ScriptingAPI")
+        Set scomPropertyBag = scomApi.CreatePropertyBag()
+        Call scomApi.Return(scomPropertyBag)
+        Set scomApi = Nothing
 	End If
 Else
 	' Could not read from registry, perhaps key is missing?
