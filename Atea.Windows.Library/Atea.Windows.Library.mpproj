@@ -6,7 +6,7 @@
     <RootNamespace>Atea.Windows</RootNamespace>
     <Name>Atea.Windows.Library</Name>
     <ManagementPackName>Atea.Windows.Library</ManagementPackName>
-    <Version>1.0.1.0</Version>
+    <Version>1.0.2.0</Version>
     <MpFrameworkVersion>v7.0</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
