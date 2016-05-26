@@ -1,7 +1,7 @@
 Jag har skrivit om mitt MP för att göra det lite enklare att övervaka windowstjänster i SCOM så det också funkar (bättre) på Windows Server 2012 R2. 
-En enklare guide finns att läsa på https://bitbucket.org/stegenfeldt/atea-winsvc/wiki/Home 
-Hittar ni problem eller har förslag på fler funktioner kan ni logga dem på https://bitbucket.org/stegenfeldt/atea-winsvc/issues
-Själva MPt kan ni ladda ned från min OneDrive här http://1drv.ms/1lyjASI
+En enklare guide finns att läsa på https://bitbucket.org/stegenfeldt/atea.windows/wiki/Atea.Windows.Service.mp
+Hittar ni problem eller har förslag på fler funktioner kan ni logga dem på https://bitbucket.org/stegenfeldt/atea.windows/issues
+Själva MPt kan ni ladda ned från min OneDrive här http://stegenfeldt.bitbucket.org/pages/index.html
 
 Mvh,
 Samuel Tegenfeldt
