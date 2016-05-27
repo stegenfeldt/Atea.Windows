@@ -1,0 +1,66 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+    <Rules>
+      <Rule ID="Atea.Windows.File.FileCreationTimeFolder.AlertRule" Enabled="true" Target="Atea.Windows.File.FileCreationTimeFolder" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>Alert</Category>
+        <DataSources>
+          <DataSource ID="DS" RunAs="Atea.Windows.File.FileCreationTimeFolder.RunasProfile" TypeID="Atea.Windows.File.FileCreationTime.vbsPropertyBag.DS">
+            <TimeOutSeconds>300</TimeOutSeconds>
+            <Interval>300</Interval>
+            <FolderFriendlyName>$Target/Property[Type="Atea.Windows.File.FileCreationTimeFolder"]/FriendlyName$</FolderFriendlyName>
+            <Arguments>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</Arguments>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteAlert" TypeID="Health!System.Health.GenerateAlert">
+            <Priority>1</Priority>
+            <Severity>1</Severity>
+            <AlertMessageId>$MPElement[Name="Atea.Windows.File.FileCreationTimeFolder.AlertRule.Message"]$</AlertMessageId>
+            <AlertParameters>
+              <AlertParameter1>$Data/Property[@Name='FileFullname']$</AlertParameter1>
+              <AlertParameter2>$Data/Property[@Name='FileAgeMinutes']$</AlertParameter2>
+              <AlertParameter3>$Data/Property[@Name='FolderFriendlyName']$</AlertParameter3>
+              <AlertParameter4>$Data/Property[@Name='FileFullname']$</AlertParameter4>
+              <AlertParameter5>$Target/Property[Type="Atea.Windows.File.FileCreationTimeFolder"]/FolderPath$</AlertParameter5>
+              <AlertParameter6>$Target/Property[Type="Atea.Windows.File.FileCreationTimeFolder"]/Recursive$</AlertParameter6>
+              <AlertParameter7>$Target/Property[Type="Atea.Windows.File.FileCreationTimeFolder"]/FilePattern$</AlertParameter7>
+              <AlertParameter8>$Target/Property[Type="Atea.Windows.File.FileCreationTimeFolder"]/Operator$</AlertParameter8>
+              <AlertParameter9>$Target/Property[Type="Atea.Windows.File.FileCreationTimeFolder"]/AgeInMinutes$</AlertParameter9>
+            </AlertParameters>
+            <Suppression>
+              <SuppressionValue>$Data/Property[@Name='FileFullname']$</SuppressionValue>
+              <SuppressionValue>$Data/Property[@Name='FolderFriendlyName']$</SuppressionValue>
+            </Suppression>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+    </Rules>
+  </Monitoring>
+  <Presentation>
+    <StringResources>
+      <StringResource ID="Atea.Windows.File.FileCreationTimeFolder.AlertRule.Message" />
+    </StringResources>
+  </Presentation>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder.AlertRule">
+          <Name>Atea File Creation Time Folder Alerting Rule</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder.AlertRule.Message">
+          <Name>File Creation-Time alert has been triggered in {2}</Name>
+          <Description>
+            {0} was created {1} minutes ago in {2} which triggered this alert according to the configured query.
+            Full Path to file is {3}
+
+            Monitored folder: {4}
+            Recursive check is: {5}
+
+            Alerts will be triggered from this query:
+            Filename = {6} where FileAge {7} {8} minutes
+          </Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

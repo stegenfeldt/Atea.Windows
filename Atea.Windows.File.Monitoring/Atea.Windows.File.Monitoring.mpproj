@@ -63,6 +63,9 @@
     <Compile Include="HealthModel\Discoveries\FileMonitoringSeedDiscovery.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HealthModel\Rules\FCTFolderAlertRule.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="HealthModel\SecureReferences\FileMonitoringRunasAccount.mpx">
       <SubType>Code</SubType>
     </Compile>
