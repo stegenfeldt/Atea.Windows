@@ -34,9 +34,6 @@
     </References>
   </Manifest>
   <TypeDefinitions>
-    <SecureReferences>
-      <SecureReference ID="Atea.FileCreationTime.FolderAccessAccount" Accessibility="Public" Context="Atea.FileCreationTime.Folder" />
-    </SecureReferences>
     <ModuleTypes>
       <DataSourceModuleType ID="Atea.FileCreationTime.Discovery.DataSource" Accessibility="Internal" Batching="false">
         <Configuration>
