@@ -72,6 +72,9 @@
     <Compile Include="TypeLibrary\ModuleTypes\DataSources\FCTDiscoveryDS.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\DataSources\FCTMonitoringPropertyBagDS.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FCTpsFolderDiscoveryProbe.mpx">
       <SubType>Code</SubType>
     </Compile>

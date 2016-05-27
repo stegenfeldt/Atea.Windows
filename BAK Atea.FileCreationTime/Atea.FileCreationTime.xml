@@ -33,61 +33,6 @@
       </Reference>
     </References>
   </Manifest>
-  <TypeDefinitions>
-    <ModuleTypes>
-      <DataSourceModuleType ID="Atea.FileCreationTime.Monitoring.PropertyBag" Accessibility="Public" Batching="false">
-        <Configuration>
-          <xsd:element minOccurs="1" name="TimeOutSeconds" type="xsd:integer" />
-          <xsd:element minOccurs="1" name="Interval" type="xsd:integer" />
-          <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" />
-          <xsd:element minOccurs="1" name="Arguments" type="xsd:string" />
-        </Configuration>
-        <OverrideableParameters>
-          <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeOutSeconds$" ParameterType="int" />
-          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/Interval$" ParameterType="int" />
-        </OverrideableParameters>
-        <ModuleImplementation Isolation="Any">
-          <Composite>
-            <MemberModules>
-              <DataSource ID="Scheduler" TypeID="System!System.Scheduler">
-                <Scheduler>
-                  <SimpleReccuringSchedule>
-                    <Interval>$Config/Interval$</Interval>
-                  </SimpleReccuringSchedule>
-                  <ExcludeDates />
-                </Scheduler>
-              </DataSource>
-              <ProbeAction ID="Probe" TypeID="Atea.FileCreationTime.ProbeAction.vbsPropertyBag">
-                <Arguments>$Config/Arguments$</Arguments>
-                <TimeoutSeconds>$Config/TimeOutSeconds$</TimeoutSeconds>
-              </ProbeAction>
-              <ConditionDetection ID="Filter" TypeID="System!System.ExpressionFilter">
-                <Expression>
-                  <SimpleExpression>
-                    <ValueExpression>
-                      <XPathQuery>Property[@Name='FolderFriendlyName']</XPathQuery>
-                    </ValueExpression>
-                    <Operator>Equal</Operator>
-                    <ValueExpression>
-                      <Value>$Config/FolderFriendlyName$</Value>
-                    </ValueExpression>
-                  </SimpleExpression>
-                </Expression>
-              </ConditionDetection>
-            </MemberModules>
-            <Composition>
-              <Node ID="Filter">
-                <Node ID="Probe">
-                  <Node ID="Scheduler" />
-                </Node>
-              </Node>
-            </Composition>
-          </Composite>
-        </ModuleImplementation>
-        <OutputType>System!System.PropertyBagData</OutputType>
-      </DataSourceModuleType>
-    </ModuleTypes>
-  </TypeDefinitions>
   <Monitoring>
     <Discoveries>
       <Discovery ID="Atea.FileCreationTime.Folder.Discovery" Enabled="true" Target="Atea.FileCreationTime.Seed" ConfirmDelivery="true" Remotable="false" Priority="Normal">
@@ -207,9 +152,6 @@
         <DisplayString ElementID="Atea.FileCreationTime.FolderAccessAccount">
           <Name>Atea File Creation Time Folder Access Account</Name>
           <Description>Use this account to provide access to the folders where the regular RunAs account does not have privileges.</Description>
-        </DisplayString>
-        <DisplayString ElementID="Atea.FileCreationTime.Monitoring.PropertyBag">
-          <Name>Atea File Creation Time Monitoring Property Bag</Name>
         </DisplayString>
         <DisplayString ElementID="Atea.FileCreationTime.NewElement.AlertMessage">
           <Name><![CDATA[as<zdxfcghvhb]]></Name>
