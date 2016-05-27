@@ -34,19 +34,6 @@
     </References>
   </Manifest>
   <TypeDefinitions>
-    <EntityTypes>
-      <ClassTypes>
-        <ClassType ID="Atea.FileCreationTime.Folder" Accessibility="Internal" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false">
-          <Property ID="FolderPath" Type="string" Key="false" CaseSensitive="false" Length="256" MinLength="0" />
-          <Property ID="Recursive" Type="string" Key="false" CaseSensitive="false" Length="256" MinLength="0" />
-          <Property ID="FilePattern" Type="string" Key="false" CaseSensitive="false" Length="256" MinLength="0" />
-          <Property ID="AgeInMinutes" Type="string" Key="false" CaseSensitive="false" Length="256" MinLength="0" />
-          <Property ID="Operator" Type="string" Key="false" CaseSensitive="false" Length="256" MinLength="0" />
-          <Property ID="FriendlyName" Type="string" Key="true" CaseSensitive="false" Length="256" MinLength="0" />
-        </ClassType>
-        <ClassType ID="Atea.FileCreationTime.Seed" Accessibility="Internal" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false" />
-      </ClassTypes>
-    </EntityTypes>
     <SecureReferences>
       <SecureReference ID="Atea.FileCreationTime.FolderAccessAccount" Accessibility="Public" Context="Atea.FileCreationTime.Folder" />
     </SecureReferences>
@@ -548,10 +535,6 @@ End Class
         <DisplayString ElementID="Atea.FileCreationTime.Discovery.DataSource">
           <Name>Atea File Creation Time Discovery Data Source</Name>
           <Description>This datasource provides the basic discovery data for the watched folders. </Description>
-        </DisplayString>
-        <DisplayString ElementID="Atea.FileCreationTime.Folder">
-          <Name>Atea File Creation Time Folder</Name>
-          <Description>A watched folder with all it's properties and settings. Does not have any "health" as of yet.</Description>
         </DisplayString>
         <DisplayString ElementID="Atea.FileCreationTime.Folder.Alerting.Rule">
           <Name>Atea File Creation Time Folder Alerting Rule</Name>
