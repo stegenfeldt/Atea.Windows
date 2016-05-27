@@ -57,6 +57,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HealthModel\SecureReferences\FileMonitoringRunasAccount.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ManagementPack.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -66,11 +69,15 @@
     <Compile Include="ServiceModel\Classes\FileMonitoringSeed.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FCTpsFolderDiscoveryProbe.mpx">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HealthModel" />
     <Folder Include="HealthModel\Discoveries" />
     <Folder Include="HealthModel\Monitors" />
+    <Folder Include="HealthModel\SecureReferences" />
     <Folder Include="HealthModel\Tasks" />
     <Folder Include="HealthModel\Rules" />
     <Folder Include="Scripts" />
@@ -84,6 +91,9 @@
     <Folder Include="TypeLibrary\ModuleTypes\ProbeActions" />
     <Folder Include="TypeLibrary\MonitorTypes" />
     <Folder Include="TypeLibrary\ModuleTypes" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\AteaFileCreationTimePoSHDiscovery.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
