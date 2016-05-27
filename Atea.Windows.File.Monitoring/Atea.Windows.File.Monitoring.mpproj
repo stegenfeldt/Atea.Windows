@@ -67,6 +67,7 @@
     <Folder Include="HealthModel\Monitors" />
     <Folder Include="HealthModel\Tasks" />
     <Folder Include="HealthModel\Rules" />
+    <Folder Include="Scripts" />
     <Folder Include="TypeLibrary" />
     <Folder Include="ServiceModel" />
     <Folder Include="ServiceModel\Classes" />
