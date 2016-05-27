@@ -3,8 +3,8 @@
 # http://powershell.com/cs/blogs/tips/archive/2009/12/03/dynamically-create-script-blocks.aspx
 # http://technet.microsoft.com/sv-se/library/ee176852(en-us).aspx
 
-$RegistryPath = "hklm:\Software\ICT\FileCreation\"
-$EventLogSourceName = "ICT FCT Monitor"
+$RegistryPath = "hklm:\Software\Atea\FileCreation\"
+$EventLogSourceName = "Atea FCT Monitor"
 $SubKeys = Get-ChildItem $RegistryPath
 $OpsmgrAPI = New-Object -ComObject "MOM.ScriptAPI"
 if (![System.Diagnostics.EventLog]::SourceExists($EventLogSourceName))
