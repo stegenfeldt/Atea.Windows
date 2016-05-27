@@ -1,0 +1,15 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring">
+          <Name>Atea Windows File Monitoring</Name>
+          <Description>
+            <![CDATA[This management pack contains monitoring for various file-related scenarios. 
+          More info available at https://bitbucket.org/stegenfeldt/atea.windows/wiki/Atea.Windows.File.Monitoring.mp
+          ]]> </Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

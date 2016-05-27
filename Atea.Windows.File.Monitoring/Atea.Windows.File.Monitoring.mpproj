@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{c55b880e-f609-462c-aed3-67f44531d4d7}</ProjectGuid>
+    <RootNamespace>Atea.Windows.File.Monitoring</RootNamespace>
+    <Name>Atea.Windows.File.Monitoring</Name>
+    <ManagementPackName>Atea.Windows.File.Monitoring</ManagementPackName>
+    <Version>1.0.2.0</Version>
+    <MpFrameworkVersion>v7.0.2</MpFrameworkVersion>
+    <MpFrameworkProfile>OM</MpFrameworkProfile>
+    <ProductVersion>1.1.0.0</ProductVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <GenerateSealed>True</GenerateSealed>
+    <Company>Atea Sverige AB</Company>
+    <Copyright>Copyright (c) Samuel Tegenfeldt - Atea Sverige AB. All rights reserved.</Copyright>
+    <DelaySigning>False</DelaySigning>
+    <AssemblyOriginatorKeyFile>AteaST.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+    <DelaySigning>false</DelaySigning>
+    <Company>MyCompany</Company>
+    <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <ManagementPackReference Include="Microsoft.SystemCenter.Library">
+      <Alias>SC</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.Windows.Library">
+      <Alias>Windows</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Health.Library">
+      <Alias>Health</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Library">
+      <Alias>System</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.Visualization.Library">
+      <Alias>Visualization</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AteaST.snk">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="HealthModel\Discoveries\FCTFolderDiscovery.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HealthModel\Discoveries\FileMonitoringSeedDiscovery.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HealthModel\Rules\FCTFolderAlertRule.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HealthModel\SecureReferences\FileMonitoringRunasAccount.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManagementPack.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServiceModel\Classes\FileCreationTimeFolder.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServiceModel\Classes\FileMonitoringSeed.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\DataSources\FCTDiscoveryDS.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\DataSources\FCTMonitoringPropertyBagDS.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FCTpsFolderDiscoveryProbe.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FCTvbsPropertyBagProbe.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HealthModel" />
+    <Folder Include="HealthModel\Discoveries" />
+    <Folder Include="HealthModel\Monitors" />
+    <Folder Include="HealthModel\SecureReferences" />
+    <Folder Include="HealthModel\Tasks" />
+    <Folder Include="HealthModel\Rules" />
+    <Folder Include="Scripts" />
+    <Folder Include="TypeLibrary" />
+    <Folder Include="ServiceModel" />
+    <Folder Include="ServiceModel\Classes" />
+    <Folder Include="ServiceModel\Relationships" />
+    <Folder Include="TypeLibrary\ModuleTypes\DataSources" />
+    <Folder Include="TypeLibrary\ModuleTypes\ConditionDetections" />
+    <Folder Include="TypeLibrary\ModuleTypes\WriteActions" />
+    <Folder Include="TypeLibrary\ModuleTypes\ProbeActions" />
+    <Folder Include="TypeLibrary\MonitorTypes" />
+    <Folder Include="TypeLibrary\ModuleTypes" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\AteaFCTPSPropertyBag.ps1" />
+    <EmbeddedResource Include="Scripts\AteaFileCreationTimePoSHDiscovery.ps1" />
+    <EmbeddedResource Include="Scripts\FCTvbsPropertyBag.vbs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
+</Project>
