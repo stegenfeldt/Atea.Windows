@@ -47,45 +47,6 @@
           <IntervalSeconds>1440</IntervalSeconds>
         </DataSource>
       </Discovery>
-      <Discovery ID="Atea.FileCreationTime.Seed.Discovery" Enabled="true" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal">
-        <Category>Discovery</Category>
-        <DiscoveryTypes>
-          <DiscoveryClass TypeID="Atea.FileCreationTime.Seed" />
-        </DiscoveryTypes>
-        <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.FilteredRegistryDiscoveryProvider">
-          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
-          <RegistryAttributeDefinitions>
-            <RegistryAttributeDefinition>
-              <AttributeName>FCKeyExist</AttributeName>
-              <Path>SOFTWARE\Atea\FileCreationTime</Path>
-              <PathType>0</PathType>
-              <AttributeType>0</AttributeType>
-            </RegistryAttributeDefinition>
-          </RegistryAttributeDefinitions>
-          <Frequency>14400</Frequency>
-          <ClassId>$MPElement[Name="Atea.FileCreationTime.Seed"]$</ClassId>
-          <InstanceSettings>
-            <Settings>
-              <Setting>
-                <Name>$MPElement[Name="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Name>
-                <Value>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Value>
-              </Setting>
-            </Settings>
-          </InstanceSettings>
-          <Expression>
-            <SimpleExpression>
-              <ValueExpression>
-                <XPathQuery Type="String">Values/FCKeyExist</XPathQuery>
-              </ValueExpression>
-              <Operator>Equal</Operator>
-              <ValueExpression>
-                <Value Type="String">true</Value>
-              </ValueExpression>
-            </SimpleExpression>
-          </Expression>
-        </DataSource>
-      </Discovery>
-    </Discoveries>
     <Rules>
       <Rule ID="Atea.FileCreationTime.Folder.Alerting.Rule" Enabled="true" Target="Atea.FileCreationTime.Folder" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>Alert</Category>
@@ -163,9 +124,6 @@
         <DisplayString ElementID="Atea.FileCreationTime.Seed">
           <Name>Atea File Creation Time Seed</Name>
           <Description>Simple seed class for script based discovery targeting. Used to minimize overhead.</Description>
-        </DisplayString>
-        <DisplayString ElementID="Atea.FileCreationTime.Seed.Discovery">
-          <Name>Atea File Creation Time Seed Discovery</Name>
         </DisplayString>
       </DisplayStrings>
     </LanguagePack>
