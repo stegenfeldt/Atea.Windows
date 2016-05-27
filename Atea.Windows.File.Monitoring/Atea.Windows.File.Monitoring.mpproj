@@ -61,5 +61,22 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HealthModel" />
+    <Folder Include="HealthModel\Discoveries" />
+    <Folder Include="HealthModel\Monitors" />
+    <Folder Include="HealthModel\Tasks" />
+    <Folder Include="HealthModel\Rules" />
+    <Folder Include="TypeLibrary" />
+    <Folder Include="ServiceModel" />
+    <Folder Include="ServiceModel\Classes" />
+    <Folder Include="ServiceModel\Relationships" />
+    <Folder Include="TypeLibrary\ModuleTypes\DataSources" />
+    <Folder Include="TypeLibrary\ModuleTypes\ConditionDetections" />
+    <Folder Include="TypeLibrary\ModuleTypes\WriteActions" />
+    <Folder Include="TypeLibrary\ModuleTypes\ProbeActions" />
+    <Folder Include="TypeLibrary\MonitorTypes" />
+    <Folder Include="TypeLibrary\ModuleTypes" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
