@@ -73,7 +73,6 @@
   <Presentation>
     <StringResources>
       <StringResource ID="Atea.FileCreationTime.Folder.Alerting.Rule.Message" />
-      <StringResource ID="Atea.FileCreationTime.NewElement.AlertMessage" />
     </StringResources>
   </Presentation>
   <LanguagePacks>
@@ -96,10 +95,6 @@
         <DisplayString ElementID="Atea.FileCreationTime.FolderAccessAccount">
           <Name>Atea File Creation Time Folder Access Account</Name>
           <Description>Use this account to provide access to the folders where the regular RunAs account does not have privileges.</Description>
-        </DisplayString>
-        <DisplayString ElementID="Atea.FileCreationTime.NewElement.AlertMessage">
-          <Name><![CDATA[as<zdxfcghvhb]]></Name>
-          <Description>Event Description: {0}</Description>
         </DisplayString>
       </DisplayStrings>
     </LanguagePack>
