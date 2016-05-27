@@ -69,7 +69,13 @@
     <Compile Include="ServiceModel\Classes\FileMonitoringSeed.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\DataSources\FCTDiscoveryDS.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FCTpsFolderDiscoveryProbe.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FCTvbsPropertyBagProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -94,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\AteaFileCreationTimePoSHDiscovery.ps1" />
+    <EmbeddedResource Include="Scripts\FCTvbsPropertyBag.vbs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
