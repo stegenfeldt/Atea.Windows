@@ -1,0 +1,27 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+    <Discoveries>
+      <Discovery ID="Atea.Windows.File.FileCreationTime.Folder.Discovery" Enabled="true" Target="Atea.Windows.File.Monitoring.Seed" ConfirmDelivery="true" Remotable="false" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="Atea.Windows.File.FileCreationTimeFolder" />
+        </DiscoveryTypes>
+        <DataSource ID="DiscoveryDS" TypeID="Atea.Windows.File.FileCreationTime.Discovery.DataSource">
+          <MPElement>$MPElement$</MPElement>
+          <TargetID>$Target/Id$</TargetID>
+          <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</ComputerName>
+          <IntervalSeconds>1440</IntervalSeconds>
+        </DataSource>
+      </Discovery>
+    </Discoveries>
+  </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTime.Folder.Discovery">
+          <Name>Atea File Creation-Time Folder Discovery</Name>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

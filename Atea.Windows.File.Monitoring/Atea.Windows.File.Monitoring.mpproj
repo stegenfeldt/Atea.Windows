@@ -57,7 +57,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HealthModel\Discoveries\FCTSeedDiscovery.mpx">
+    <Compile Include="HealthModel\Discoveries\FCTFolderDiscovery.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HealthModel\Discoveries\FileMonitoringSeedDiscovery.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HealthModel\SecureReferences\FileMonitoringRunasAccount.mpx">

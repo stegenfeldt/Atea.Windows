@@ -34,19 +34,6 @@
     </References>
   </Manifest>
   <Monitoring>
-    <Discoveries>
-      <Discovery ID="Atea.FileCreationTime.Folder.Discovery" Enabled="true" Target="Atea.FileCreationTime.Seed" ConfirmDelivery="true" Remotable="false" Priority="Normal">
-        <Category>Discovery</Category>
-        <DiscoveryTypes>
-          <DiscoveryClass TypeID="Atea.FileCreationTime.Folder" />
-        </DiscoveryTypes>
-        <DataSource ID="DiscoveryDS" TypeID="Atea.FileCreationTime.Discovery.DataSource">
-          <MPElement>$MPElement$</MPElement>
-          <TargetID>$Target/Id$</TargetID>
-          <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</ComputerName>
-          <IntervalSeconds>1440</IntervalSeconds>
-        </DataSource>
-      </Discovery>
     <Rules>
       <Rule ID="Atea.FileCreationTime.Folder.Alerting.Rule" Enabled="true" Target="Atea.FileCreationTime.Folder" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>Alert</Category>
@@ -106,10 +93,6 @@
             Alerts will be triggered from this query:
             Filename = {6} where FileAge {7} {8} minutes</Description>
         </DisplayString>
-        <DisplayString ElementID="Atea.FileCreationTime.Folder.Discovery">
-          <Name>Atea File Creation Time Folder Discovery</Name>
-          <Description />
-        </DisplayString>
         <DisplayString ElementID="Atea.FileCreationTime.FolderAccessAccount">
           <Name>Atea File Creation Time Folder Access Account</Name>
           <Description>Use this account to provide access to the folders where the regular RunAs account does not have privileges.</Description>
@@ -117,13 +100,6 @@
         <DisplayString ElementID="Atea.FileCreationTime.NewElement.AlertMessage">
           <Name><![CDATA[as<zdxfcghvhb]]></Name>
           <Description>Event Description: {0}</Description>
-        </DisplayString>
-        <DisplayString ElementID="Atea.FileCreationTime.ProbeAction.psFolderDiscovery">
-          <Name>Atea File Creation Time ProbeAction psFolderDiscovery</Name>
-        </DisplayString>
-        <DisplayString ElementID="Atea.FileCreationTime.Seed">
-          <Name>Atea File Creation Time Seed</Name>
-          <Description>Simple seed class for script based discovery targeting. Used to minimize overhead.</Description>
         </DisplayString>
       </DisplayStrings>
     </LanguagePack>
