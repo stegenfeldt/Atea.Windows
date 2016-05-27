@@ -528,10 +528,6 @@ End Class
   <LanguagePacks>
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
-        <DisplayString ElementID="Atea.FileCreationTime">
-          <Name>Atea File Creation Time Monitoring</Name>
-          <Description>Management pack for various creation date monitoring.</Description>
-        </DisplayString>
         <DisplayString ElementID="Atea.FileCreationTime.Discovery.DataSource">
           <Name>Atea File Creation Time Discovery Data Source</Name>
           <Description>This datasource provides the basic discovery data for the watched folders. </Description>
