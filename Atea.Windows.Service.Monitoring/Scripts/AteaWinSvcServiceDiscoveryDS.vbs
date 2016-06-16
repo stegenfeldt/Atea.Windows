@@ -97,6 +97,15 @@ If NOT IsNull(registryValues) Then
 Else
 	' Could not read from registry, perhaps key is missing?
 	LogEvent SCOM_DEBUG,SCOM_INFO,"Failed to read from: HKLM\" & keyPath & "\"
+
+    ' Issue #4
+    ' Discovery never removing services efter the only remaining string value is deleted.
+    ' Needs to return an empty property bag.
+    Set scomApi = CreateObject("MOM.ScriptAPI")
+    Set scomApi = CreateObject("MOM.ScriptingAPI")
+    Set scomPropertyBag = scomApi.CreatePropertyBag()
+    Call scomApi.Return(scomPropertyBag)
+    Set scomApi = Nothing
 End If
 
 
