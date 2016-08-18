@@ -1,0 +1,25 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+    <Tasks>
+      <Task ID="Atea.Windows.Service.Task.RemoveService" Accessibility="Public" Target="Atea.Windows.Service.Service" Enabled="true" Timeout="300" Remotable="false">
+        <Category>Maintenance</Category>
+        <ProbeAction ID="Probe" TypeID="Atea.Windows.Service.Probe.RemoveServicePS">
+          <ServiceName>$Target/Property[Type='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$</ServiceName>
+          <RegistryPath>SOFTWARE\Atea\WinSvc</RegistryPath>
+          <TimeoutSeconds>300</TimeoutSeconds>
+        </ProbeAction>
+      </Task>
+    </Tasks>
+  </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Service.Task.RemoveService">
+          <Name>Remove Monitored Service</Name>
+          <Description><![CDATA[Use this task to remove a monitored service on this computer. 
+          Only works on services discovered by Atea Windows Service registry keys.]]></Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

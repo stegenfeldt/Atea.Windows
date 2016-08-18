@@ -110,6 +110,9 @@
     <Compile Include="HealthModel\Tasks\AgentTasks\ListRunningServicesTask.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HealthModel\Tasks\AgentTasks\RemoveMonitoredServiceTask.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="HealthModel\Tasks\Recoveries\ServiceStartRecoveryTask.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -137,6 +140,9 @@
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\AutoServiceDiscoveryVBSProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\RemoveServiceTaskPSProbe.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\SelectedServiceVBSProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -162,6 +168,7 @@
     <EmbeddedResource Include="Scripts\AteaAutoSvcPBScript.vbs" />
     <EmbeddedResource Include="Scripts\AteaWinSvcServiceDiscoveryDS.vbs" />
     <EmbeddedResource Include="Scripts\Get-RunningServices.ps1" />
+    <EmbeddedResource Include="Scripts\Remove-MonitoredServiceKey.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
