@@ -30,7 +30,7 @@ ForEach ($SubKey in $SubKeys)
 			"<=" {$Operator = "-le"}
 			">" {$Operator = "-gt"}
 			">=" {$Operator = "-ge"}
-			default {$Operator = "-lt"}
+			default {$Operator = "-gt"}
 		}
 		
 		if ($Recursive.Trim() -eq "false")

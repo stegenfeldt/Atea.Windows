@@ -2,7 +2,7 @@
   <TypeDefinitions>
     <EntityTypes>
       <ClassTypes>
-        <ClassType ID="Atea.Windows.File.FileCreationTimeFolder" Accessibility="Internal" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false">
+        <ClassType ID="Atea.Windows.File.FileCreationTimeFolder" Accessibility="Public" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false">
           <Property ID="FolderPath" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
           <Property ID="Recursive" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
           <Property ID="FilePattern" Type="string" Key="false" CaseSensitive="false" MinLength="0" />

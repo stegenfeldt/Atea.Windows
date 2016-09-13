@@ -10,7 +10,7 @@
           <MPElement>$MPElement$</MPElement>
           <TargetID>$Target/Id$</TargetID>
           <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</ComputerName>
-          <IntervalSeconds>1440</IntervalSeconds>
+          <IntervalSeconds>14400</IntervalSeconds>
         </DataSource>
       </Discovery>
     </Discoveries>
