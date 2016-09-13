@@ -58,6 +58,9 @@
     <Folder Include="ServiceModel\Classes" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AteaST.snk">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="HealthModel\Discoveries\PSDiscoveries.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>

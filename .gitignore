@@ -190,3 +190,7 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /.vs/config/applicationhost.config
+/Atea.Windows.Library/AteaST.snk
+/Atea.Windows.File.Monitoring/AteaST.snk
+/Atea.Windows.Server.Monitoring/AteaST.snk
+/Atea.Windows.Service.Monitoring/AteaST.snk
