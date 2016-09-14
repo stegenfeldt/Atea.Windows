@@ -13,6 +13,8 @@ The following customers have graciously allowed us to co-develop this MP and sha
 * Piteå Kommun
 * Atea Integration Services
 * Landstinget Gävleborg
+* SSAB
+* Xylem Water Solutions
 
 ## Disclaimer
 
