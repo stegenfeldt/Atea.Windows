@@ -4,7 +4,7 @@
       <ClassTypes>
         <ClassType ID="Atea.Windows.Computer.ADExtension" Base="Windows!Microsoft.Windows.Computer" Accessibility="Public" Abstract="true" Hosted="false" Singleton="false">
           <Property ID="Description" Key="false" Type="string" />
-          </ClassType>
+        </ClassType>
       </ClassTypes>
     </EntityTypes>
   </TypeDefinitions>
@@ -15,8 +15,8 @@
         <!-- This is the string users of the Operations Console and Web Console will see. 
              Descriptions are also helpful when the user is doing a search in the Console. -->
         <DisplayString ElementID="Atea.Windows.ComputerADExtension">
-          <Name>ComputerADExtension Class</Name>
-          <Description></Description>
+          <Name>Computer with AD Properties</Name>
+          <Description>Extends the regular computer object with information gathered from Active Directory</Description>
         </DisplayString>
 
         <!-- Uncomment the below section if you need to add a user friendly string for each property. -->
