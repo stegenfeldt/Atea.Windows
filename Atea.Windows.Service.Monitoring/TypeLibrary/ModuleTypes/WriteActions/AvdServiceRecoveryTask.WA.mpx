@@ -55,4 +55,29 @@
       </WriteActionModuleType>
     </ModuleTypes>
   </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Service.AdvRecoveryTask.WA">
+          <Name>Windows Service Advanced Recovery Task Write Action</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.AdvRecoveryTask.WA" SubElementID="Delay">
+          <Name>Delay (in seconds)</Name>
+          <Description>For how long should the script wait before checking status on the windows service?</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.AdvRecoveryTask.WA" SubElementID="MaxRepeatCount">
+          <Name>Max Repeat Count</Name>
+          <Description>How many times to retry starting the service</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.AdvRecoveryTask.WA" SubElementID="RepeatIntervalSeconds">
+          <Name>Repeat Interval (in seconds)</Name>
+          <Description>The delay between each retry</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.AdvRecoveryTask.WA" SubElementID="TimeoutSeconds">
+          <Name>Timeout (in seconds)</Name>
+          <Description>Max execution time of the script. Efter this, SCOM will kill the task.</Description>
+        </DisplayString>
+      </DisplayStrings>
+      </LanguagePack>
+  </LanguagePacks>
 </ManagementPackFragment>
