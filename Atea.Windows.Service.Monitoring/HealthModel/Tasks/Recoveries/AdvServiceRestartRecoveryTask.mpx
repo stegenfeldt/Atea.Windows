@@ -3,27 +3,11 @@
     <Recoveries>
       <Recovery ID="Atea.Windows.Service.Service.AdvRecoveryTask" Accessibility="Public" Target="MSNL!Microsoft.SystemCenter.NTService" Enabled="false" ExecuteOnState="Error" Monitor="Atea.Windows.Service.RecoveryMonitor" ResetMonitor="true" Timeout="300" Remotable="false">
         <Category>AvailabilityHealth</Category>
-        <WriteAction ID="StartService" TypeID="Windows!Microsoft.Windows.PowerShellWriteAction">
-          <ScriptName>Restart-MonitoredService.ps1</ScriptName>
-          <ScriptBody>$IncludeFileContent/Scripts/Restart-MonitoredService.ps1$</ScriptBody>
-          <Parameters>
-            <Parameter>
-              <Name>ServiceName</Name>
-              <Value>$Target/Property[Type='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$</Value>
-            </Parameter>
-            <Parameter>
-              <Name>Delay</Name>
-              <Value>0</Value>
-            </Parameter>
-            <Parameter>
-              <Name>MaxRepeatCount</Name>
-              <Value>0</Value>
-            </Parameter>
-            <Parameter>
-              <Name>RepeatIntervalSeconds</Name>
-              <Value>30</Value>
-            </Parameter>
-          </Parameters>
+        <WriteAction ID="StartService" TypeID="Atea.Windows.Service.AdvRecoveryTask.WA">
+          <ServiceName>$Target/Property[Type='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$</ServiceName>
+          <Delay>30</Delay>
+          <MaxRepeatCount>0</MaxRepeatCount>
+          <RepeatIntervalSeconds>30</RepeatIntervalSeconds>
           <TimeoutSeconds>600</TimeoutSeconds>
         </WriteAction>
       </Recovery>

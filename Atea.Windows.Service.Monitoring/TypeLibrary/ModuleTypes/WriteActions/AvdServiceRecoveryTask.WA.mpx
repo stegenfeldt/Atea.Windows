@@ -1,0 +1,58 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <ModuleTypes>
+      <WriteActionModuleType ID="Atea.Windows.Service.AdvRecoveryTask.WA" Accessibility="Internal">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="ServiceName" type="NonNullString" />
+          <xsd:element name="Delay" type="xsd:integer" />
+          <xsd:element name="MaxRepeatCount" type="xsd:integer" />
+          <xsd:element name="RepeatIntervalSeconds" type="xsd:integer" />
+          <xsd:element name="TimeoutSeconds" type="xsd:integer" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="Delay" Selector="$Config/Delay$" ParameterType="int" />
+          <OverrideableParameter ID="MaxRepeatCount" Selector="$Config/MaxRepeatCount$" ParameterType="int" />
+          <OverrideableParameter ID="RepeatIntervalSeconds" Selector="$Config/RepeatIntervalSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="TimeoutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation>
+          <Composite>
+            <MemberModules>
+              <WriteAction ID="ServiceRestartScript" TypeID="Windows!Microsoft.Windows.PowerShellWriteAction">
+                <ScriptName>Restart-MonitoredService.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Restart-MonitoredService.ps1$</ScriptBody>
+                <Parameters>
+                  <Parameter>
+                    <Name>ServiceName</Name>
+                    <Value>$Config/ServiceName$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>Delay</Name>
+                    <Value>$Config/Delay$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>MaxRepeatCount</Name>
+                    <Value>$Config/MaxRepeatCount$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>RepeatIntervalSeconds</Name>
+                    <Value>$Config/RepeatIntervalSeconds$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              </WriteAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="ServiceRestartScript" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Windows!Microsoft.Windows.SerializedObjectData</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </WriteActionModuleType>
+    </ModuleTypes>
+  </TypeDefinitions>
+</ManagementPackFragment>

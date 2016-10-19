@@ -143,6 +143,9 @@
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\SelectedServiceVBSProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\WriteActions\AvdServiceRecoveryTask.WA.mpx">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HealthModel" />
