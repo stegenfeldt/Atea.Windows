@@ -163,6 +163,7 @@
     <EmbeddedResource Include="Scripts\AteaWinSvcServiceDiscoveryDS.vbs" />
     <EmbeddedResource Include="Scripts\Get-RunningServices.ps1" />
     <EmbeddedResource Include="Scripts\Remove-MonitoredServiceKey.ps1" />
+    <EmbeddedResource Include="Scripts\Restart-MonitoredService.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
