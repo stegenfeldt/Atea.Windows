@@ -107,6 +107,9 @@
     <Compile Include="HealthModel\Tasks\AgentTasks\RemoveMonitoredServiceTask.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HealthModel\Tasks\Recoveries\AdvServiceRestartRecoveryTask.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="HealthModel\Tasks\Recoveries\ServiceStartRecoveryTask.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -155,6 +158,7 @@
     <Folder Include="ServiceModel\Classes" />
     <Folder Include="TypeLibrary\ModuleTypes" />
     <Folder Include="TypeLibrary\ModuleTypes\DataSources" />
+    <Folder Include="TypeLibrary\ModuleTypes\WriteActions" />
     <Folder Include="TypeLibrary\ModuleTypes\ProbeActions" />
   </ItemGroup>
   <ItemGroup>
