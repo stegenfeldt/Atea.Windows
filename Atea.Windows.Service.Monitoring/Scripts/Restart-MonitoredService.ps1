@@ -76,9 +76,8 @@ function Restart-ServiceWithRepeats ([int] $MaxRepeatCount, [int] $RepeatInterva
 }
 
 function Main () {
-	if (Test-ServiceExist -eq $false) {
+	if ((Test-ServiceExist -ServiceName $ServiceName) -eq $false) {
 		Write-Host "$ServiceName - No such service exists on the system."
-		Enable-AppBackgroundTaskDiagnosticLog
 	} else {
 		[string] $serviceStatus = Start-ServiceAndWait $ServiceName -WaitSeconds $Delay
 
