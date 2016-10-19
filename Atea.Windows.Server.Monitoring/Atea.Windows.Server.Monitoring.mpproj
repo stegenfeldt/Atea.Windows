@@ -23,11 +23,11 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>false</DebugSymbols>
     <OutputPath>bin\Release\</OutputPath>
-    <DelaySigning>false</DelaySigning>
-    <Company>MyCompany</Company>
-    <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
-    <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile />
+    <GenerateSealed>True</GenerateSealed>
+    <Company>Atea Sverige AB</Company>
+    <Copyright>Copyright (c) Samuel Tegenfeldt - Atea Sverige AB. All rights reserved.</Copyright>
+    <DelaySigning>False</DelaySigning>
+    <AssemblyOriginatorKeyFile>..\AteaST.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <ManagementPackReference Include="Microsoft.SystemCenter.DataWarehouse.Library">
@@ -62,9 +62,6 @@
     </ManagementPackReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AteaST.snk">
-      <SubType>Content</SubType>
-    </Content>
     <Content Include="HealthModel\Rules\PerformanceCollection.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
