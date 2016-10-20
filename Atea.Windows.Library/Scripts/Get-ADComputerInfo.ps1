@@ -43,11 +43,9 @@ function Main {
     )
 
 	$computerADObject = Get-ADComputerObject
-	[string] $computerDescription = $computerADObject.Description
+	[string] $computerDescription = $computerADObject.Description #ADDescription
 
-	[string] $computerOwner = $computerADObject.PSBase.ObjectSecurity.Owner
-    
-    "Done"
+	[string] $computerOwner = $computerADObject.PSBase.ObjectSecurity.Owner #ADCustodian
 }
 
 # Now... Go!

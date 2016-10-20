@@ -7,6 +7,8 @@
           <Property ID="PSCompatibleVersion" Key="false" Type="string" />
           <Property ID="PSRuntimeVersion" Key="false" Type="string" />
           <Property ID="PSApplicationBase" Key="false" Type="string" />
+          <Property ID="ADDescription" Key="false" Type="string" />
+          <Property ID="ADCustodian" Key="false" Type="string" />
         </ClassType>
       </ClassTypes>
     </EntityTypes>
@@ -16,7 +18,7 @@
       <DisplayStrings>
         <DisplayString ElementID="Atea.Windows.Server.PSEnabled">
           <Name>Windows Server with PowerShell</Name>
-          <Description>A windows server with confirmed powershell installation. Good target class for powershell based discoveries.</Description>
+          <Description>A windows server with confirmed powershell installation and properties from AD. Good target class for powershell based discoveries.</Description>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.Server.PSEnabled" SubElementID="PSVersion">
           <Name>PowerShell Version</Name>
