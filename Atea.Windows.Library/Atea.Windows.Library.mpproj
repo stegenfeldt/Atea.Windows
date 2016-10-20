@@ -54,9 +54,12 @@
   <ItemGroup>
     <Folder Include="HealthModel" />
     <Folder Include="HealthModel\Discoveries" />
-    <Folder Include="Scripts" />
+    <Folder Include="TypeLibrary" />
+	<Folder Include="Scripts" />
     <Folder Include="ServiceModel" />
     <Folder Include="ServiceModel\Classes" />
+    <Folder Include="TypeLibrary\ModuleTypes" />
+    <Folder Include="TypeLibrary\ModuleTypes\DataSources" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="HealthModel\Discoveries\PSDiscoveries.mptg">
@@ -73,6 +76,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ServiceModel\Classes\Server.PSEnabled.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\DataSources\TimedPowershellPropertybagProvider.mpx">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

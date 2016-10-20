@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "Atea.Windows.Library", "Atea.Windows.Library\Atea.Windows.Library.mpproj", "{361E64DE-7730-493D-8464-C22911EB5791}"
 EndProject
@@ -10,6 +10,9 @@ EndProject
 Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "Atea.Windows.Service.Monitoring", "Atea.Windows.Service.Monitoring\Atea.Windows.Service.Monitoring.mpproj", "{53470240-D3B9-4EF1-B4E1-6A075FB07593}"
 EndProject
 Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "Atea.Windows.File.Monitoring", "Atea.Windows.File.Monitoring\Atea.Windows.File.Monitoring.mpproj", "{C55B880E-F609-462C-AED3-67F44531D4D7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{361E64DE-7730-493D-8464-C22911EB5791} = {361E64DE-7730-493D-8464-C22911EB5791}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
