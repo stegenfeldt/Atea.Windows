@@ -23,11 +23,11 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>false</DebugSymbols>
     <OutputPath>bin\Release\</OutputPath>
-    <DelaySigning>false</DelaySigning>
-    <Company>MyCompany</Company>
-    <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
-    <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile />
+    <GenerateSealed>True</GenerateSealed>
+    <Company>Atea Sverige AB</Company>
+    <Copyright>Copyright (c) Samuel Tegenfeldt - Atea Sverige AB. All rights reserved.</Copyright>
+    <DelaySigning>False</DelaySigning>
+    <AssemblyOriginatorKeyFile>..\AteaST.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <ManagementPackReference Include="Microsoft.SystemCenter.Library">
@@ -35,7 +35,7 @@
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.NTService.Library">
-      <HintPath>C:\Program Files\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\Microsoft.SystemCenter.NTService.Library.mp</HintPath>
+      <HintPath>C:\Program Files (x86)\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\Microsoft.SystemCenter.NTService.Library.mp</HintPath>
       <Alias>MSNL</Alias>
       <MinVersion>7.0.8560.0</MinVersion>
       <PackageToBundle>False</PackageToBundle>
@@ -45,7 +45,7 @@
       <PackageToBundle>false</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.AdminItem.Library">
-      <HintPath>C:\Program Files\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\System.AdminItem.Library.mp</HintPath>
+      <HintPath>C:\Program Files (x86)\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\System.AdminItem.Library.mp</HintPath>
       <Alias>SAL</Alias>
       <MinVersion>7.5.8501.0</MinVersion>
     </ManagementPackReference>
@@ -62,7 +62,7 @@
       <PackageToBundle>false</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.Software.Library">
-      <HintPath>C:\Program Files\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\System.Software.Library.mp</HintPath>
+      <HintPath>C:\Program Files (x86)\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\System.Software.Library.mp</HintPath>
       <Alias>SSL</Alias>
       <MinVersion>7.5.8501.0</MinVersion>
     </ManagementPackReference>
@@ -76,15 +76,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AteaST.snk">
-      <SubType>Content</SubType>
-    </Content>
     <Content Include="HealthModel\Monitors\UnitMonitors\ServiceMonitors.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
-    </Content>
-    <Content Include="kundmail.txt">
-      <SubType>Content</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +105,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HealthModel\Tasks\AgentTasks\RemoveMonitoredServiceTask.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HealthModel\Tasks\Recoveries\AdvServiceRestartRecoveryTask.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HealthModel\Tasks\Recoveries\ServiceStartRecoveryTask.mpx">
@@ -146,6 +143,9 @@
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\SelectedServiceVBSProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\WriteActions\AvdServiceRecoveryTask.WA.mpx">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HealthModel" />
@@ -161,6 +161,7 @@
     <Folder Include="ServiceModel\Classes" />
     <Folder Include="TypeLibrary\ModuleTypes" />
     <Folder Include="TypeLibrary\ModuleTypes\DataSources" />
+    <Folder Include="TypeLibrary\ModuleTypes\WriteActions" />
     <Folder Include="TypeLibrary\ModuleTypes\ProbeActions" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +170,7 @@
     <EmbeddedResource Include="Scripts\AteaWinSvcServiceDiscoveryDS.vbs" />
     <EmbeddedResource Include="Scripts\Get-RunningServices.ps1" />
     <EmbeddedResource Include="Scripts\Remove-MonitoredServiceKey.ps1" />
+    <EmbeddedResource Include="Scripts\Restart-MonitoredService.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
