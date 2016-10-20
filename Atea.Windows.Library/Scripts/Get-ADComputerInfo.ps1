@@ -1,5 +1,5 @@
 ﻿# Quick little script that queries AD for properties on the current computer.
-# Requires Powershell v2 or later and a computer connected to AD, that's it. 
+# Requires Powershell v2 or later and a computer connected to AD, that's it.
 # Base script is available at https://gist.github.com/stegenfeldt/da6f512f8dd5c3a2dabd527adf918087
 
 
@@ -44,11 +44,19 @@ function Main {
 	$computerADObject = Get-ADComputerObject
 	if ($computerADObject) {
 		[string] $computerDescription = $computerADObject.Description #ADDescription
+		[string] $computerFullName = $computerADObject.fqdn #PrincipalName
 	} else {
 		$computerDescription = ""
 	}
-	
+
 	[string] $computerOwner = $computerADObject.PSBase.ObjectSecurity.Owner #ADCustodian
+
+
+	$discoveryParameters = @{}
+	$discoveryParameters.Add("PrincipalName",$computerFullName)
+	$discoveryParameters.Add("ADDescription",$computerDescription)
+	$discoveryParameters.Add("ADCustodian",$computerOwner)
+
 }
 
 # Now... Go!
