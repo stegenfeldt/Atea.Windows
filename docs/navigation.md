@@ -3,4 +3,4 @@
 [Home](index.md)
 [License](LICENSE.md)
 
-[gimmick:ForkMeOnGitHub](http://www.github.com/Dynalon/mdwiki)
+[gimmick:ForkMeOnGitHub](https://github.com/stegenfeldt/Atea.Windows)
