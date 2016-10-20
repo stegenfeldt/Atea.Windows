@@ -37,14 +37,17 @@ function Main {
 	<#
 	Main function, this is where is all comes together.
 	#>
-    
     Param (
         [string] $ComputerName = $env:COMPUTERNAME
     )
 
 	$computerADObject = Get-ADComputerObject
-	[string] $computerDescription = $computerADObject.Description #ADDescription
-
+	if ($computerADObject) {
+		[string] $computerDescription = $computerADObject.Description #ADDescription
+	} else {
+		$computerDescription = ""
+	}
+	
 	[string] $computerOwner = $computerADObject.PSBase.ObjectSecurity.Owner #ADCustodian
 }
 
