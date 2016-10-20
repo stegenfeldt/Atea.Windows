@@ -18,7 +18,8 @@
       <DisplayStrings>
         <DisplayString ElementID="Atea.Windows.Service.Service.AdvRecoveryTask">
           <Name>Advanced Service Restart</Name>
-          <Description>Provides options to wait before clearing alert, repeated retries, retry delays...</Description>
+          <Description><![CDATA[Provides options to wait before clearing alert, repeated retries, retry delays...
+          Make sure that TimeoutSeconds is set to allow the script to execute all repeats, delays and repeat-waits.]]></Description>
         </DisplayString>
       </DisplayStrings>
     </LanguagePack>
