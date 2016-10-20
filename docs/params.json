@@ -1,6 +1,0 @@
-{
-  "name": "Atea.Windows",
-  "tagline": "SCOM 2012 MP Guide",
-  "body": "# Atea.Windows\r\n\r\nThe Atea.Windows MP collection is a number of, somewhat related, management packs developed by Atea Sverige AB for our customers.\r\n\r\n## Customers/Sponsors\r\n\r\nThe following customers have graciously allowed us to co-develop this MP and share our work with our other customers and the rest of the world.\r\n\r\n* Clas Ohlson\r\n* Spendrups\r\n* ABB\r\n* Borlänge Kommun\r\n* Piteå Kommun\r\n* Atea Integration Services\r\n* Landstinget Gävleborg\r\n* SSAB\r\n* Xylem Water Solutions\r\n\r\n## Disclaimer\r\n\r\nWhile most of this is developed from scratch, some inspiration has been taken from other community members. \r\nIn such case, we have tried to include links in the comments.\r\nIf you think we have missed something, please let me know and we will add the proper credits.\r\n",
-  "note": "Don't delete this file! It's used internally to help with page regeneration."
-}
