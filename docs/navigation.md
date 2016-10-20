@@ -1,4 +1,4 @@
 # Atea.Windows
 
 [Home](index.md)
-[License](license.md)
+[License](LICENSE.md)
