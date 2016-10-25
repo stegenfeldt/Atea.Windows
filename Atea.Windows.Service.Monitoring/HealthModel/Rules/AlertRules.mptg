@@ -1,0 +1,30 @@
+<TemplateGroup>
+  <Instances>
+    <Instance ID="Instancedc1d6d1689744195bf3c3eaa5b8ccf2b" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.AlertRule" Version="1.0.0.0">
+      <AlertRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>AdvServiceRecoveryFailed</Id>
+        <DisplayName>Windows Service Adv Recovery Failed</DisplayName>
+        <Description>Alerts on events indicating a failure to recover a stopped Windows service</Description>
+        <Category>Alert</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>MSNL!Microsoft.SystemCenter.OwnProcessNTService</Target>
+        <Enabled>true</Enabled>
+        <Remotable>false</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <DataSources>
+          <RuleDataSourceItem>
+            <DataSourceId>DS</DataSourceId>
+            <DataSourceConfig>&lt;ComputerName&gt;$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$&lt;/ComputerName&gt;&lt;LogName&gt;OperationsManager&lt;/LogName&gt;&lt;Expression&gt;&lt;And&gt;&lt;Expression&gt;&lt;SimpleExpression&gt;&lt;ValueExpression&gt;&lt;XPathQuery Type="String"&gt;EventDisplayNumber&lt;/XPathQuery&gt;&lt;/ValueExpression&gt;&lt;Operator&gt;Equal&lt;/Operator&gt;&lt;ValueExpression&gt;&lt;Value Type="UnsignedInteger"&gt;10100&lt;/Value&gt;&lt;/ValueExpression&gt;&lt;/SimpleExpression&gt;&lt;/Expression&gt;&lt;Expression&gt;&lt;SimpleExpression&gt;&lt;ValueExpression&gt;&lt;XPathQuery Type="String"&gt;PublisherName&lt;/XPathQuery&gt;&lt;/ValueExpression&gt;&lt;Operator&gt;Equal&lt;/Operator&gt;&lt;ValueExpression&gt;&lt;Value Type="String"&gt;Health Service Script&lt;/Value&gt;&lt;/ValueExpression&gt;&lt;/SimpleExpression&gt;&lt;/Expression&gt;&lt;Expression&gt;&lt;RegExExpression&gt;&lt;ValueExpression&gt;&lt;XPathQuery Type="String"&gt;EventDescription&lt;/XPathQuery&gt;&lt;/ValueExpression&gt;&lt;Operator&gt;ContainsSubstring&lt;/Operator&gt;&lt;Pattern&gt;$Target/Property[Type='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$&lt;/Pattern&gt;&lt;/RegExExpression&gt;&lt;/Expression&gt;&lt;/And&gt;&lt;/Expression&gt;</DataSourceConfig>
+            <DataSourceType>Windows!Microsoft.Windows.EventProvider</DataSourceType>
+          </RuleDataSourceItem>
+        </DataSources>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <AlertPriority>Normal</AlertPriority>
+        <AlertSeverity>Error</AlertSeverity>
+        <AlertName>Failed to Recovery Service</AlertName>
+        <AlertDescription>$Data/Property[@Name='EventDescription']$</AlertDescription>
+      </AlertRuleConfig>
+    </Instance>
+  </Instances>
+</TemplateGroup>
