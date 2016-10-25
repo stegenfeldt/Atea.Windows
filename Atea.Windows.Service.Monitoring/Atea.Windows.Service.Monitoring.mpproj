@@ -80,6 +80,10 @@
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>
+    <Content Include="HealthModel\Rules\AlertRules.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HealthModel\Discoveries\AutoServiceDiscovery.mpx">
@@ -97,6 +101,10 @@
     <Compile Include="HealthModel\Monitors\UnitMonitors\ServiceMonitors.mptg.mpx">
       <SubType>Code</SubType>
       <DependentUpon>HealthModel\Monitors\UnitMonitors\ServiceMonitors.mptg</DependentUpon>
+    </Compile>
+    <Compile Include="HealthModel\Rules\AlertRules.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>HealthModel\Rules\AlertRules.mptg</DependentUpon>
     </Compile>
     <Compile Include="HealthModel\Tasks\AgentTasks\AddMonitoredServiceTask.mpx">
       <SubType>Code</SubType>
@@ -152,6 +160,7 @@
     <Folder Include="HealthModel\Discoveries" />
     <Folder Include="HealthModel\Monitors" />
     <Folder Include="HealthModel\Monitors\UnitMonitors" />
+    <Folder Include="HealthModel\Rules" />
     <Folder Include="HealthModel\Tasks" />
     <Folder Include="HealthModel\Tasks\AgentTasks" />
     <Folder Include="HealthModel\Tasks\Recoveries" />

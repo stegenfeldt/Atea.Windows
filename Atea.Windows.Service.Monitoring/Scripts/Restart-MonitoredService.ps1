@@ -21,11 +21,11 @@ param(
 	[switch] $Debuglogging
 )
 
-function Write-SCOMEvent 
+function Write-SCOMEvent
 {
 	param(
-		[string] $LogMessage, 
-		[ValidateSet(0,1,2)][int] $LogSeverity, 
+		[string] $LogMessage,
+		[ValidateSet(0,1,2)][int] $LogSeverity,
 		[ValidateRange(0,20000)][int] $LogEventId
 	)
 
@@ -62,6 +62,7 @@ function Restart-ServiceWithRepeats ([int] $MaxRepeatCount, [int] $RepeatInterva
 			if ($serviceStatus -ne "Running") {
 				if ($i -eq $MaxRepeatCount) {
 					Write-Host "Service is still not running. This was the last attempt!" -ForegroundColor DarkRed
+					Write-SCOMEvent "Failed to recover service `'$ServiceName`' after $MaxRepeatCount attempts!", 1, 10100
 				} else {
 					Write-Host "Service is still not running, waiting $RepeatIntervalSeconds before next try..."
 				}
