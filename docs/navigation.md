@@ -2,7 +2,7 @@
 
 [Home](index.md)
 
-[~~Atea.Windows.Library~~](AWL.md)
+[~~Atea.Windows.Library~~]()
 
 * [~~Monitors~~](AWL.md#monitors)
 * [~~Rules~~](AWL.md#rules)
