@@ -5,4 +5,4 @@ All but the [Atea.Windows.Library](AWL.md) are optional and can be imported and 
 
 ## References
 
-[gimmick:yuml]([Atea.Windows.Server.Monitoring]references -.->[Atea.Windows.Library],[Atea.Windows.Service.Monitoring]references -.->[Atea.Windows.Library],[Atea.Windows.File.Monitoring]references -.->[Atea.Windows.Library])
+[gimmick:yuml (direction: 'TB')]([Atea.Windows.Server.Monitoring]references -.->[Atea.Windows.Library],[Atea.Windows.Service.Monitoring]references -.->[Atea.Windows.Library],[Atea.Windows.File.Monitoring]references -.->[Atea.Windows.Library])
