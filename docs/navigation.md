@@ -1,4 +1,5 @@
 # Atea.Windows
+[gimmick:theme](cosmo)
 
 [Home](index.md)
 
