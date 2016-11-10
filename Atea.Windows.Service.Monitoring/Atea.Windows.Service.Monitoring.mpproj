@@ -6,7 +6,7 @@
     <RootNamespace>Atea.Windows.Service</RootNamespace>
     <Name>Atea.Windows.Service.Monitoring</Name>
     <ManagementPackName>Atea.Windows.Service.Monitoring</ManagementPackName>
-    <Version>1.0.2.0</Version>
+    <Version>1.0.3.0</Version>
     <MpFrameworkVersion>v7.0</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
@@ -25,7 +25,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <GenerateSealed>True</GenerateSealed>
     <Company>Atea Sverige AB</Company>
-    <Copyright>Copyright (c) Samuel Tegenfeldt - Atea Sverige AB. All rights reserved.</Copyright>
+    <Copyright>Copyright (c) Samuel Tegenfeldt, Atea Sverige AB. All rights reserved.</Copyright>
     <DelaySigning>False</DelaySigning>
     <AssemblyOriginatorKeyFile>..\AteaST.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
