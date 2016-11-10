@@ -25,7 +25,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <GenerateSealed>True</GenerateSealed>
     <Company>Atea Sverige AB</Company>
-    <Copyright>Copyright (c) Samuel Tegenfeldt - Atea Sverige AB. All rights reserved.</Copyright>
+    <Copyright>Copyright (c) Samuel Tegenfeldt, Atea Sverige AB. All rights reserved.</Copyright>
     <DelaySigning>False</DelaySigning>
     <AssemblyOriginatorKeyFile>..\AteaST.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
