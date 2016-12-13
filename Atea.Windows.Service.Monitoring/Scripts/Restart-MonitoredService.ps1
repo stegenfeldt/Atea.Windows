@@ -16,7 +16,7 @@ param(
 	[Parameter(Mandatory=$true)][string] $ServiceName,
 	[int] $Delay = 0,
 	[int] $MaxRepeatCount = 0,
-	[int] $RepeatIntervalSeconds = 30,
+	[int] $RepeatIntervalSeconds = 10,
 	[string] $omAlertId,
 	[switch] $Debuglogging
 )
@@ -29,7 +29,7 @@ function Write-SCOMEvent
 		[ValidateRange(0,20000)][int] $LogEventId
 	)
 
-	[string] $ScriptName = split-path $MyInvocation.PSCommandPath -Leaf
+	[string] $ScriptName = "Restart-MonitoredService.ps1"
 
 	$omApi = New-Object -ComObject "MOM.ScriptAPI"
 	$omApi.LogScriptEvent($ScriptName,$LogEventId,$LogSeverity,$LogMessage)
