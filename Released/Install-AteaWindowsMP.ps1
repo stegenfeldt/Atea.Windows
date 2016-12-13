@@ -41,17 +41,17 @@ param(
 
 [string] $packageName = "Atea Windows - MP Package"
 
-if ($Stable) {
+if ($Version = "Stable") {
    Invoke-WebRequest -Uri $masterURL -OutFile $msiFilePath
    if (Get-Package -Name $packageName -ErrorAction SilentlyContinue) {Uninstall-Package -Name $packageName -Force}
    Install-Package -Name $msiFilePath -Force
-} elseif ($Latest) {
+} elseif ($Version = "Latest") {
    Invoke-WebRequest -Uri $developURL -OutFile $msiFilePath
    if (Get-Package -Name $packageName -ErrorAction SilentlyContinue) {Uninstall-Package -Name $packageName -Force}
    Install-Package -Name $msiFilePath -Force
 }
 
-if ($ImportMP -and ($Stable -or $Latest)) {
+if ($ImportMP -and (($Version = "Stable") -or ($Version = "Latest"))) {
     Import-Module -Name OperationsManager
     New-SCOMManagementGroupConnection -ComputerName $OMMSComputerName
 
