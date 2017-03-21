@@ -106,7 +106,7 @@
     <Folder Include="TypeLibrary\ModuleTypes" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\AteaFCTPSPropertyBag.ps1" />
+    <EmbeddedResource Include="Scripts\FileTimePB.ps1" />
     <EmbeddedResource Include="Scripts\AteaFileCreationTimePoSHDiscovery.ps1" />
     <EmbeddedResource Include="Scripts\FCTvbsPropertyBag.vbs" />
   </ItemGroup>

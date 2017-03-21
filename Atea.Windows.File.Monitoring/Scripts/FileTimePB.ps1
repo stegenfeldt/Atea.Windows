@@ -3,25 +3,31 @@
 # http://powershell.com/cs/blogs/tips/archive/2009/12/03/dynamically-create-script-blocks.aspx
 # http://technet.microsoft.com/sv-se/library/ee176852(en-us).aspx
 
-$RegistryPath = "hklm:\Software\Atea\FileCreation\"
-$EventLogSourceName = "Atea FCT Monitor"
+[CmdletBinding()]
+Param(
+	[ValidateSet("CreationTime","LastWriteTime","LastAccessTime")]
+	[Parameter(Mandatory=$true)]
+	[string] $FileTimeAttribute
+)
+
+$RegistryPath = "hklm:\Software\Atea\FileTimeMonitoring\"
+$EventLogSourceName = "Atea FileTime Monitor"
 $SubKeys = Get-ChildItem $RegistryPath
-$OpsmgrAPI = New-Object -ComObject "MOM.ScriptAPI"
-if (![System.Diagnostics.EventLog]::SourceExists($EventLogSourceName))
-{
+$omApi = New-Object -ComObject "MOM.ScriptAPI"
+
+if (![System.Diagnostics.EventLog]::SourceExists($EventLogSourceName)) {
 	New-EventLog -Source $EventLogSourceName -logname "Application"
 }
-ForEach ($SubKey in $SubKeys)
-{
+
+ForEach ($SubKey in $SubKeys) {
 	$FriendlyName = ($SubKey.Name.Substring($SubKey.Name.LastIndexOfAny("\")+1))
 	$FolderPath = $SubKey.GetValue("FolderPath")
 	$Recursive = $SubKey.GetValue("Recursive")
 	$FilePattern = $SubKey.GetValue("FilePattern")
 	$AgeInMinutes = $SubKey.GetValue("AgeInMinutes")
 	$Operator = $SubKey.GetValue("Operator")
-	
-	if (($FolderPath -ne $null) -and ($Recursive -ne $null) -and ($FilePattern -ne $null) -and ($AgeInMinutes -ne $null) -and ($Operator -ne $null))
-	{
+
+	if (($FolderPath -ne $null) -and ($Recursive -ne $null) -and ($FilePattern -ne $null) -and ($AgeInMinutes -ne $null) -and ($Operator -ne $null)) {
 		$Operator = $Operator.Trim()
 
 		switch ($Operator)
@@ -32,15 +38,15 @@ ForEach ($SubKey in $SubKeys)
 			">=" {$Operator = "-ge"}
 			default {$Operator = "-gt"}
 		}
-		
+
 		if ($Recursive.Trim() -eq "false")
-		{	
+		{
 			$Recursive = ""
 		} else {
 			$Recursive = "-Recurse "
 		}
-		
-		$command = "Get-ChildItem $FolderPath $Recursive| where {(`$_.Name -like '$FilePattern') -and ((((Get-Date) - `$_.CreationTime).TotalMinutes) $Operator $AgeInMinutes)}"
+
+		$command = "Get-ChildItem $FolderPath $Recursive| where {(`$_.Name -like '$FilePattern') -and ((((Get-Date) - `$_.$FileTimeAttribute).TotalMinutes) $Operator $AgeInMinutes)}"
 		$ScriptBlock = $ExecutionContext.InvokeCommand.NewScriptBlock($command)
 		#$command
 		$Files = @(Invoke-Command -ScriptBlock $ScriptBlock)
@@ -50,19 +56,20 @@ ForEach ($SubKey in $SubKeys)
 			{
 				$FileName = $File.Name
 				$FileFullname = $File.FullName
-				$FileCreationTime = $File.CreationTime
-				$FileAgeMinutes = [math]::Round(((Get-Date) - $FileCreationTime).TotalMinutes,0)
-				
+				$FileDateTime = $File.CreationTime
+				$FileAgeMinutes = [math]::Round(((Get-Date) - $FileDateTime).TotalMinutes,0)
+
 				#Add values to propertybag for monitoring
-				$propertyBag = $OpsmgrAPI.CreatePropertyBag()
+				$propertyBag = $omApi.CreatePropertyBag()
 				$propertyBag.AddValue("FileName",$FileName)
 				$propertyBag.AddValue("FileFullname",$FileFullname)
-				$propertyBag.AddValue("FileCreationTime",$FileCreationTime)
+				$propertyBag.AddValue("FileTime",$FileDateTime)
+				$propertyBag.AddValue("FileTimeAttribute",$FileTimeAttribute)
 				$propertyBag.AddValue("FileAgeMinutes",$FileAgeMinutes)
 				$propertyBag.AddValue("FolderFriendlyName",$FriendlyName)
-				
+
 				$propertyBag
-				Write-EventLog -LogName "Application" -Source $EventLogSourceName -EventID "400" -Message "Filename: $FileName `nFilepath: $FileFullname `nFileAge: $FileAgeMinutes minutes`nFileCreationTime: $FileCreationTime `n`nFolder FriendlyName=$FriendlyName"
+				Write-EventLog -LogName "Application" -Source $EventLogSourceName -EventID "400" -Message "Filename: $FileName `nFilepath: $FileFullname `nFileAge: $FileAgeMinutes minutes`nFileDateTime: $FileDateTime `n`nFolder FriendlyName=$FriendlyName"
 			}
 		}
 	}
