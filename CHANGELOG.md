@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - [Svc Recovery alert has wrong eventlog name #6](https://github.com/stegenfeldt/Atea.Windows/issues/6)
+- Reconfigured Auto Deploy after extension update
+- Adv Service Recovery logging to task output
 
 ### Removed
 - Old Downloads folder
