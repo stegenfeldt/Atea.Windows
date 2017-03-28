@@ -67,6 +67,9 @@
     <Compile Include="ManagementPack.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServiceModel\Classes\FileAgeFolder.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServiceModel\Classes\FileCreationTimeFolder.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -85,7 +88,7 @@
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FCTvbsPropertyBagProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FileTimePoSHProbe.mpx">
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FileAgePoSHProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -109,9 +112,10 @@
     <Folder Include="TypeLibrary\ModuleTypes" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\FileTimePB.ps1" />
+    <EmbeddedResource Include="Scripts\FileAgePB.ps1" />
     <EmbeddedResource Include="Scripts\AteaFileCreationTimePoSHDiscovery.ps1" />
     <EmbeddedResource Include="Scripts\FCTvbsPropertyBag.vbs" />
+    <EmbeddedResource Include="Scripts\FileAgePoSHDiscovery.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
