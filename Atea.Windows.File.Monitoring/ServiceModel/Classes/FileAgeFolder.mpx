@@ -9,7 +9,7 @@
           <Property ID="AgeInMinutes" Type="int" Key="false" CaseSensitive="false" MinLength="0" />
           <Property ID="Operator" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
           <Property ID="FriendlyName" Type="string" Key="true" CaseSensitive="false" MinLength="0" />
-          <Property ID="FileAgeAttribute" Type="string" Key="true" CaseSensitive="false" MinLength="0" />
+          <Property ID="FileAgeAttribute" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
         </ClassType>
       </ClassTypes>
     </EntityTypes>

@@ -5,6 +5,13 @@
 
 param([string]$sourceId,  [string]$managedEntityId, [string]$computerName)
 
+$EventLogSourceName = "Atea FileAge Monitor"
+$eventlogMessage = "Running FileAgeFolder discovery.`n"
+$eventlogMessage += "Params:`n`tsourceId=$sourceId`n`tmanagedEntityId=$managedEntityId`n`tcomputerName=$computerName`n`n"
+if (![System.Diagnostics.EventLog]::SourceExists($EventLogSourceName)) {
+	New-EventLog -Source $EventLogSourceName -logname "Application"
+}
+
 $RegistryPath = "hklm:\Software\Atea\FileAgeMonitoring\"
 $omApi = New-Object -ComObject "MOM.ScriptAPI"
 $discoveryData = $omApi.CreateDiscoveryData(0, $sourceId, $managedEntityId)
@@ -35,8 +42,12 @@ if (Test-Path -Path $RegistryPath) {
 			$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileAgeFolder']/FilePattern$",$FilePattern)
 			$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileAgeFolder']/AgeInMinutes$",$AgeInMinutes)
 			$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileAgeFolder']/Operator$",$Operator)
+			$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileAgeFolder']/FileAgeAttribute$",$FileAgeAttribute)
 			$discoveryData.AddInstance($discoveryInstance)
+			$eventlogMessage += "- Added $($FriendlyName) to discovery data`n"
 		}
 	}
 }
+
+Write-EventLog -LogName "Application" -Source $EventLogSourceName -EventID "200" -Message "" -EntryType Information -Category 0
 $discoveryData

@@ -19,7 +19,7 @@
                 <SnapIns />
                 <Parameters>
                   <Parameter>
-                    <Name>FileTimeAttribute</Name>
+                    <Name>FileAgeAttribute</Name>
                     <Value>$Config/FileAgeAttribute$</Value>
                   </Parameter>
                 </Parameters>
