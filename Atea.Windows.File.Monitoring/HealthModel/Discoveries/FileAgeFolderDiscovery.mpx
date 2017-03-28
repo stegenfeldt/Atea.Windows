@@ -1,0 +1,27 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+    <Discoveries>
+      <Discovery ID="Atea.Windows.File.FileAgeFolder.Discovery" Enabled="true" Target="Atea.Windows.File.Monitoring.Seed" ConfirmDelivery="true" Remotable="false" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="Atea.Windows.File.FileAgeFolder" />
+        </DiscoveryTypes>
+        <DataSource ID="DiscoveryDS" TypeID="Atea.Windows.File.FileAgeFolder.DiscoveryDS">
+          <MPElement>$MPElement$</MPElement>
+          <TargetID>$Target/Id$</TargetID>
+          <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</ComputerName>
+          <IntervalSeconds>14400</IntervalSeconds>
+        </DataSource>
+      </Discovery>
+    </Discoveries>
+  </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder.Discovery">
+          <Name>Atea FileAge Folder Discovery</Name>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>
