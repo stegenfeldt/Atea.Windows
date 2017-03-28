@@ -94,6 +94,9 @@
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FileAgePoSHProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\MonitorTypes\FileAgeMonitoryType.mpx">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HealthModel" />
