@@ -21,7 +21,7 @@
         <ParentMonitor>Health!System.Health.AvailabilityState</ParentMonitor>
         <Accessibility>Public</Accessibility>
         <Id>FileAgeMonitor</Id>
-        <DisplayName>Atea Windows File Age Monitor</DisplayName>
+        <DisplayName>File Age Monitor</DisplayName>
         <Description>This monitor will look for files in a folder, recursively if configured so, and alert if one of more files are found.</Description>
         <Target>Atea.Windows.File.FileAgeFolder</Target>
         <Enabled>true</Enabled>
