@@ -32,7 +32,7 @@
         <AlertOnState>Error</AlertOnState>
         <AlertPriority>Normal</AlertPriority>
         <AlertSeverity>MatchMonitorHealth</AlertSeverity>
-        <AlertName>File Age Monitor has found bad files </AlertName>
+        <AlertName>Files with bad timestamp found</AlertName>
         <AlertDescription>$Data/Context/Property[@Name="Summary"]$</AlertDescription>
         <ConfirmDelivery>false</ConfirmDelivery>
       </UnitMonitorConfig>
