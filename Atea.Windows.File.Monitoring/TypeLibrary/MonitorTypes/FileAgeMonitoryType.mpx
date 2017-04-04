@@ -29,11 +29,11 @@
               <Expression>
                 <SimpleExpression>
                   <ValueExpression>
-                    <XPathQuery>$Data/Property[@Name='FileCount']$</XPathQuery>
+                    <XPathQuery Type="String">Property[@Name='FileCount']</XPathQuery>
                   </ValueExpression>
                   <Operator>NotEqual</Operator>
                   <ValueExpression>
-                    <Value>0</Value>
+                    <Value Type="String">0</Value>
                   </ValueExpression>
                 </SimpleExpression>
               </Expression>
@@ -42,11 +42,11 @@
               <Expression>
                 <SimpleExpression>
                   <ValueExpression>
-                    <XPathQuery>$Data/Property[@Name='FileCount']$</XPathQuery>
+                    <XPathQuery Type="String">Property[@Name='FileCount']</XPathQuery>
                   </ValueExpression>
                   <Operator>Equal</Operator>
                   <ValueExpression>
-                    <Value>0</Value>
+                    <Value Type="String">0</Value>
                   </ValueExpression>
                 </SimpleExpression>
               </Expression>
