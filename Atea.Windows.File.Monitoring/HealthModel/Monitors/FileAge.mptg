@@ -21,8 +21,8 @@
         <ParentMonitor>Health!System.Health.AvailabilityState</ParentMonitor>
         <Accessibility>Public</Accessibility>
         <Id>FileAgeMonitor</Id>
-        <DisplayName>Atea Windows File Age Monitor</DisplayName>
-        <Description>This monitor will look for files in a folder, recursively if configured such, and alert if one of more files are found.</Description>
+        <DisplayName>File Age Monitor</DisplayName>
+        <Description>This monitor will look for files in a folder, recursively if configured so, and alert if one of more files are found.</Description>
         <Target>Atea.Windows.File.FileAgeFolder</Target>
         <Enabled>true</Enabled>
         <Category>AvailabilityHealth</Category>
@@ -32,7 +32,7 @@
         <AlertOnState>Error</AlertOnState>
         <AlertPriority>Normal</AlertPriority>
         <AlertSeverity>MatchMonitorHealth</AlertSeverity>
-        <AlertName>File Age Monitor has found bad files </AlertName>
+        <AlertName>Files with bad timestamp found</AlertName>
         <AlertDescription>$Data/Context/Property[@Name="Summary"]$</AlertDescription>
         <ConfirmDelivery>false</ConfirmDelivery>
       </UnitMonitorConfig>

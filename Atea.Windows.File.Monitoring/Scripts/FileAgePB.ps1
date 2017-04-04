@@ -20,7 +20,7 @@ if (![System.Diagnostics.EventLog]::SourceExists($EventLogSourceName)) {
 if (Test-Path -Path $RegistryPath) {
 	# Yes, we can read from $RegistryPath
 	$SubKeys = Get-ChildItem $RegistryPath
-    
+
     if ($SubKeys -ne $null) {
         # Found configuration keys, processing folders
 	    ForEach ($SubKey in $SubKeys) {
@@ -43,7 +43,7 @@ if (Test-Path -Path $RegistryPath) {
 				    ">=" {$Operator = "-ge"}
 				    default {$Operator = "-gt"}
 			    }
-                
+
                 $summaryMessage = "File Age Monitor on '$FriendlyName', looking for '$FilePattern' where $FileAgeAttribute $Operator $AgeInMinutes in $FolderPath"
 
 			    if ($Recursive.Trim() -eq "false")
@@ -59,7 +59,7 @@ if (Test-Path -Path $RegistryPath) {
 			    $Files = @(Invoke-Command -ScriptBlock $ScriptBlock)
 			    if ($Files.Count -gt 0) {
                     $summaryMessage += "Found $($Files.Count) matching files:`n"
-                    $summaryMessage += "File Name`tFile Path`t`tAge (minutes)`tTimeStamp`n"
+                    #$summaryMessage += "File Name`tFile Path`t`tAge (minutes)`tTimeStamp`n"
 				    ForEach ($File in $Files)
 				    {
 					    $FileName = $File.Name
@@ -70,7 +70,7 @@ if (Test-Path -Path $RegistryPath) {
                             "LastAccessTime" {$FileDateTime = $File.LastAccessTime}
                         }
 					    $FileAgeMinutes = [math]::Round(((Get-Date) - $FileDateTime).TotalMinutes,0)
-                        $summaryMessage += "$FileName`t$FileFullName`t$FileAgeMinutes`t$($FileDateTime -f "o")`n"
+                        $summaryMessage += "$FileName`n`tMinutes since $($FileAgeAttribute): $FileAgeMinutes`n`tTimestamp: $($FileDateTime -f "o")`n`tFile Path: $FileFullName`n`n"
 				    }
                     #We have old files, and a message. Build the property bag
                     $propertyBag = $omApi.CreatePropertyBag()
