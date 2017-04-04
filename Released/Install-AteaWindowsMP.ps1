@@ -28,27 +28,51 @@ Defaults to the local computer. Set this to connect to a different SCOM Manageme
 #>
 [CmdletBinding()]
 param(
-    [ValidateSet("Stable","Latest")][string] $Version,
+    [Parameter(Mandatory = $true)]
+    [ValidateSet("Stable","Latest")] [string] $Version,
     [switch] $ImportMP,
     [string] $OMMSComputerName = "."
 )
 
-[string] $developURL = "https://github.com/stegenfeldt/Atea.Windows/raw/develop/Released/Atea.Windows.Installer.msi"
-[string] $masterURL = "https://github.com/stegenfeldt/Atea.Windows/raw/master/Released/Atea.Windows.Installer.msi"
+$Error.Clear()
 
+[string[]] $mpFiles = @(
+    "Atea.Windows.Library.mp",
+    "Atea.Windows.Server.Monitoring.mp",
+    "Atea.Windows.Service.Monitoring.mp",
+    "Atea.Windows.File.Monitoring.mp"
+)
+
+[string] $developURL = "https://github.com/stegenfeldt/Atea.Windows/raw/develop/Released/"
+[string] $masterURL = "https://github.com/stegenfeldt/Atea.Windows/raw/master/Released/"
 [string] $installDir = "$(${env:ProgramFiles(x86)})\System Center Management Packs\Atea.Windows\"
-[string] $msiFilePath = "$($env:TEMP)\Atea.Windows.Installer.msi"
+$startLocation = Get-Location
 
-[string] $packageName = "Atea Windows - MP Package"
+if ((Test-Path $installDir) -eq $false) {
+    if (!(New-Item -Path $installDir -ItemType Directory -Force -ErrorAction SilentlyContinue)) {
+        Write-Host "Unable to create directory." -ForegroundColor Red
+        Write-Host "Using current directory instead."
+        $installDir = "$($Script:PWD.Path)\"
+    }
+}
 
-if ($Version = "Stable") {
-   Invoke-WebRequest -Uri $masterURL -OutFile $msiFilePath
-   if (Get-Package -Name $packageName -ErrorAction SilentlyContinue) {Uninstall-Package -Name $packageName -Force}
-   Install-Package -Name $msiFilePath -Force
-} elseif ($Version = "Latest") {
-   Invoke-WebRequest -Uri $developURL -OutFile $msiFilePath
-   if (Get-Package -Name $packageName -ErrorAction SilentlyContinue) {Uninstall-Package -Name $packageName -Force}
-   Install-Package -Name $msiFilePath -Force
+foreach ($mpFile in $mpFiles) {
+    switch ($Version) {
+        "Stable" {
+            $mpFilePath = $installDir + $mpFile
+            $mpFileURL = $masterURL + $mpFile
+        }
+        "Latest" {
+            $mpFilePath = $installDir + $mpFile
+            $mpFileURL = $developURL + $mpFile
+        }
+        default {
+            $mpFilePath = $installDir + $mpFile
+            $mpFileURL = $masterURL + $mpFile
+        }
+    }
+    Write-Verbose "Saving $mpFileURL to $mpFilePath"
+    Invoke-WebRequest -Uri $mpFileURL -OutFile $mpFilePath
 }
 
 if ($ImportMP -and (($Version = "Stable") -or ($Version = "Latest"))) {
@@ -56,5 +80,6 @@ if ($ImportMP -and (($Version = "Stable") -or ($Version = "Latest"))) {
     New-SCOMManagementGroupConnection -ComputerName $OMMSComputerName
 
     $mps = Get-SCOMManagementPack -ManagementPackFile (Get-ChildItem -Path $installDir -Filter "*.mp").FullName
+    Write-Verbose "Importing managementpacks to $((Get-SCOMManagementGroup).Name)"
     Import-SCOMManagementPack -ManagementPack $mps -Verbose
 }

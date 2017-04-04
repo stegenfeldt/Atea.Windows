@@ -1,0 +1,62 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+        <ClassType ID="Atea.Windows.File.FileAgeFolder" Accessibility="Public" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false">
+          <Property ID="FolderPath" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="Recursive" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="FilePattern" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="AgeInMinutes" Type="int" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="Operator" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="FriendlyName" Type="string" Key="true" CaseSensitive="false" MinLength="0" />
+          <Property ID="FileAgeAttribute" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+        </ClassType>
+      </ClassTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder">
+          <Name>Atea File Age Folder</Name>
+          <Description>
+            <![CDATA[A folder configured to be monitored for files and their timestamps.
+          Configuration is reflected in the object properties.]]>
+          </Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="FolderPath">
+          <Name>Folder Path</Name>
+          <Description><![CDATA[Path to folder. Make sure configured account has access to it.]]></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="Recursive">
+          <Name>Recursive Check</Name>
+          <Description>
+            <![CDATA[Defines whether the file lookup should be recursive or not.
+          Be careful with this in large folder structures as file system searches for certain properties can be slower than expected.
+          Might be better to configure multiple folder if possible.]]>
+          </Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="FilePattern">
+          <Name>File Pattern</Name>
+          <Description><![CDATA[File pattern to use when matching files.]]></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="AgeInMinutes">
+          <Name>Age in Minutes</Name>
+          <Description><![CDATA[Defines the file age to match against using the configured operator.]]></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="Operator">
+          <Name>Operator</Name>
+          <Description><![CDATA[Defines what operator the file checks should use.]]></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="FriendlyName">
+          <Name>Friendly Name</Name>
+          <Description><![CDATA[Used to give the folder a more descriptive name, becomes the Display Name.]]></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="FileAgeAttribute">
+          <Name>File Age Attribute</Name>
+          <Description><![CDATA[Used to define what timestamp to look at. Valid options is CreationTime, LastWriteTime and LastAccessTime.]]></Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>
