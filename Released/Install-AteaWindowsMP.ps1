@@ -28,7 +28,8 @@ Defaults to the local computer. Set this to connect to a different SCOM Manageme
 #>
 [CmdletBinding()]
 param(
-    [ValidateSet("Stable","Latest")][string] $Version,
+    [Parameter(Mandatory = $true)]
+    [ValidateSet("Stable","Latest")] [string] $Version,
     [switch] $ImportMP,
     [string] $OMMSComputerName = "."
 )
@@ -63,14 +64,14 @@ foreach ($mpFile in $mpFiles) {
         }
         "Latest" {
             $mpFilePath = $installDir + $mpFile
-            $mpFileURL = $masterURL + $mpFile
+            $mpFileURL = $developURL + $mpFile
         }
         default {
-            Write-Host "No -Version selected, using Stable branch."
             $mpFilePath = $installDir + $mpFile
             $mpFileURL = $masterURL + $mpFile
         }
     }
+    Write-Verbose "Saving $mpFileURL to $mpFilePath"
     Invoke-WebRequest -Uri $mpFileURL -OutFile $mpFilePath
 }
 
@@ -79,5 +80,6 @@ if ($ImportMP -and (($Version = "Stable") -or ($Version = "Latest"))) {
     New-SCOMManagementGroupConnection -ComputerName $OMMSComputerName
 
     $mps = Get-SCOMManagementPack -ManagementPackFile (Get-ChildItem -Path $installDir -Filter "*.mp").FullName
+    Write-Verbose "Importing managementpacks to $((Get-SCOMManagementGroup).Name)"
     Import-SCOMManagementPack -ManagementPack $mps -Verbose
 }
