@@ -6,7 +6,7 @@
         <WriteAction ID="StartService" TypeID="System!System.CommandExecuter">
           <ApplicationName><![CDATA[%windir%\system32\net.exe]]></ApplicationName>
           <WorkingDirectory><![CDATA[%windir%\system32]]></WorkingDirectory>
-          <CommandLine>start $Target/Property[Type='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$</CommandLine>
+          <CommandLine>start "$Target/Property[Type='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$"</CommandLine>
           <TimeoutSeconds>300</TimeoutSeconds>
           <RequireOutput>true</RequireOutput>
         </WriteAction>
