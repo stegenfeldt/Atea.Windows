@@ -35,7 +35,7 @@ If NOT IsNull(registryValues) Then
 		' We got a "hit" on a service name configured in the registry
 		' Create the SCOM property bag instances and return them to SCOM
 		Set scomApi = CreateObject("MOM.ScriptAPI")
-		
+
 		For Each serviceName in registryValues
 			' Add one property bag per service
 			LogEvent SCOM_DEBUG,SCOM_INFO,"Found value: HKLM\" & keyPath & "\" & serviceName
@@ -59,7 +59,7 @@ If NOT IsNull(registryValues) Then
 					Call scomPropertyBag.AddValue("StartMode",.StartMode)
 					Call scomPropertyBag.AddValue("ServiceType",.ServiceType)
 					Call scomPropertyBag.AddValue("TagID",.TagID)
-                    Call scomPropertyBag.AddValue("keyPath",keyPath)
+					Call scomPropertyBag.AddValue("keyPath",keyPath)
 
 					Call scomApi.AddItem(scomPropertyBag)	' Add the property bag to the collection
 				End With
@@ -75,7 +75,7 @@ If NOT IsNull(registryValues) Then
 						LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "An unhandled script event occured, please contact your SCOM admins." & vbCrLf & "Err.number = " & returnValue
 				End Select
 			End If
-			
+
 			Set serviceObject = Nothing
 		Next
 		Call scomApi.ReturnItems()	' Return the property bag collection to SCOM
@@ -86,26 +86,26 @@ If NOT IsNull(registryValues) Then
 		"Error code: " & Err.Num & vbCrLf & _
 		"Error Description: " & Err.Description
 
-        ' Issue #4
-        ' Discovery never removing services efter the only remaining string value is deleted.
-        ' Needs to return an empty property bag.
-        Set scomApi = CreateObject("MOM.ScriptingAPI")
-        Set scomPropertyBag = scomApi.CreatePropertyBag()
-        Call scomApi.Return(scomPropertyBag)
-        Set scomApi = Nothing
+		' Issue #4
+		' Discovery never removing services efter the only remaining string value is deleted.
+		' Needs to return an empty property bag.
+		Set scomApi = CreateObject("MOM.ScriptingAPI")
+		Set scomPropertyBag = scomApi.CreatePropertyBag()
+		Call scomApi.Return(scomPropertyBag)
+		Set scomApi = Nothing
 	End If
 Else
 	' Could not read from registry, perhaps key is missing?
 	LogEvent SCOM_DEBUG,SCOM_INFO,"Failed to read from: HKLM\" & keyPath & "\"
 
-    ' Issue #4
-    ' Discovery never removing services efter the only remaining string value is deleted.
-    ' Needs to return an empty property bag.
-    Set scomApi = CreateObject("MOM.ScriptAPI")
-    Set scomApi = CreateObject("MOM.ScriptingAPI")
-    Set scomPropertyBag = scomApi.CreatePropertyBag()
-    Call scomApi.Return(scomPropertyBag)
-    Set scomApi = Nothing
+	' Issue #4
+	' Discovery never removing services efter the only remaining string value is deleted.
+	' Needs to return an empty property bag.
+	Set scomApi = CreateObject("MOM.ScriptAPI")
+	Set scomApi = CreateObject("MOM.ScriptingAPI")
+	Set scomPropertyBag = scomApi.CreatePropertyBag()
+	Call scomApi.Return(scomPropertyBag)
+	Set scomApi = Nothing
 End If
 
 
@@ -129,7 +129,7 @@ Sub CheckParameters(numRequiredParams)
 	'''
 	Dim scriptArguments
 	Set scriptArguments = WScript.Arguments
-	
+
 	If IsNumeric(numRequiredParams) Then
 		If scriptArguments.Count >= numRequiredParams Then
 			Set scriptParameters = scriptArguments
@@ -151,7 +151,7 @@ Sub LogEvent(logEventID, logSeverity, logMessage)
 	'''
 	Dim scomApi, scriptName
 	scriptName = WScript.ScriptName
-	
+
 	If logEventID <> SCOM_DEBUG Then
 		Set scomApi = CreateObject("MOM.ScriptAPI")
 		Call scomApi.LogScriptEvent(scriptName,logEventID,logSeverity,logMessage)
@@ -176,11 +176,11 @@ Class Service
 	Public Status
 	Public StartMode
 	Public ServiceType
-	Public ProcessID	
+	Public ProcessID
 	Public TagID
-	
 
-	  
+
+
 	Private Sub Class_Initialize()
 		Name = ""
 		DisplayName = ""
@@ -192,7 +192,7 @@ Class Service
 
 	Public Function GetServiceInfo(mServiceName, mComputerName)
 		Dim wmi, wmiServices, wmiService, serviceClass, returnCode
-		
+
 		returnCode = 0	' 0 = no error
 		On Error Resume Next
 		Set wmi = GetObject("winmgmts:" & "{impersonationLevel=impersonate}!\\" & mComputerName & "\root\cimv2")
@@ -202,19 +202,19 @@ Class Service
 			For Each wmiService In wmiServices
 				If LCase(wmiService.Name) = LCase(mServiceName) Then
 					Name = ClearIllegalReturnValues(wmiService.Name)
-		 			DisplayName = ClearIllegalReturnValues(wmiService.Caption)
-		 			Description = ClearIllegalReturnValues(wmiService.Description)
-		 			ServiceUser = ClearIllegalReturnValues(wmiService.StartName)
-		 			SystemName = ClearIllegalReturnValues(wmiService.SystemName)
-		 			PathName = ClearIllegalReturnValues(wmiService.PathName)
-		 			State = ClearIllegalReturnValues(wmiService.State)
-		 			Status = ClearIllegalReturnValues(wmiService.Status)
-		 			StartMode = ClearIllegalReturnValues(wmiService.StartMode)
-		 			ServiceType = ClearIllegalReturnValues(wmiService.ServiceType)
-		 			ProcessID = ClearIllegalReturnValues(wmiService.ProcessID)
-		 			TagID = ClearIllegalReturnValues(wmiService.TagID)
-		 		Else
-		 			returnCode = 242101
+					DisplayName = ClearIllegalReturnValues(wmiService.Caption)
+					Description = ClearIllegalReturnValues(wmiService.Description)
+					ServiceUser = ClearIllegalReturnValues(wmiService.StartName)
+					SystemName = ClearIllegalReturnValues(wmiService.SystemName)
+					PathName = ClearIllegalReturnValues(wmiService.PathName)
+					State = ClearIllegalReturnValues(wmiService.State)
+					Status = ClearIllegalReturnValues(wmiService.Status)
+					StartMode = ClearIllegalReturnValues(wmiService.StartMode)
+					ServiceType = ClearIllegalReturnValues(wmiService.ServiceType)
+					ProcessID = ClearIllegalReturnValues(wmiService.ProcessID)
+					TagID = ClearIllegalReturnValues(wmiService.TagID)
+				Else
+					returnCode = 242101
 				End If
 			Next
 		Else
@@ -230,12 +230,12 @@ Class Service
 		Set wmiServices = Nothing
 		Set wmi = Nothing
 	End Function
-	
+
 	Private Function ClearIllegalReturnValues(StringToClear)
-    ' Check for NULL
-    If IsNull(StringToClear) Then
-      StringToClear = ""
-    End If
-    ClearIllegalReturnValues = StringToClear
+	' Check for NULL
+	If IsNull(StringToClear) Then
+	  StringToClear = ""
+	End If
+	ClearIllegalReturnValues = StringToClear
 	End Function
 End Class

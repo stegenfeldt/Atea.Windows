@@ -55,8 +55,15 @@
     <Compile Include="HealthModel\Discoveries\FCTFolderDiscovery.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HealthModel\Discoveries\FileAgeFolderDiscovery.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="HealthModel\Discoveries\FileMonitoringSeedDiscovery.mpx">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HealthModel\Monitors\FileAge.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>HealthModel\Monitors\FileAge.mptg</DependentUpon>
     </Compile>
     <Compile Include="HealthModel\Rules\FCTFolderAlertRule.mpx">
       <SubType>Code</SubType>
@@ -65,6 +72,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ManagementPack.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServiceModel\Classes\FileAgeFolder.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ServiceModel\Classes\FileCreationTimeFolder.mpx">
@@ -79,10 +89,25 @@
     <Compile Include="TypeLibrary\ModuleTypes\DataSources\FCTMonitoringPropertyBagDS.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\DataSources\FileAgeFolderDiscoveryDS.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\DataSources\FileAgePropertyBagDS.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FCTpsFolderDiscoveryProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FCTvbsPropertyBagProbe.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FileAgeFolderDiscoveryProbe.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FileAgePoSHProbe.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\MonitorTypes\FileAgeMonitoryType.mpx">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -106,9 +131,16 @@
     <Folder Include="TypeLibrary\ModuleTypes" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\AteaFCTPSPropertyBag.ps1" />
+    <EmbeddedResource Include="Scripts\FileAgePB.ps1" />
     <EmbeddedResource Include="Scripts\AteaFileCreationTimePoSHDiscovery.ps1" />
     <EmbeddedResource Include="Scripts\FCTvbsPropertyBag.vbs" />
+    <EmbeddedResource Include="Scripts\FileAgePoSHDiscovery.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HealthModel\Monitors\FileAge.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>

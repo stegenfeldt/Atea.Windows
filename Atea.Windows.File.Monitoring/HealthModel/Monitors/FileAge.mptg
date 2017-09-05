@@ -1,0 +1,41 @@
+<TemplateGroup>
+  <Instances>
+    <Instance ID="Instance1cb8bbbf42bb4bd8ba0ce5a2d4aaa2da" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
+      <UnitMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <MonitorType>Windows.File.FileAge.MonitorType</MonitorType>
+        <MonitorConfig>&lt;TimeoutSeconds&gt;300&lt;/TimeoutSeconds&gt;&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;FolderFriendlyName&gt;$Target/Property[Type="Atea.Windows.File.FileAgeFolder"]/FriendlyName$&lt;/FolderFriendlyName&gt;&lt;FileAgeAttribute&gt;$Target/Property[Type="Atea.Windows.File.FileAgeFolder"]/FileAgeAttribute$&lt;/FileAgeAttribute&gt;</MonitorConfig>
+        <MonitorOperationalStates>
+          <OperationalState>
+            <OperationalStateId>Healthy</OperationalStateId>
+            <OperationalStateDisplayName>No Files Found</OperationalStateDisplayName>
+            <MonitorTypeStateId>Healthy</MonitorTypeStateId>
+            <HealthState>Success</HealthState>
+          </OperationalState>
+          <OperationalState>
+            <OperationalStateId>Error</OperationalStateId>
+            <OperationalStateDisplayName>Bad Files Found</OperationalStateDisplayName>
+            <MonitorTypeStateId>Error</MonitorTypeStateId>
+            <HealthState>Error</HealthState>
+          </OperationalState>
+        </MonitorOperationalStates>
+        <ParentMonitor>Health!System.Health.AvailabilityState</ParentMonitor>
+        <Accessibility>Public</Accessibility>
+        <Id>FileAgeMonitor</Id>
+        <DisplayName>File Age Monitor</DisplayName>
+        <Description>This monitor will look for files in a folder, recursively if configured so, and alert if one of more files are found.</Description>
+        <Target>Atea.Windows.File.FileAgeFolder</Target>
+        <Enabled>true</Enabled>
+        <Category>AvailabilityHealth</Category>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <AlertAutoResolve>true</AlertAutoResolve>
+        <AlertOnState>Error</AlertOnState>
+        <AlertPriority>Normal</AlertPriority>
+        <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+        <AlertName>Files with bad timestamp found</AlertName>
+        <AlertDescription>$Data/Context/Property[@Name="Summary"]$</AlertDescription>
+        <ConfirmDelivery>false</ConfirmDelivery>
+      </UnitMonitorConfig>
+    </Instance>
+  </Instances>
+</TemplateGroup>
