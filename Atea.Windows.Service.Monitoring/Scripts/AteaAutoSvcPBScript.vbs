@@ -72,7 +72,11 @@ If NOT IsNull(automaticServices) Then
 						Call scomPropertyBag.AddValue("SystemName",Cstr(.SystemName))
 						Call scomPropertyBag.AddValue("PathName",Cstr(.PathName))
 						Call scomPropertyBag.AddValue("ProcessID",Cstr(.ProcessID))
-						Call scomPropertyBag.AddValue("ServiceUser",Cstr(.StartName))
+					    If .StartName <> vbNull Then
+    						Call scomPropertyBag.AddValue("ServiceUser",Cstr(.StartName))
+					    Else
+						    Call scomPropertyBag.AddValue("ServiceUser","")
+					    End If
 						Call scomPropertyBag.AddValue("State",Cstr(.State))
 						Call scomPropertyBag.AddValue("Status",Cstr(.Status))
 						Call scomPropertyBag.AddValue("StartMode",Cstr(.StartMode))
