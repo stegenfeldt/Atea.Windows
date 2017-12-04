@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.Service.Monitoring</ID>
-      <Version>1.0.3.20</Version>
+      <Version>1.0.3.21</Version>
     </Identity>
     <Name>Atea.Windows.Service.Monitoring</Name>
     <References>
@@ -516,43 +516,52 @@ If NOT IsNull(registryValues) Then
 			' Add one property bag per service
 			LogEvent SCOM_DEBUG,SCOM_INFO,"Found value: HKLM\" & keyPath & "\" & serviceName
 
-			Set serviceObject = New Service
-			returnValue = serviceObject.GetServiceInfo(serviceName,computerName)
-			If returnValue = 0 Then
-				With serviceObject
-					Set scomPropertyBag = scomApi.CreatePropertyBag()	' Instance of a new property bag
+			' We want to check for multiple services, in case of a wildcard in servicename
+			wmiQuery = "Select * from Win32_Service where StartMode = 'Auto' AND Name LIKE '" & Replace(serviceName,"*","%") & "'"
+			Set wmiObject = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & computerName & "\root\cimv2")
+			Set wmiServiceObjects = wmiObject.ExecQuery(wmiQuery)
 
-					' Start adding values to the propertybag
-					Call scomPropertyBag.AddValue("Name",.Name)
-					Call scomPropertyBag.AddValue("DisplayName",.DisplayName)
-					Call scomPropertyBag.AddValue("Description",.Description)
-					Call scomPropertyBag.AddValue("SystemName",.SystemName)
-					Call scomPropertyBag.AddValue("PathName",.PathName)
-					Call scomPropertyBag.AddValue("ProcessID",.ProcessID)
-					Call scomPropertyBag.AddValue("ServiceUser",.ServiceUser)
-					Call scomPropertyBag.AddValue("State",.State)
-					Call scomPropertyBag.AddValue("Status",.Status)
-					Call scomPropertyBag.AddValue("StartMode",.StartMode)
-					Call scomPropertyBag.AddValue("ServiceType",.ServiceType)
-					Call scomPropertyBag.AddValue("TagID",.TagID)
-					Call scomPropertyBag.AddValue("keyPath",keyPath)
+			If NOT IsNull(wmiServiceObjects) Then
+				For Each wmiServiceObject in wmiServiceObjects
+					Set serviceObject = New Service
+					returnValue = serviceObject.GetServiceInfo(wmiServiceObject.Name,computerName)
+					If returnValue = 0 Then
+						With serviceObject
+							Set scomPropertyBag = scomApi.CreatePropertyBag()	' Instance of a new property bag
 
-					Call scomApi.AddItem(scomPropertyBag)	' Add the property bag to the collection
-				End With
-			Else
-				Select Case returnValue
-					Case 242100
-						LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Could not properly connect to the service repository on " & computerName & ", check RunAs user rights."
-					Case 242101
-						LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Could not match registry value """ & serviceName & """to an existing service."
-					Case 424
-						LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Connection to WMI-service on " & computerName & " failed. Check network connections and RunAs user rights."
-					Case Else
-						LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "An unhandled script event occured, please contact your SCOM admins." & vbCrLf & "Err.number = " & returnValue
-				End Select
+							' Start adding values to the propertybag
+							Call scomPropertyBag.AddValue("Name",.Name)
+							Call scomPropertyBag.AddValue("DisplayName",.DisplayName)
+							Call scomPropertyBag.AddValue("Description",.Description)
+							Call scomPropertyBag.AddValue("SystemName",.SystemName)
+							Call scomPropertyBag.AddValue("PathName",.PathName)
+							Call scomPropertyBag.AddValue("ProcessID",.ProcessID)
+							Call scomPropertyBag.AddValue("ServiceUser",.ServiceUser)
+							Call scomPropertyBag.AddValue("State",.State)
+							Call scomPropertyBag.AddValue("Status",.Status)
+							Call scomPropertyBag.AddValue("StartMode",.StartMode)
+							Call scomPropertyBag.AddValue("ServiceType",.ServiceType)
+							Call scomPropertyBag.AddValue("TagID",.TagID)
+							Call scomPropertyBag.AddValue("keyPath",keyPath)
+
+							Call scomApi.AddItem(scomPropertyBag)	' Add the property bag to the collection
+						End With
+					Else
+						Select Case returnValue
+							Case 242100
+								LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Could not properly connect to the service repository on " & computerName & ", check RunAs user rights."
+							Case 242101
+								LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Could not match registry value """ & serviceName & """to an existing service."
+							Case 424
+								LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Connection to WMI-service on " & computerName & " failed. Check network connections and RunAs user rights."
+							Case Else
+								LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "An unhandled script event occured, please contact your SCOM admins." & vbCrLf & "Err.number = " & returnValue
+						End Select
+					End If
+
+					Set serviceObject = Nothing
+				Next
 			End If
-
-			Set serviceObject = Nothing
 		Next
 		Call scomApi.ReturnItems()	' Return the property bag collection to SCOM
 		Set scomApi = Nothing
@@ -672,7 +681,7 @@ Class Service
 		returnCode = 0	' 0 = no error
 		On Error Resume Next
 		Set wmi = GetObject("winmgmts:" & "{impersonationLevel=impersonate}!\\" & mComputerName & "\root\cimv2")
-		Set wmiServices = wmi.ExecQuery("Select * from Win32_Service where Name='" & mServiceName & "'")
+		Set wmiServices = wmi.ExecQuery("Select * from Win32_Service where Name like '" & mServiceName & "'")
 		returnCode = Err.Number
 		If wmiServices.Count > 0 And returnCode = 0 Then
 			For Each wmiService In wmiServices
