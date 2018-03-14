@@ -25,6 +25,10 @@
               <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
               <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
             </DataSource>
+            <ProbeAction ID="Probe" TypeID="Atea.Windows.File.Monitoring.FileAgeProbeModule">
+              <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
+              <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+            </ProbeAction>
             <ConditionDetection ID="ErrorFilter" TypeID="System!System.ExpressionFilter">
               <Expression>
                 <SimpleExpression>
@@ -64,6 +68,18 @@
               </Node>
             </RegularDetection>
           </RegularDetections>
+          <OnDemandDetections>
+            <OnDemandDetection MonitorTypeStateID="Healthy">
+              <Node ID="HealthyFilter">
+                <Node ID="Probe" />
+              </Node>
+            </OnDemandDetection>
+            <OnDemandDetection MonitorTypeStateID="Error">
+              <Node ID="ErrorFilter">
+                <Node ID="Probe" />
+              </Node>
+            </OnDemandDetection>
+          </OnDemandDetections>
         </MonitorImplementation>
       </UnitMonitorType>
     </MonitorTypes>
