@@ -23,7 +23,7 @@
         <AlertPriority>Normal</AlertPriority>
         <AlertSeverity>Error</AlertSeverity>
         <AlertName>Failed to Recovery Service</AlertName>
-        <AlertDescription>$Data/Property[@Name='EventDescription']$</AlertDescription>
+        <AlertDescription>$Data/EventDescription$</AlertDescription>
       </AlertRuleConfig>
     </Instance>
   </Instances>
