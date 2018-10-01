@@ -11,6 +11,7 @@
 "SccLocalPath" = "8:"
 "SccAuxPath" = "8:"
 "SccProvider" = "8:"
+"BackwardsCompatibleGUIDGeneration" = "8:TRUE"
     "Hierarchy"
     {
         "Entry"
@@ -46,12 +47,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_53950D255F9649DC80B517E8902CA97A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_C58F4C60AE9D4646B6B73E6E83A7F892"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -59,6 +54,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_989F92A89DCC4C05A2671096BBB0BFB7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_53950D255F9649DC80B517E8902CA97A"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -79,6 +80,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -100,7 +109,7 @@
             "Enabled" = "11:FALSE"
             "PromptEnabled" = "11:TRUE"
             "PrerequisitesLocation" = "2:1"
-            "Url" = "8:"
+            "Url" = "8:https://github.com/stegenfeldt/Atea.Windows/raw/master/Released/Atea.Windows.Installer.msi"
             "ComponentsUrl" = "8:"
                 "Items"
                 {
@@ -139,7 +148,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.File.Monitoring, Version=1.0.3.2, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.File.Monitoring, Version=1.0.3.51, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_4E738A19F12B461CB0E1656840A98197"
@@ -170,7 +179,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Service.Monitoring, Version=1.0.3.2, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Service.Monitoring, Version=1.0.3.20, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_53950D255F9649DC80B517E8902CA97A"
@@ -201,7 +210,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Library, Version=1.0.3.2, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Library, Version=1.0.3.8, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_989F92A89DCC4C05A2671096BBB0BFB7"
@@ -232,7 +241,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Server.Monitoring, Version=1.0.3.2, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Server.Monitoring, Version=1.0.3.7, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_C58F4C60AE9D4646B6B73E6E83A7F892"
@@ -354,7 +363,7 @@
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
-        "DetectNewerInstalledVersion" = "11:TRUE"
+        "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.0.3"
         "Manufacturer" = "8:Atea Sverige AB"
@@ -362,7 +371,7 @@
         "ARPHELPLINK" = "8:https://github.com/stegenfeldt/Atea.Windows/issues"
         "Title" = "8:Atea.Windows.Installer"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Samuel Tegenfledt - Atea Sverige AB"
+        "ARPCONTACT" = "8:Samuel Tegenfeldt - Atea Sverige AB"
         "Keywords" = "8:OpsMgr, System Center, Management Pack"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
