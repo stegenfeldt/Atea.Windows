@@ -2,6 +2,8 @@
 
 The Atea.Windows MP collection is a number of, somewhat related, management packs developed by Atea Sverige AB for our customers.
 
+[![Build Status](https://stegenfeldt.visualstudio.com/SCOM%20MP%20-%20Atea.Windows/_apis/build/status/stegenfeldt.Atea.Windows)](https://stegenfeldt.visualstudio.com/SCOM%20MP%20-%20Atea.Windows/_build/latest?definitionId=1)
+
 ## Tools needed
 
 This project is built using Visual Studio 2017 (Community).  
