@@ -14,4 +14,4 @@ if (!$vsaeInstalled) {
 }
 
 Write-Host "Copying SignKey..."
-Copy-Item -Path $env:DOWNLOADSECUREFILE_SECUREFILEPATH -Destination "..\" -Verbose
+Copy-Item -Path $env:DOWNLOADSECUREFILE_SECUREFILEPATH -Destination ".\" -Verbose
