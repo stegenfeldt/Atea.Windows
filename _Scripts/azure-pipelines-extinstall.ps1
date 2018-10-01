@@ -4,7 +4,7 @@ $vsaePackageName = "System Center Visual Studio Authoring Extensions"
 
 Invoke-WebRequest -Uri $vsaeUrl -Method Get -OutFile $vsaeFileName -Verbose
 
-$vsaeInstalled = Get-Package -IncludeWindowsInstaller -Name $vsaePackageName
+$vsaeInstalled = Get-Package -IncludeWindowsInstaller -Name $vsaePackageName -Verbose
 if (!$vsaeInstalled) {
     Write-Host "VSAE Not Installed!"
     Write-Host "Attempting install..."
