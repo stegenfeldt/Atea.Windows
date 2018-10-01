@@ -13,7 +13,7 @@
             <MemberModules>
               <ProbeAction ID="PropertyBag" TypeID="Windows!Microsoft.Windows.ScriptPropertyBagProbe">
                 <ScriptName>AteaAutoSvcPBScript.vbs</ScriptName>
-                <Arguments>$Config/ComputerName$ $Config/Debug$ $Config/ServiceExceptions$</Arguments>
+                <Arguments>$Config/ComputerName$ $Config/Debug$ "$Config/ServiceExceptions$"</Arguments>
                 <ScriptBody>$IncludeFileContent/Scripts/AteaAutoSvcPBScript.vbs$</ScriptBody>
                 <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
               </ProbeAction>

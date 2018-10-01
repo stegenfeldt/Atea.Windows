@@ -18,6 +18,6 @@ The following customers have graciously allowed us to co-develop this MP and sha
 
 ## Disclaimer
 
-While most of this is developed from scratch, some inspiration has been taken from other community members. 
+While most of this is developed from scratch, some inspiration has been taken from other community members.  
 In such case, we have tried to include links in the comments.
 If you think we have missed something, please let me know and we will add the proper credits.

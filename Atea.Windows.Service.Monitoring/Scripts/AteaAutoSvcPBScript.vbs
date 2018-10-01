@@ -39,62 +39,66 @@ If NOT IsNull(automaticServices) Then
 		' We got a "hit" on a service name configured in the registry
 		' Create the SCOM property bag instances and return them to SCOM
 		Set scomApi = CreateObject("MOM.ScriptAPI")
-		
+
 		For Each automaticService In automaticServices
 			serviceName = automaticService.Name
 			' Add one property bag per service
 			LogEvent SCOM_DEBUG,SCOM_INFO,"Found automatic service: " & serviceName
 
-            If Ubound(Filter(serviceExceptions, serviceName,True,1)) > -1 Then
-                'Got match, service shound be excluded from discovery
-                LogEvent SCOM_DEBUG,SCOM_INFO,"Service is ignored due to exclusion list: " & serviceName
-            ElseIf Ubound(Filter(standardExclusions, serviceName,True,1)) > -1 Then
-                'Got match, service shound be excluded from discovery
-                LogEvent SCOM_DEBUG,SCOM_INFO,"Service is ignored due to standard exclusion list: " & serviceName            
-            ElseIf Ubound(Filter(xylemExclusions, serviceName,True,1)) > -1 Then
-                'Got match, service shound be excluded from discovery
-                LogEvent SCOM_DEBUG,SCOM_INFO,"Service is ignored due to Xylem exclusion list: " & serviceName
-            Else
-                ' No match, service is not in exclusion list.
-                ' Process and add to property bag
-			    If Err.Number = 0 Then
-				    With automaticService
-					    Set scomPropertyBag = scomApi.CreatePropertyBag()	' Instance of a new property bag
+			If Ubound(Filter(serviceExceptions, serviceName,True,1)) > -1 Then
+				'Got match, service shound be excluded from discovery
+				LogEvent SCOM_DEBUG,SCOM_INFO,"Service is ignored due to exclusion list: " & serviceName
+			ElseIf Ubound(Filter(standardExclusions, serviceName,True,1)) > -1 Then
+				'Got match, service shound be excluded from discovery
+				LogEvent SCOM_DEBUG,SCOM_INFO,"Service is ignored due to standard exclusion list: " & serviceName
+			ElseIf Ubound(Filter(xylemExclusions, serviceName,True,1)) > -1 Then
+				'Got match, service shound be excluded from discovery
+				LogEvent SCOM_DEBUG,SCOM_INFO,"Service is ignored due to Xylem exclusion list: " & serviceName
+			Else
+				' No match, service is not in exclusion list.
+				' Process and add to property bag
+				If Err.Number = 0 Then
+					With automaticService
+						Set scomPropertyBag = scomApi.CreatePropertyBag()	' Instance of a new property bag
 
-					    ' Start adding values to the propertybag
-					    Call scomPropertyBag.AddValue("Name",Cstr(.Name))
-					    Call scomPropertyBag.AddValue("DisplayName",Cstr(.DisplayName))
-					    If .Description <> vbNull Then
-						    Call scomPropertyBag.AddValue("Description",Cstr(.Description))
+						' Start adding values to the propertybag
+						Call scomPropertyBag.AddValue("Name",Cstr(.Name))
+						Call scomPropertyBag.AddValue("DisplayName",Cstr(.DisplayName))
+						If .Description <> vbNull Then
+							Call scomPropertyBag.AddValue("Description",Cstr(.Description))
+						Else
+							Call scomPropertyBag.AddValue("Description","")
+						End If
+						Call scomPropertyBag.AddValue("SystemName",Cstr(.SystemName))
+						Call scomPropertyBag.AddValue("PathName",Cstr(.PathName))
+						Call scomPropertyBag.AddValue("ProcessID",Cstr(.ProcessID))
+					    If .StartName <> vbNull Then
+    						Call scomPropertyBag.AddValue("ServiceUser",Cstr(.StartName))
 					    Else
-						    Call scomPropertyBag.AddValue("Description","")
+						    Call scomPropertyBag.AddValue("ServiceUser","")
 					    End If
-					    Call scomPropertyBag.AddValue("SystemName",Cstr(.SystemName))
-					    Call scomPropertyBag.AddValue("PathName",Cstr(.PathName))
-					    Call scomPropertyBag.AddValue("ProcessID",Cstr(.ProcessID))
-					    Call scomPropertyBag.AddValue("ServiceUser",Cstr(.StartName))
-					    Call scomPropertyBag.AddValue("State",Cstr(.State))
-					    Call scomPropertyBag.AddValue("Status",Cstr(.Status))
-					    Call scomPropertyBag.AddValue("StartMode",Cstr(.StartMode))
-					    Call scomPropertyBag.AddValue("ServiceType",Cstr(.ServiceType))
-					    Call scomPropertyBag.AddValue("TagID",Cstr(.TagID))
+						Call scomPropertyBag.AddValue("State",Cstr(.State))
+						Call scomPropertyBag.AddValue("Status",Cstr(.Status))
+						Call scomPropertyBag.AddValue("StartMode",Cstr(.StartMode))
+						Call scomPropertyBag.AddValue("ServiceType",Cstr(.ServiceType))
+						Call scomPropertyBag.AddValue("TagID",Cstr(.TagID))
 
-					    Call scomApi.AddItem(scomPropertyBag)	' Add the property bag to the collection
-				    End With
-			    Else
-				    Select Case returnValue
-					    Case 242100
-						    LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Could not properly connect to the service repository on " & computerName & ", check RunAs user rights."
-					    Case 242101
-						    LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Could not match registry value """ & serviceName & """to an existing service."
-					    Case 424
-						    LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Connection to WMI-service on " & computerName & " failed. Check network connections and RunAs user rights."
-					    Case Else
-						    LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "An unhandled script event occured, please contact your SCOM admins." & vbCrLf & "Err.number = " & Err.Number
-				    End Select
-			    End If 'End error check
-            End If 'End exclusion check
-			
+						Call scomApi.AddItem(scomPropertyBag)	' Add the property bag to the collection
+					End With
+				Else
+					Select Case returnValue
+						Case 242100
+							LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Could not properly connect to the service repository on " & computerName & ", check RunAs user rights."
+						Case 242101
+							LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Could not match registry value """ & serviceName & """to an existing service."
+						Case 424
+							LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Connection to WMI-service on " & computerName & " failed. Check network connections and RunAs user rights."
+						Case Else
+							LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "An unhandled script event occured, please contact your SCOM admins." & vbCrLf & "Err.number = " & Err.Number
+					End Select
+				End If 'End error check
+			End If 'End exclusion check
+
 			Set serviceObject = Nothing
 		Next
 		Call scomApi.ReturnItems()	' Return the property bag collection to SCOM
@@ -131,7 +135,7 @@ Sub CheckParameters(numRequiredParams)
 	'''
 	Dim scriptArguments
 	Set scriptArguments = WScript.Arguments
-	
+
 	If IsNumeric(numRequiredParams) Then
 		If scriptArguments.Count >= numRequiredParams Then
 			Set scriptParameters = scriptArguments
@@ -153,7 +157,7 @@ Sub LogEvent(logEventID, logSeverity, logMessage)
 	'''
 	Dim scomApi, scriptName
 	scriptName = WScript.ScriptName
-	
+
 	If logEventID <> SCOM_DEBUG Then
 		Set scomApi = CreateObject("MOM.ScriptAPI")
 		Call scomApi.LogScriptEvent(scriptName,logEventID,logSeverity,logMessage)
