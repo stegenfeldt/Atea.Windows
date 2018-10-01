@@ -18,6 +18,12 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
+- task: Powershell@2
+  inputs:
+    targetType: filePath
+    filePath: ..\_Scripts\azure-pipelines-extinstall.ps1
+    
+
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
