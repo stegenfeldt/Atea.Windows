@@ -29,6 +29,19 @@
               <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
               <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
             </ProbeAction>
+            <ConditionDetection ID="FilterFolder" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery>Property[@Name='FolderFriendlyName']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value>$Config/FolderFriendlyName$</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
             <ConditionDetection ID="ErrorFilter" TypeID="System!System.ExpressionFilter">
               <Expression>
                 <SimpleExpression>
@@ -71,12 +84,16 @@
           <OnDemandDetections>
             <OnDemandDetection MonitorTypeStateID="Healthy">
               <Node ID="HealthyFilter">
-                <Node ID="Probe" />
+                <Node ID="FilterFolder">
+                  <Node ID="Probe" />
+                </Node>
               </Node>
             </OnDemandDetection>
             <OnDemandDetection MonitorTypeStateID="Error">
               <Node ID="ErrorFilter">
-                <Node ID="Probe" />
+                <Node ID="FilterFolder">
+                  <Node ID="Probe" />
+                </Node>
               </Node>
             </OnDemandDetection>
           </OnDemandDetections>
