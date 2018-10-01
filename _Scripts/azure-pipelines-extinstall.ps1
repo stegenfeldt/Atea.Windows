@@ -12,3 +12,6 @@ if (!$vsaeInstalled) {
 } else {
     Write-Host "VSAE Already installed!"
 }
+
+Write-Host "Copying SignKey..."
+Copy-Item -Path $env:DOWNLOADSECUREFILE_SECUREFILEPATH -Destination "..\" -Verbose

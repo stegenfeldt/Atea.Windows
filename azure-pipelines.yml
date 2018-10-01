@@ -18,11 +18,14 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: 'AteaST.snk'
+
 - task: Powershell@2
   inputs:
     targetType: filePath
     filePath: '$(Build.SourcesDirectory)\_Scripts\azure-pipelines-extinstall.ps1'
-
 
 - task: VSBuild@1
   inputs:
