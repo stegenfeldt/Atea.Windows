@@ -11,14 +11,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Automatic builds and MSI-packaging to /Release folder
 - Powershell based installation/update scripts
 - This changelog!
+- File Age Monitor
 
 ### Changed
 - Updated documentation design
+- Install Script no longer uses the MSI-file, works directly with mp-files
 
 ### Fixed
 - [Svc Recovery alert has wrong eventlog name #6](https://github.com/stegenfeldt/Atea.Windows/issues/6)
 - Reconfigured Auto Deploy after extension update
 - Adv Service Recovery logging to task output
+- Exclusions on AutoService discovery
+- Standard Service Restart recovery task now supports services with spaces
 
 ### Removed
 - Old Downloads folder

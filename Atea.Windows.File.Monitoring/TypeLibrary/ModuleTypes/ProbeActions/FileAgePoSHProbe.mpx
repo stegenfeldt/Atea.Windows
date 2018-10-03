@@ -1,0 +1,39 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <ModuleTypes>
+      <ProbeActionModuleType ID="Atea.Windows.File.Monitoring.FileAgeProbeModule" Accessibility="Internal">
+        <Configuration>
+          <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" />
+          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:int" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="FileTimeAttribute" ParameterType="string" Selector="$Config/FileAgeAttribute$" />
+          <OverrideableParameter ID="TimeoutSeconds" ParameterType="int" Selector="$Config/TimeoutSeconds$"/>
+        </OverrideableParameters>
+        <ModuleImplementation>
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="FileAgeProbeAction" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
+                <ScriptName>FileAgePB.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/FileAgePB.ps1$</ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>FileAgeAttribute</Name>
+                    <Value>$Config/FileAgeAttribute$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="FileAgeProbeAction" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <TriggerOnly>true</TriggerOnly>
+      </ProbeActionModuleType>
+    </ModuleTypes>
+  </TypeDefinitions>
+</ManagementPackFragment>

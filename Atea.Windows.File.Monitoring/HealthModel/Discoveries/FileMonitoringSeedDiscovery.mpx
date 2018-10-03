@@ -15,6 +15,12 @@
               <PathType>0</PathType>
               <AttributeType>0</AttributeType>
             </RegistryAttributeDefinition>
+            <RegistryAttributeDefinition>
+              <AttributeName>FAgeKeyExist</AttributeName>
+              <Path>SOFTWARE\Atea\FileAgeMonitoring</Path>
+              <PathType>0</PathType>
+              <AttributeType>0</AttributeType>
+            </RegistryAttributeDefinition>
           </RegistryAttributeDefinitions>
           <Frequency>14400</Frequency>
           <ClassId>$MPElement[Name="Atea.Windows.File.Monitoring.Seed"]$</ClassId>
@@ -27,15 +33,30 @@
             </Settings>
           </InstanceSettings>
           <Expression>
-            <SimpleExpression>
-              <ValueExpression>
-                <XPathQuery Type="String">Values/FCKeyExist</XPathQuery>
-              </ValueExpression>
-              <Operator>Equal</Operator>
-              <ValueExpression>
-                <Value Type="String">true</Value>
-              </ValueExpression>
-            </SimpleExpression>
+            <Or>
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">Values/FCKeyExist</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">true</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">Values/FAgeKeyExist</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">true</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </Or>
           </Expression>
         </DataSource>
       </Discovery>
