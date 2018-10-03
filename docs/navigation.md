@@ -32,6 +32,7 @@
 [Atea.Windows.File.Monitoring]()
 
 * [Overview](AWFM.md)
+* [Instructions](AWFM.md#instructions)
 * [Classes](AWFM.md)
 * [Monitors](AWFM.md#monitors)
 * [Rules](AWFM.md#rules)
