@@ -13,7 +13,7 @@
         <ModuleImplementation>
           <Composite>
             <MemberModules>
-              <ProbeAction ID="FileAgeProbeAction" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagProbe">
+              <ProbeAction ID="FileAgeProbeAction" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
                 <ScriptName>FileAgePB.ps1</ScriptName>
                 <ScriptBody>$IncludeFileContent/Scripts/FileAgePB.ps1$</ScriptBody>
                 <SnapIns />
@@ -32,7 +32,7 @@
           </Composite>
         </ModuleImplementation>
         <OutputType>System!System.PropertyBagData</OutputType>
-        <InputType>System!System.BaseData</InputType>
+        <TriggerOnly>true</TriggerOnly>
       </ProbeActionModuleType>
     </ModuleTypes>
   </TypeDefinitions>

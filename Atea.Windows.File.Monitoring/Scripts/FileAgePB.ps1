@@ -49,6 +49,7 @@ if (Test-Path -Path $RegistryPath) {
 			    if ($Recursive.Trim() -eq "false")
 			    {
 				    $Recursive = ""
+					$summaryMessage += "`n`n"
 			    } else {
 				    $Recursive = "-Recurse "
                     $summaryMessage += ", Recursive`n`n"
