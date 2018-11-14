@@ -64,9 +64,9 @@ If NOT IsNull(registryValues) Then
 
 					If useServiceDisplayName Then
 						Call scomPropertyBag.AddValue("EntityDisplayName",.DisplayName)
-                    Else
+					Else
 						Call scomPropertyBag.AddValue("EntityDisplayName",.Name)
-                    End If
+					End If
 
 					Call scomApi.AddItem(scomPropertyBag)	' Add the property bag to the collection
 				End With
