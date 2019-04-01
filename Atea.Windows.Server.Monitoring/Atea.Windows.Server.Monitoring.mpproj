@@ -72,10 +72,16 @@
       <SubType>Code</SubType>
       <DependentUpon>HealthModel\Rules\PerformanceCollection.mptg</DependentUpon>
     </Compile>
+    <Compile Include="HealthModel\Tasks\AddMonitoredEventTask.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ManagementPack.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ServiceModel\Classes\MonitoredEvent.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\AddMonitoredEventTaskPSProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -89,10 +95,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HealthModel" />
+    <Folder Include="HealthModel\Tasks" />
     <Folder Include="HealthModel\Rules" />
+    <Folder Include="TypeLibrary" />
     <Folder Include="ServiceModel" />
     <Folder Include="Scripts" />
     <Folder Include="ServiceModel\Classes" />
+    <Folder Include="TypeLibrary\ModuleTypes" />
+    <Folder Include="TypeLibrary\ModuleTypes\ProbeActions" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Add-MonitoredWindowsEventKey.ps1" />

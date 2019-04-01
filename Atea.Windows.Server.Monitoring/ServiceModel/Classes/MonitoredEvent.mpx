@@ -5,9 +5,11 @@
         <ClassType ID="Atea.Windows.Server.Monitoring.MonitoredEvent" Base="Windows!Microsoft.Windows.ApplicationComponent" Accessibility="Internal" Abstract="false" Hosted="false" Singleton="false">
           <Property ID="EventMonitorName" Key="true" Type="string" MaxLength="50" />
           <Property ID="ErrorEventId" Key="false" Type="int" MinValue="0" MaxValue="65535" Required="true" Comment="EventId of event that trips a fault state"/>
+          <Property ID="ErrorEventLevel" Key="false" Type="int" MinValue="0" MaxValue="5" Required="true" Comment="1=Error, 2=Warning, 3=Information, 4=AuditSuccess, 5=AuditFailure: Event Level of event that trips a fault state"/>
           <Property ID="ErrorEventSource" Key="false" Type="string" MaxLength="254" Required="true" Comment="Event Source of event that trips a fault state"/>
           <Property ID="ErrorEventLog" Key="false" Type="string" MaxLength="254" Required="true" Comment="Event Logname of event that trips a fault state"/>
           <Property ID="HealthyEventId" Key="false" Type="int" MinValue="0" MaxValue="65535" Required="true" Comment="EventId of event that trips an OK state"/>
+          <Property ID="HealthyEventLevel" Key="false" Type="int" MinValue="0" MaxValue="5" Required="true" Comment="1=Error, 2=Warning, 3=Information, 4=AuditSuccess, 5=AuditFailure: EventLevel of event that trips an OK state"/>
           <Property ID="HealthyEventSource" Key="false" Type="string" MaxLength="254" Required="true" Comment="Event Source of event that trips an OK state"/>
           <Property ID="HealthyEventLog" Key="false" Type="string" MaxLength="254" Required="true" Comment="Event Logname of event that trips an OK state"/>
           <Property ID="ShortDescription" Key="false" Type="string" MaxLength="512" Comment="Short description of events, will be included in alert."/>
@@ -30,6 +32,11 @@
           <Name>ErrorEventId</Name>
           <Description>EventId of event that trips a fault state</Description>
         </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="ErrorEventLevel">
+          <Name>Error Event Level</Name>
+          <Description><![CDATA[1=Error, 2=Warning, 3=Information, 4=AuditSuccess, 5=AuditFailure
+Event Level of event that trips a fault state]]></Description>
+        </DisplayString>
         <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="ErrorEventSource">
           <Name>ErrorEventSource</Name>
           <Description>Event Source of event that trips a fault state</Description>
@@ -41,6 +48,13 @@
         <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="HealthyEventId">
           <Name>HealthyEventId</Name>
           <Description>EventId of event that trips an OK state</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="HealthyEventLevel">
+          <Name>Healthy Event Level</Name>
+          <Description>
+            <![CDATA[1=Error, 2=Warning, 3=Information, 4=AuditSuccess, 5=AuditFailure
+Event Level of event that trips an OK state]]>
+          </Description>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="HealthyEventSource">
           <Name>HealthyEventSource</Name>
