@@ -75,6 +75,9 @@
     <Compile Include="ManagementPack.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServiceModel\Classes\MonitoredEvent.mpx">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Atea.Windows.Library\Atea.Windows.Library.mpproj">
@@ -87,9 +90,12 @@
   <ItemGroup>
     <Folder Include="HealthModel" />
     <Folder Include="HealthModel\Rules" />
+    <Folder Include="ServiceModel" />
     <Folder Include="Scripts" />
+    <Folder Include="ServiceModel\Classes" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\Add-MonitoredWindowsEventKey.ps1" />
     <EmbeddedResource Include="Scripts\DiskUsageProbe.vbs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />

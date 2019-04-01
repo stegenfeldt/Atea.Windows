@@ -1,0 +1,60 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+        <ClassType ID="Atea.Windows.Server.Monitoring.MonitoredEvent" Base="Windows!Microsoft.Windows.ApplicationComponent" Accessibility="Internal" Abstract="false" Hosted="false" Singleton="false">
+          <Property ID="EventMonitorName" Key="true" Type="string" MaxLength="50" />
+          <Property ID="ErrorEventId" Key="false" Type="int" MinValue="0" MaxValue="65535" Required="true" Comment="EventId of event that trips a fault state"/>
+          <Property ID="ErrorEventSource" Key="false" Type="string" MaxLength="254" Required="true" Comment="Event Source of event that trips a fault state"/>
+          <Property ID="ErrorEventLog" Key="false" Type="string" MaxLength="254" Required="true" Comment="Event Logname of event that trips a fault state"/>
+          <Property ID="HealthyEventId" Key="false" Type="int" MinValue="0" MaxValue="65535" Required="true" Comment="EventId of event that trips an OK state"/>
+          <Property ID="HealthyEventSource" Key="false" Type="string" MaxLength="254" Required="true" Comment="Event Source of event that trips an OK state"/>
+          <Property ID="HealthyEventLog" Key="false" Type="string" MaxLength="254" Required="true" Comment="Event Logname of event that trips an OK state"/>
+          <Property ID="ShortDescription" Key="false" Type="string" MaxLength="512" Comment="Short description of events, will be included in alert."/>
+        </ClassType>
+      </ClassTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent">
+          <Name>Monitored Event Class</Name>
+          <Description>This class represents monitored Windows Eventlog Events defined in Registry for self-service and automation.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="EventMonitorName">
+          <Name>Event Monitor-Name</Name>
+          <Description>Registry-key name, and displayname, of the defined monitored event.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="ErrorEventId">
+          <Name>ErrorEventId</Name>
+          <Description>EventId of event that trips a fault state</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="ErrorEventSource">
+          <Name>ErrorEventSource</Name>
+          <Description>Event Source of event that trips a fault state</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="ErrorEventLog">
+          <Name>ErrorEventLog</Name>
+          <Description>Event Logname of event that trips a fault state</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="HealthyEventId">
+          <Name>HealthyEventId</Name>
+          <Description>EventId of event that trips an OK state</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="HealthyEventSource">
+          <Name>HealthyEventSource</Name>
+          <Description>Event Source of event that trips an OK state</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="HealthyEventLog">
+          <Name>HealthyEventLog</Name>
+          <Description>Event Logname of event that trips an OK state</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent" SubElementID="ShortDescription">
+          <Name>ShortDescription</Name>
+          <Description>Short description of events, will be included in alert.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>
