@@ -57,7 +57,7 @@ if (Test-Path -Path $RegistryPath) {
 
 			    $command = "Get-ChildItem $FolderPath $Recursive -Attributes !Directory | where {(`$_.Name -like '$FilePattern') -and ((((Get-Date) - `$_.$FileAgeAttribute).TotalMinutes) $Operator $AgeInMinutes)}"
 			    $ScriptBlock = $ExecutionContext.InvokeCommand.NewScriptBlock($command)
-			    $Files = @(Invoke-Command -ScriptBlock $ScriptBlock)
+			    $Files = @(Invoke-Command -ScriptBlock $ScriptBlock) #DevSkim: ignore DS104456 
 			    if ($Files.Count -gt 0) {
                     $summaryMessage += "Found $($Files.Count) matching files:`n"
                     #$summaryMessage += "File Name`tFile Path`t`tAge (minutes)`tTimeStamp`n"
