@@ -5,6 +5,7 @@
         <Configuration>
           <xsd:element minOccurs="1" name="ScriptName" type="xsd:string" />
           <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" />
+          <xsd:element minOccurs="0" name="UseServiceDisplayName" type="xsd:boolean" />
           <xsd:element minOccurs="1" name="Debug" type="xsd:boolean" />
           <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" />
         </Configuration>
@@ -13,7 +14,7 @@
             <MemberModules>
               <ProbeAction ID="PropertyBag" TypeID="Windows!Microsoft.Windows.ScriptPropertyBagProbe">
                 <ScriptName>$Config/ScriptName$</ScriptName>
-                <Arguments>$Config/ComputerName$ $Config/Debug$</Arguments>
+                <Arguments>$Config/ComputerName$ $Config/UseServiceDisplayName$ $Config/Debug$</Arguments>
                 <ScriptBody>$IncludeFileContent/Scripts/AteaWinSvcServiceDiscoveryDS.vbs$</ScriptBody>
                 <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
               </ProbeAction>

@@ -195,3 +195,5 @@ ModelManifest.xml
 /Atea.Windows.Server.Monitoring/AteaST.snk
 /Atea.Windows.Service.Monitoring/AteaST.snk
 /AteaST.snk
+VisualStudioAuthoringConsole_x64.msi
+_Scripts/VisualStudioAuthoringConsole_x64.msi

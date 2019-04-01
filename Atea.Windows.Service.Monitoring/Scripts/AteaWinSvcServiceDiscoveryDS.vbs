@@ -1,6 +1,6 @@
 ﻿Option Explicit
 
-Dim computerName, keyPath, registryObject, registryValues, serviceName, debugEnabled, scriptParameters, serviceClass
+Dim computerName, keyPath, registryObject, registryValues, serviceName, useServiceDisplayName, debugEnabled, scriptParameters, serviceClass
 Dim scomApi, scomPropertyBag, serviceObject, returnValue
 
 '''
@@ -22,9 +22,10 @@ CONST SCOM_SCRIPT_ERROR = 19202
 CONST SCOM_DEBUG = 19999
 
 
-CheckParameters 2
+CheckParameters 3
 computerName = CStr(scriptParameters(0))
-debugEnabled = CBool(scriptParameters(1))
+useServiceDisplayName = CBool(scriptParameters(1))
+debugEnabled = CBool(scriptParameters(2))
 
 Set registryObject = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & computerName & "\root\default:StdRegProv")
 keyPath = "Software\Atea\WinSvc" ' ToDo: Make this a parameter
