@@ -26,7 +26,7 @@ if (Test-Path -Path $registryPath) {
             $discoInstance.AddProperty('$MPElement[Name="Atea.Windows.Server.Monitoring.MonitoredEvent"]/HealthyEventId$',$itemProperties.HealthyEventId)
             $discoInstance.AddProperty('$MPElement[Name="Atea.Windows.Server.Monitoring.MonitoredEvent"]/HealthyEventLog$',$itemProperties.HealthyEventLog)
             $discoInstance.AddProperty('$MPElement[Name="Atea.Windows.Server.Monitoring.MonitoredEvent"]/HealthyEventSource$',$itemProperties.HealthyEventSource)
-            $discoInstance.AddProperty('$MPElement[Name="Atea.Windows.Server.Monitoring.MonitoredEvent"]/EventShortDescription$',$itemProperties.EventShortDescription)
+            $discoInstance.AddProperty('$MPElement[Name="Atea.Windows.Server.Monitoring.MonitoredEvent"]/ShortDescription$',$itemProperties.EventShortDescription)
         }
         $discoData.AddInstance($discoInstance)
     }
