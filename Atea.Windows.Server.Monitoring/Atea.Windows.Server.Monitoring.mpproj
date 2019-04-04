@@ -62,12 +62,20 @@
     </ManagementPackReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="HealthModel\Discoveries\Discoveries.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
     <Content Include="HealthModel\Rules\PerformanceCollection.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HealthModel\Discoveries\Discoveries.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>HealthModel\Discoveries\Discoveries.mptg</DependentUpon>
+    </Compile>
     <Compile Include="HealthModel\Rules\PerformanceCollection.mptg.mpx">
       <SubType>Code</SubType>
       <DependentUpon>HealthModel\Rules\PerformanceCollection.mptg</DependentUpon>
@@ -95,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HealthModel" />
+    <Folder Include="HealthModel\Discoveries" />
     <Folder Include="HealthModel\Tasks" />
     <Folder Include="HealthModel\Rules" />
     <Folder Include="TypeLibrary" />
@@ -107,7 +116,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Add-MonitoredWindowsEventKey.ps1" />
     <EmbeddedResource Include="Scripts\DiskUsageProbe.vbs" />
-    <EmbeddedResource Include="Scripts\Get-MonitoredEventDiscoveryPB.ps1" />
+    <EmbeddedResource Include="Scripts\Get-MonitoredEventDiscoveryDS.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>

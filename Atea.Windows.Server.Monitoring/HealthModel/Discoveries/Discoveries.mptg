@@ -1,0 +1,71 @@
+<TemplateGroup>
+  <Instances>
+    <Instance ID="Instance3d5876a2e98b4569931758d52012d10f" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.Discovery" Version="1.0.0.0">
+      <DiscoveryConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>NewDiscovery</Id>
+        <DisplayName>MonitoredEventDiscovery</DisplayName>
+        <Description>Discover "MonitoredEvent" instances based on registry information. </Description>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;ScriptName&gt;Get-MonitoredEventDiscoveryDS.ps1&lt;/ScriptName&gt;&lt;ScriptBody&gt;$IncludeFileContent/Scripts/Get-MonitoredEventDiscoveryDS.ps1$&lt;/ScriptBody&gt;&lt;TimeoutSeconds&gt;120&lt;/TimeoutSeconds&gt;</DataSourceConfig>
+        <DataSourceType>Windows!Microsoft.Windows.TimedPowerShell.DiscoveryProvider</DataSourceType>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Category>Discovery</Category>
+        <DiscoveryClasses>
+          <DiscoveryClassItem>
+            <TypeId>Atea.Windows.Server.Monitoring.MonitoredEvent</TypeId>
+            <Properties>
+              <DiscoveredTypeProperty>
+                <TypeId>Atea.Windows.Server.Monitoring.MonitoredEvent</TypeId>
+                <Property>EventMonitorName</Property>
+              </DiscoveredTypeProperty>
+              <DiscoveredTypeProperty>
+                <TypeId>Atea.Windows.Server.Monitoring.MonitoredEvent</TypeId>
+                <Property>ErrorEventId</Property>
+              </DiscoveredTypeProperty>
+              <DiscoveredTypeProperty>
+                <TypeId>Atea.Windows.Server.Monitoring.MonitoredEvent</TypeId>
+                <Property>ErrorEventLevel</Property>
+              </DiscoveredTypeProperty>
+              <DiscoveredTypeProperty>
+                <TypeId>Atea.Windows.Server.Monitoring.MonitoredEvent</TypeId>
+                <Property>ErrorEventSource</Property>
+              </DiscoveredTypeProperty>
+              <DiscoveredTypeProperty>
+                <TypeId>Atea.Windows.Server.Monitoring.MonitoredEvent</TypeId>
+                <Property>ErrorEventLog</Property>
+              </DiscoveredTypeProperty>
+              <DiscoveredTypeProperty>
+                <TypeId>Atea.Windows.Server.Monitoring.MonitoredEvent</TypeId>
+                <Property>HealthyEventId</Property>
+              </DiscoveredTypeProperty>
+              <DiscoveredTypeProperty>
+                <TypeId>Atea.Windows.Server.Monitoring.MonitoredEvent</TypeId>
+                <Property>HealthyEventLevel</Property>
+              </DiscoveredTypeProperty>
+              <DiscoveredTypeProperty>
+                <TypeId>Atea.Windows.Server.Monitoring.MonitoredEvent</TypeId>
+                <Property>HealthyEventSource</Property>
+              </DiscoveredTypeProperty>
+              <DiscoveredTypeProperty>
+                <TypeId>Atea.Windows.Server.Monitoring.MonitoredEvent</TypeId>
+                <Property>HealthyEventLog</Property>
+              </DiscoveredTypeProperty>
+              <DiscoveredTypeProperty>
+                <TypeId>Atea.Windows.Server.Monitoring.MonitoredEvent</TypeId>
+                <Property>ShortDescription</Property>
+              </DiscoveredTypeProperty>
+              <DiscoveredTypeProperty>
+                <TypeId>System!System.Entity</TypeId>
+                <Property>DisplayName</Property>
+              </DiscoveredTypeProperty>
+            </Properties>
+          </DiscoveryClassItem>
+        </DiscoveryClasses>
+        <DiscoveryRelationships />
+      </DiscoveryConfig>
+    </Instance>
+  </Instances>
+</TemplateGroup>
