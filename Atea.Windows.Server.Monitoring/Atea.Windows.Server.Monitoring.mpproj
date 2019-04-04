@@ -107,6 +107,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Add-MonitoredWindowsEventKey.ps1" />
     <EmbeddedResource Include="Scripts\DiskUsageProbe.vbs" />
+    <EmbeddedResource Include="Scripts\Get-MonitoredEventDiscoveryPB.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
