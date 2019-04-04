@@ -66,6 +66,10 @@
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>
+    <Content Include="HealthModel\Monitors\EventMonitoring.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
     <Content Include="HealthModel\Rules\PerformanceCollection.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
@@ -75,6 +79,10 @@
     <Compile Include="HealthModel\Discoveries\Discoveries.mptg.mpx">
       <SubType>Code</SubType>
       <DependentUpon>HealthModel\Discoveries\Discoveries.mptg</DependentUpon>
+    </Compile>
+    <Compile Include="HealthModel\Monitors\EventMonitoring.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>HealthModel\Monitors\EventMonitoring.mptg</DependentUpon>
     </Compile>
     <Compile Include="HealthModel\Rules\PerformanceCollection.mptg.mpx">
       <SubType>Code</SubType>
@@ -104,6 +112,7 @@
   <ItemGroup>
     <Folder Include="HealthModel" />
     <Folder Include="HealthModel\Discoveries" />
+    <Folder Include="HealthModel\Monitors" />
     <Folder Include="HealthModel\Tasks" />
     <Folder Include="HealthModel\Rules" />
     <Folder Include="TypeLibrary" />
