@@ -6,9 +6,9 @@
         <DisplayName>Monitored Event Discovery</DisplayName>
         <Description>Discover "MonitoredEvent" instances based on registry information. </Description>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;14400&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;ScriptName&gt;Get-MonitoredEventDiscoveryDS.ps1&lt;/ScriptName&gt;&lt;ScriptBody&gt;$IncludeFileContent/Scripts/Get-MonitoredEventDiscoveryDS.ps1$&lt;/ScriptBody&gt;&lt;TimeoutSeconds&gt;120&lt;/TimeoutSeconds&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;3600&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;ScriptName&gt;Get-MonitoredEventDiscoveryDS.ps1&lt;/ScriptName&gt;&lt;ScriptBody&gt;$IncludeFileContent/Scripts/Get-MonitoredEventDiscoveryDS.ps1$&lt;/ScriptBody&gt;&lt;Parameters&gt;&lt;Parameter&gt;&lt;Name&gt;computerName&lt;/Name&gt;&lt;Value&gt;$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$&lt;/Value&gt;&lt;/Parameter&gt;&lt;/Parameters&gt;&lt;TimeoutSeconds&gt;120&lt;/TimeoutSeconds&gt;</DataSourceConfig>
         <DataSourceType>Windows!Microsoft.Windows.TimedPowerShell.DiscoveryProvider</DataSourceType>
-        <Target>Atea.Windows.Server.Monitoring.MonitoredEvent</Target>
+        <Target>Windows!Microsoft.Windows.Computer</Target>
         <Enabled>true</Enabled>
         <Remotable>true</Remotable>
         <Priority>Normal</Priority>

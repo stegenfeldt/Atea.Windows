@@ -18,11 +18,11 @@ if (!(Test-Path $monitorRegistryPath)) {
 	Write-Output ("{0} does not exist, will create key." -f $monitorRegistryPath)
 	New-Item $monitorRegistryPath -Force
 	New-ItemProperty -Path $monitorRegistryPath -Name "ErrorEventId" -Value $errorEventId -PropertyType DWord -Force
-	New-ItemProperty -Path $monitorRegistryPath -Name "ErrorEventId" -Value $errorEventLevel -PropertyType DWord -Force
+	New-ItemProperty -Path $monitorRegistryPath -Name "ErrorEventLevel" -Value $errorEventLevel -PropertyType DWord -Force
 	New-ItemProperty -Path $monitorRegistryPath -Name "ErrorEventSource"  -Value $errorEventSource -PropertyType String -Force
 	New-ItemProperty -Path $monitorRegistryPath -Name "ErrorEventLog"  -Value $errorEventLog -PropertyType String -Force
 	New-ItemProperty -Path $monitorRegistryPath -Name "HealthyEventId"  -Value $healthyEventId -PropertyType DWord -Force
-	New-ItemProperty -Path $monitorRegistryPath -Name "HealthyEventId"  -Value $healthyEventLevel -PropertyType DWord -Force
+	New-ItemProperty -Path $monitorRegistryPath -Name "HealthyEventLevel"  -Value $healthyEventLevel -PropertyType DWord -Force
 	New-ItemProperty -Path $monitorRegistryPath -Name "HealthyEventSource"  -Value $healthyEventSource -PropertyType String -Force
 	New-ItemProperty -Path $monitorRegistryPath -Name "HealthyEventLog"  -Value $healthyEventLog -PropertyType String -Force
 	New-ItemProperty -Path $monitorRegistryPath -Name "EventShortDescription"  -Value $shortDescription -PropertyType String -Force
