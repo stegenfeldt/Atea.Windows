@@ -6,9 +6,9 @@
         <DisplayName>Monitored Event Discovery</DisplayName>
         <Description>Discover "MonitoredEvent" instances based on registry information. </Description>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;3600&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;ScriptName&gt;Get-MonitoredEventDiscoveryDS.ps1&lt;/ScriptName&gt;&lt;ScriptBody&gt;$IncludeFileContent/Scripts/Get-MonitoredEventDiscoveryDS.ps1$&lt;/ScriptBody&gt;&lt;Parameters&gt;&lt;Parameter&gt;&lt;Name&gt;computerName&lt;/Name&gt;&lt;Value&gt;$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$&lt;/Value&gt;&lt;/Parameter&gt;&lt;/Parameters&gt;&lt;TimeoutSeconds&gt;120&lt;/TimeoutSeconds&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;3600&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;ScriptName&gt;Get-MonitoredEventDiscoveryDS.ps1&lt;/ScriptName&gt;&lt;ScriptBody&gt;$IncludeFileContent/Scripts/Get-MonitoredEventDiscoveryDS.ps1$&lt;/ScriptBody&gt;&lt;Parameters&gt;&lt;Parameter&gt;&lt;Name&gt;computerName&lt;/Name&gt;&lt;Value&gt;$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$&lt;/Value&gt;&lt;/Parameter&gt;&lt;/Parameters&gt;&lt;TimeoutSeconds&gt;120&lt;/TimeoutSeconds&gt;</DataSourceConfig>
         <DataSourceType>Windows!Microsoft.Windows.TimedPowerShell.DiscoveryProvider</DataSourceType>
-        <Target>Windows!Microsoft.Windows.Computer</Target>
+        <Target>Atea.Windows.Server.Monitoring.MonitoredEventSeed</Target>
         <Enabled>true</Enabled>
         <Remotable>true</Remotable>
         <Priority>Normal</Priority>
@@ -63,6 +63,34 @@
                 <Property>DisplayName</Property>
               </DiscoveredTypeProperty>
             </Properties>
+          </DiscoveryClassItem>
+        </DiscoveryClasses>
+        <DiscoveryRelationships>
+          <DiscoveryRelationshipItem>
+            <TypeId>Atea.Windows.Server.Monitoring.ComputerHostsMonitoredEvent</TypeId>
+            <Properties />
+          </DiscoveryRelationshipItem>
+        </DiscoveryRelationships>
+      </DiscoveryConfig>
+    </Instance>
+    <Instance ID="Instance65935444ccce4825824efb868172f27f" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.Discovery" Version="1.0.0.0">
+      <DiscoveryConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>MonitoredEventSeedDiscovery</Id>
+        <DisplayName>Monitored Event Seed Discovery</DisplayName>
+        <Description>Registry-based discovery to find Monitored Event Seeds.</Description>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;ComputerName&gt;$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$&lt;/ComputerName&gt;&lt;RegistryAttributeDefinitions&gt;&lt;RegistryAttributeDefinition&gt;&lt;AttributeName&gt;SeedExists&lt;/AttributeName&gt;&lt;Path&gt;SOFTWARE\CommunityMP\WinEvents&lt;/Path&gt;&lt;PathType&gt;0&lt;/PathType&gt;&lt;AttributeType&gt;0&lt;/AttributeType&gt;&lt;/RegistryAttributeDefinition&gt;&lt;/RegistryAttributeDefinitions&gt;&lt;Frequency&gt;3600&lt;/Frequency&gt;&lt;ClassId&gt;$MPElement[Name="Atea.Windows.Server.Monitoring.MonitoredEventSeed"]$&lt;/ClassId&gt;&lt;InstanceSettings&gt;&lt;Settings&gt;&lt;Setting&gt;&lt;Name&gt;$MPElement[Name="Windows!Microsoft.Windows.Computer"]/PrincipalName$&lt;/Name&gt;&lt;Value&gt;$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$&lt;/Value&gt;&lt;/Setting&gt;&lt;Setting&gt;&lt;Name&gt;$MPElement[Name="System!System.Entity"]/DisplayName$&lt;/Name&gt;&lt;Value&gt;WinEvents: $Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetbiosComputerName$&lt;/Value&gt;&lt;/Setting&gt;&lt;/Settings&gt;&lt;/InstanceSettings&gt;&lt;Expression&gt;&lt;SimpleExpression&gt;&lt;ValueExpression&gt;&lt;XPathQuery Type="String"&gt;Values/SeedExists&lt;/XPathQuery&gt;&lt;/ValueExpression&gt;&lt;Operator&gt;Equal&lt;/Operator&gt;&lt;ValueExpression&gt;&lt;Value Type="String"&gt;true&lt;/Value&gt;&lt;/ValueExpression&gt;&lt;/SimpleExpression&gt;&lt;/Expression&gt;</DataSourceConfig>
+        <DataSourceType>Windows!Microsoft.Windows.FilteredRegistryDiscoveryProvider</DataSourceType>
+        <Target>Windows!Microsoft.Windows.OperatingSystem</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Category>Discovery</Category>
+        <DiscoveryClasses>
+          <DiscoveryClassItem>
+            <TypeId>Atea.Windows.Server.Monitoring.MonitoredEventSeed</TypeId>
+            <Properties />
           </DiscoveryClassItem>
         </DiscoveryClasses>
         <DiscoveryRelationships />

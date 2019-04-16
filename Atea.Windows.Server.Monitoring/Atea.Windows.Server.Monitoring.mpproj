@@ -97,6 +97,12 @@
     <Compile Include="ServiceModel\Classes\MonitoredEvent.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServiceModel\Classes\MonitoredEventSeed.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServiceModel\RelationShips\ComputerHostsMonitoredEvent.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\AddMonitoredEventTaskPSProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -115,6 +121,7 @@
     <Folder Include="HealthModel\Monitors" />
     <Folder Include="HealthModel\Tasks" />
     <Folder Include="HealthModel\Rules" />
+    <Folder Include="ServiceModel\RelationShips" />
     <Folder Include="TypeLibrary" />
     <Folder Include="ServiceModel" />
     <Folder Include="Scripts" />
