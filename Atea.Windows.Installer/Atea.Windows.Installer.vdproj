@@ -155,7 +155,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.File.Monitoring, Version=1.0.3.53, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.File.Monitoring, Version=1.0.3.101, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_4E738A19F12B461CB0E1656840A98197"
@@ -186,7 +186,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Service.Monitoring, Version=1.0.3.22, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Service.Monitoring, Version=1.0.3.101, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_53950D255F9649DC80B517E8902CA97A"
@@ -217,7 +217,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Library, Version=1.0.3.10, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Library, Version=1.0.3.101, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_989F92A89DCC4C05A2671096BBB0BFB7"
@@ -248,7 +248,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Server.Monitoring, Version=1.0.3.13, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Server.Monitoring, Version=1.0.3.220, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_C58F4C60AE9D4646B6B73E6E83A7F892"
