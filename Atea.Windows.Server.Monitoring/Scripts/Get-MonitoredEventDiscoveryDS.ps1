@@ -7,8 +7,8 @@ $startModules = Get-Module
 [string] $registryPath = "HKLM:\SOFTWARE\CommunityMP\WinEvents"
 
 $knownDebugHosts = "Visual Studio Code Host","Windows PowerShell ISE Host"
-
-if ((Get-Host).Name -in $knownDebugHosts) {
+$scriptHost = (Get-Host).Name
+if ($scriptHost -in $knownDebugHosts) {
 	# script is running in a known debug environment, set debug values
 	$sourceId = '{172B8F37-C292-F5DF-B486-30CC30866928}' #dummy value for debugging
 	$targetId = '{5EEDD73A-F918-8A67-E63D-53C15FE4E4A3}' #dummy value for debugging
@@ -19,6 +19,7 @@ else {
 	$targetId = '$Target/Id$'
 	$isDebugging = false
 }
+
 
 $omApi = New-Object -ComObject "MOM.ScriptAPI"
 if ($isDebugging) {

@@ -2,7 +2,7 @@
   <TypeDefinitions>
     <EntityTypes>
       <ClassTypes>
-        <ClassType ID="Atea.Windows.Server.Monitoring.MonitoredEvent" Base="Windows!Microsoft.Windows.LocalApplication" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+        <ClassType ID="Atea.Windows.Server.Monitoring.MonitoredEvent" Base="Windows!Microsoft.Windows.ApplicationComponent" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
           <Property ID="EventMonitorName" Key="true" Type="string" MaxLength="50" />
           <Property ID="ErrorEventId" Key="false" Type="int" MinValue="0" MaxValue="65535" Required="true" Comment="EventId of event that trips a fault state"/>
           <Property ID="ErrorEventLevel" Key="false" Type="int" MinValue="0" MaxValue="5" Required="true" Comment="1=Error, 2=Warning, 3=Information, 4=AuditSuccess, 5=AuditFailure: Event Level of event that trips a fault state"/>
