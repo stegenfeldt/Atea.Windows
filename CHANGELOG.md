@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Powershell based installation/update scripts
 - This changelog!
 - File Age Monitor
+- MonitoredEvent class, task and discovery
 
 ### Changed
 
@@ -28,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Adv Service Recovery logging to task output
 - Exclusions on AutoService discovery
 - Standard Service Restart recovery task now supports services with spaces
+- Service displaystring discovery
 
 ### Removed
 

@@ -11,7 +11,6 @@
 "SccLocalPath" = "8:"
 "SccAuxPath" = "8:"
 "SccProvider" = "8:"
-"BackwardsCompatibleGUIDGeneration" = "8:TRUE"
     "Hierarchy"
     {
         "Entry"
@@ -87,6 +86,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
             }
         }
         "Release"
@@ -148,7 +155,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.File.Monitoring, Version=1.0.3.51, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.File.Monitoring, Version=1.0.3.101, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_4E738A19F12B461CB0E1656840A98197"
@@ -179,7 +186,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Service.Monitoring, Version=1.0.3.20, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Service.Monitoring, Version=1.0.3.101, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_53950D255F9649DC80B517E8902CA97A"
@@ -210,7 +217,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Library, Version=1.0.3.8, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Library, Version=1.0.3.101, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_989F92A89DCC4C05A2671096BBB0BFB7"
@@ -241,7 +248,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Server.Monitoring, Version=1.0.3.7, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Server.Monitoring, Version=1.0.3.220, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_C58F4C60AE9D4646B6B73E6E83A7F892"
@@ -358,12 +365,12 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Atea Windows - MP Package"
         "ProductCode" = "8:{0BDBCC52-6F5E-4844-8E96-C05705F5A9FA}"
-        "PackageCode" = "8:{4189E1E6-7136-47BE-85C9-CE753796406C}"
+        "PackageCode" = "8:{FB70A253-AD22-4DBB-B7BB-156FA67B24C3}"
         "UpgradeCode" = "8:{44CB4EA9-89BB-4063-91FA-3CC9EA76F800}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
-        "DetectNewerInstalledVersion" = "11:FALSE"
+        "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.0.3"
         "Manufacturer" = "8:Atea Sverige AB"

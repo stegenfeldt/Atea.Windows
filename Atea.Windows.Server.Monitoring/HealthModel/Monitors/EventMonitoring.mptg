@@ -1,0 +1,52 @@
+<TemplateGroup>
+  <Instances>
+    <Instance ID="Instance1cb8bbbf42bb4bd8ba0ce5a2d4aaa2da" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
+      <UnitMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <MonitorType>Windows!Microsoft.Windows.2SingleEventLog2StateMonitorType</MonitorType>
+        <MonitorConfig>&lt;FirstComputerName&gt;$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$&lt;/FirstComputerName&gt;&lt;FirstLogName&gt;$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/ErrorEventLog$&lt;/FirstLogName&gt;&lt;FirstExpression&gt;&lt;And&gt;&lt;Expression&gt;&lt;SimpleExpression&gt;&lt;ValueExpression&gt;&lt;XPathQuery Type="UnsignedInteger"&gt;EventDisplayNumber&lt;/XPathQuery&gt;&lt;/ValueExpression&gt;&lt;Operator&gt;Equal&lt;/Operator&gt;&lt;ValueExpression&gt;&lt;Value Type="UnsignedInteger"&gt;$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/ErrorEventId$&lt;/Value&gt;&lt;/ValueExpression&gt;&lt;/SimpleExpression&gt;&lt;/Expression&gt;&lt;Expression&gt;&lt;SimpleExpression&gt;&lt;ValueExpression&gt;&lt;XPathQuery Type="Integer"&gt;EventLevel&lt;/XPathQuery&gt;&lt;/ValueExpression&gt;&lt;Operator&gt;Equal&lt;/Operator&gt;&lt;ValueExpression&gt;&lt;Value Type="Integer"&gt;$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/ErrorEventLevel$&lt;/Value&gt;&lt;/ValueExpression&gt;&lt;/SimpleExpression&gt;&lt;/Expression&gt;&lt;Expression&gt;&lt;SimpleExpression&gt;&lt;ValueExpression&gt;&lt;XPathQuery Type="String"&gt;PublisherName&lt;/XPathQuery&gt;&lt;/ValueExpression&gt;&lt;Operator&gt;Equal&lt;/Operator&gt;&lt;ValueExpression&gt;&lt;Value Type="String"&gt;$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/ErrorEventSource$&lt;/Value&gt;&lt;/ValueExpression&gt;&lt;/SimpleExpression&gt;&lt;/Expression&gt;&lt;/And&gt;&lt;/FirstExpression&gt;&lt;SecondComputerName&gt;$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$&lt;/SecondComputerName&gt;&lt;SecondLogName&gt;$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/HealthyEventLog$&lt;/SecondLogName&gt;&lt;SecondExpression&gt;&lt;And&gt;&lt;Expression&gt;&lt;SimpleExpression&gt;&lt;ValueExpression&gt;&lt;XPathQuery Type="UnsignedInteger"&gt;EventDisplayNumber&lt;/XPathQuery&gt;&lt;/ValueExpression&gt;&lt;Operator&gt;Equal&lt;/Operator&gt;&lt;ValueExpression&gt;&lt;Value Type="UnsignedInteger"&gt;$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/HealthyEventId$&lt;/Value&gt;&lt;/ValueExpression&gt;&lt;/SimpleExpression&gt;&lt;/Expression&gt;&lt;Expression&gt;&lt;SimpleExpression&gt;&lt;ValueExpression&gt;&lt;XPathQuery Type="Integer"&gt;EventLevel&lt;/XPathQuery&gt;&lt;/ValueExpression&gt;&lt;Operator&gt;Equal&lt;/Operator&gt;&lt;ValueExpression&gt;&lt;Value Type="Integer"&gt;$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/HealthyEventLevel$&lt;/Value&gt;&lt;/ValueExpression&gt;&lt;/SimpleExpression&gt;&lt;/Expression&gt;&lt;Expression&gt;&lt;SimpleExpression&gt;&lt;ValueExpression&gt;&lt;XPathQuery Type="String"&gt;PublisherName&lt;/XPathQuery&gt;&lt;/ValueExpression&gt;&lt;Operator&gt;Equal&lt;/Operator&gt;&lt;ValueExpression&gt;&lt;Value Type="String"&gt;$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/HealthyEventSource$&lt;/Value&gt;&lt;/ValueExpression&gt;&lt;/SimpleExpression&gt;&lt;/Expression&gt;&lt;/And&gt;&lt;/SecondExpression&gt;</MonitorConfig>
+        <MonitorOperationalStates>
+          <OperationalState>
+            <OperationalStateId>FirstEventRaised</OperationalStateId>
+            <OperationalStateDisplayName>ErrorEvent</OperationalStateDisplayName>
+            <MonitorTypeStateId>FirstEventRaised</MonitorTypeStateId>
+            <HealthState>Error</HealthState>
+          </OperationalState>
+          <OperationalState>
+            <OperationalStateId>SecondEventRaised</OperationalStateId>
+            <OperationalStateDisplayName>HealthyEvent</OperationalStateDisplayName>
+            <MonitorTypeStateId>SecondEventRaised</MonitorTypeStateId>
+            <HealthState>Success</HealthState>
+          </OperationalState>
+        </MonitorOperationalStates>
+        <ParentMonitor>Health!System.Health.AvailabilityState</ParentMonitor>
+        <Accessibility>Internal</Accessibility>
+        <Id>EventMonitor</Id>
+        <DisplayName>Event Monitor</DisplayName>
+        <Description>Monitors for events according to registry configuration of "MonitoredEvent".</Description>
+        <Target>Atea.Windows.Server.Monitoring.MonitoredEvent</Target>
+        <Enabled>true</Enabled>
+        <Category>AvailabilityHealth</Category>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <AlertAutoResolve>true</AlertAutoResolve>
+        <AlertOnState>Error</AlertOnState>
+        <AlertPriority>Normal</AlertPriority>
+        <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+        <AlertName>Error Event Triggered!</AlertName>
+        <AlertDescription>$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/EventMonitorName$:
+$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/ShortDescription$
+
+Source: $Data/Context/EventSourceName$
+Event ID: $Data/Context/EventDisplayNumber$
+Event Category: $Data/Context/EventCategory$
+User: $Data/Context/UserName$
+Computer: $Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$
+Event Description: 
+$Data/Context/EventDescription$
+
+At time $Data/Context/@time$</AlertDescription>
+        <ConfirmDelivery>false</ConfirmDelivery>
+      </UnitMonitorConfig>
+    </Instance>
+  </Instances>
+</TemplateGroup>
