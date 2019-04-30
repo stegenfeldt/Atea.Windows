@@ -43,9 +43,11 @@ if (Test-Path -Path $registryPath) {
 		$discoInstance.AddProperty("$MPElement[Name='Windows!Microsoft.Windows.Computer']/PrincipalName$", $computerName)
 		foreach ($itemProperties in (Get-ItemProperty -Path $subKey.PSPath)) {
 			$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/ErrorEventId$", $itemProperties.ErrorEventId)
+			$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/ErrorEventLevel$", $itemProperties.ErrorEventLevel)
 			$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/ErrorEventLog$", $itemProperties.ErrorEventLog)
 			$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/ErrorEventSource$", $itemProperties.ErrorEventSource)
 			$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/HealthyEventId$", $itemProperties.HealthyEventId)
+			$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/HealthyEventLevel$", $itemProperties.HealthyEventLevel)
 			$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/HealthyEventLog$", $itemProperties.HealthyEventLog)
 			$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/HealthyEventSource$", $itemProperties.HealthyEventSource)
 			$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/ShortDescription$", $itemProperties.EventShortDescription)

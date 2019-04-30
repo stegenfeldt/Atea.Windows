@@ -74,7 +74,7 @@
       </DiscoveryConfig>
     </Instance>
     <Instance ID="Instance65935444ccce4825824efb868172f27f" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.Discovery" Version="1.0.0.0">
-      <DiscoveryConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DiscoveryConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Id>MonitoredEventSeedDiscovery</Id>
         <DisplayName>Monitored Event Seed Discovery</DisplayName>
         <Description>Registry-based discovery to find Monitored Event Seeds.</Description>
