@@ -7,9 +7,9 @@ param([string]$sourceId,  [string]$managedEntityId, [string]$computerName)
 
 $RegistryPath = "hklm:\Software\Atea\FileCreationTime\"
 $SubKeys = Get-ChildItem $RegistryPath
-$OpsmgrAPI = New-Object -ComObject "MOM.ScriptAPI"
-#$OpsmgrAPI.LogScriptEvent("AteaFilCreationPoSHDiscovery.ps1", 242, 4, "Running File Creation Folder discovery with parameters $sourceId, $managedEntityId, $computerName")
-$discoveryData = $OpsmgrAPI.CreateDiscoveryData(0, $sourceId, $managedEntityId)
+$omApi = New-Object -ComObject "MOM.ScriptAPI"
+#$omApi.LogScriptEvent("AteaFilCreationPoSHDiscovery.ps1", 242, 4, "Running File Creation Folder discovery with parameters $sourceId, $managedEntityId, $computerName")
+$discoveryData = $omApi.CreateDiscoveryData(0, $sourceId, $managedEntityId)
 ForEach ($SubKey in $SubKeys)
 {
 	$FriendlyName = ($SubKey.Name.Substring($SubKey.Name.LastIndexOfAny("\")+1))
@@ -18,12 +18,12 @@ ForEach ($SubKey in $SubKeys)
 	$FilePattern = $SubKey.GetValue("FilePattern")
 	$AgeInMinutes = $SubKey.GetValue("AgeInMinutes")
 	$Operator = $SubKey.GetValue("Operator")
-	
-	
+
+
 	if (($FolderPath -ne $null) -and ($Recursive -ne $null) -and ($FilePattern -ne $null) -and ($AgeInMinutes -ne $null) -and ($Operator -ne $null))
 	{
 		$Operator = $Operator.Trim()
-		
+
 		#Add values to property bag for Discovery
 		$discoveryInstance = $discoveryData.CreateClassInstance("$MPElement[Name='Atea.Windows.File.FileCreationTimeFolder']$")
 		$discoveryInstance.AddProperty("$MPElement[Name='Windows!Microsoft.Windows.Computer']/PrincipalName$", $computerName)

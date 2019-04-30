@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build;CopyDeploy" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <ProjectGuid>{361e64de-7730-493d-8464-c22911eb5791}</ProjectGuid>
     <RootNamespace>Atea.Windows</RootNamespace>
     <Name>Atea.Windows.Library</Name>
     <ManagementPackName>Atea.Windows.Library</ManagementPackName>
-    <Version>1.0.3.0</Version>
+    <Version>1.0.3.230</Version>
     <MpFrameworkVersion>v7.0</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
@@ -33,28 +33,30 @@
   <ItemGroup>
     <ManagementPackReference Include="Microsoft.SystemCenter.Library">
       <Alias>SC</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.Windows.Library">
       <Alias>Windows</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.Health.Library">
       <Alias>Health</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.Library">
       <Alias>System</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.Visualization.Library">
       <Alias>Visualization</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HealthModel" />
     <Folder Include="HealthModel\Discoveries" />
+    <Folder Include="Resources" />
+    <Folder Include="Resources\Images" />
     <Folder Include="TypeLibrary" />
     <Folder Include="ServiceModel" />
     <Folder Include="ServiceModel\Classes" />
@@ -65,6 +67,54 @@
     <Content Include="HealthModel\Discoveries\PSDiscoveries.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
+    </Content>
+    <Content Include="Resources\Images\icons8-event-log-16.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-event-log-32.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-event-log-48.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-file-preview-16.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-file-preview-32.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-file-preview-48.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-gear-outline-100.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-gear-outline-16.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-gear-outline-32.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-gear-outline-48.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-server-16.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-server-32.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-server-48.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-windows-light-client-16.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-windows-light-client-32.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-windows-light-client-48.png">
+      <SubType>Content</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -82,5 +132,9 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
+  <Target Name="CopyDeploy" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)\Atea.Windows.Library.mp" DestinationFolder="$(ProjectDir)..\Released" />
+    <Copy SourceFiles="$(OutputPath)\Atea.Windows.Library.mpb" DestinationFolder="$(ProjectDir)..\Released" />
+  </Target>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>

@@ -1,0 +1,93 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <ModuleTypes>
+      <ProbeActionModuleType ID="Atea.Windows.Server.Monitoring.MonitoredEvent.AddMonitoredEventTask.PSProbe" Accessibility="Internal" Batching="false" >
+        <Configuration>
+          <xsd:element name="EventMonitorName" type="xsd:string" />
+          <xsd:element name="ErrorEventId" type="xsd:int" />
+          <xsd:element name="ErrorEventLevel" type="xsd:int" />
+          <xsd:element name="ErrorEventSource" type="xsd:string" />
+          <xsd:element name="ErrorEventLog" type="xsd:string" />
+          <xsd:element name="HealthyEventId" type="xsd:int" />
+          <xsd:element name="HealthyEventLevel" type="xsd:int" />
+          <xsd:element name="HealthyEventSource" type="xsd:string" />
+          <xsd:element name="HealthyEventLog" type="xsd:string" />
+          <xsd:element name="ShortDescription" type="xsd:string" />
+          <xsd:element name="TimeoutSeconds" type="xsd:int" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="EventMonitorName" Selector="$Config/EventMonitorName$" ParameterType="string"/>
+          <OverrideableParameter ID="ErrorEventId" Selector="$Config/ErrorEventId$" ParameterType="int"/>
+          <OverrideableParameter ID="ErrorEventLevel" Selector="$Config/ErrorEventLevel$" ParameterType="int"/>
+          <OverrideableParameter ID="ErrorEventSource" Selector="$Config/ErrorEventSource$" ParameterType="string"/>
+          <OverrideableParameter ID="ErrorEventLog" Selector="$Config/ErrorEventLog$" ParameterType="string"/>
+          <OverrideableParameter ID="HealthyEventId" Selector="$Config/HealthyEventId$" ParameterType="int"/>
+          <OverrideableParameter ID="HealthyEventLevel" Selector="$Config/HealthyEventLevel$" ParameterType="int"/>
+          <OverrideableParameter ID="HealthyEventSource" Selector="$Config/HealthyEventSource$" ParameterType="string"/>
+          <OverrideableParameter ID="HealthyEventLog" Selector="$Config/HealthyEventLog$" ParameterType="string"/>
+          <OverrideableParameter ID="ShortDescription" Selector="$Config/ShortDescription$" ParameterType="string"/>
+        </OverrideableParameters>
+        <ModuleImplementation>
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSProbe" TypeID="Windows!Microsoft.Windows.PowerShellProbe">
+                <ScriptName>Add-MonitoredWindowsEventKey.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Add-MonitoredWindowsEventKey.ps1$</ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>eventMonitorName</Name>
+                    <Value>$Config/EventMonitorName$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>errorEventId</Name>
+                    <Value>$Config/ErrorEventId$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>errorEventLevel</Name>
+                    <Value>$Config/ErrorEventLevel$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>errorEventSource</Name>
+                    <Value>$Config/ErrorEventSource$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>errorEventLog</Name>
+                    <Value>$Config/ErrorEventLog$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>healthyEventId</Name>
+                    <Value>$Config/HealthyEventId$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>healthyEventLevel</Name>
+                    <Value>$Config/HealthyEventLevel$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>healthyEventSource</Name>
+                    <Value>$Config/HealthyEventSource$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>healthyEventLog</Name>
+                    <Value>$Config/HealthyEventLog$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>shortDescription</Name>
+                    <Value>$Config/ShortDescription$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+                <StrictErrorHandling>true</StrictErrorHandling>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSProbe" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Windows!Microsoft.Windows.SerializedObjectData</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+    </ModuleTypes>
+  </TypeDefinitions>
+</ManagementPackFragment>

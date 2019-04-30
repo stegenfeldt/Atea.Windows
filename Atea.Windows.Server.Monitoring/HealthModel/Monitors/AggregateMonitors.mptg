@@ -1,0 +1,34 @@
+<TemplateGroup>
+  <Instances>
+    <Instance ID="Instanced4c31df0abfd435982dd70d9fdf8fa56" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
+      <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Algorithm>
+          <Algorithm>WorstOf</Algorithm>
+          <AlgorithmParameter>0</AlgorithmParameter>
+        </Algorithm>
+        <MemberMonitor>Atea.Windows.Server.Monitoring.EventMonitor</MemberMonitor>
+        <MemberInMaintenance>Ignore</MemberInMaintenance>
+        <MemberUnavailable>Ignore</MemberUnavailable>
+        <RelationshipType>Atea.Windows.Server.Monitoring.ComputerHostsMonitoredEvent</RelationshipType>
+        <ParentMonitor>Health!System.Health.AvailabilityState</ParentMonitor>
+        <Accessibility>Public</Accessibility>
+        <Id>MonitoredEventRollup</Id>
+        <DisplayName>Monitored Event Rollup</DisplayName>
+        <Description>Health rollup from monitored event to computer. </Description>
+        <Target>Windows!Microsoft.Windows.Computer</Target>
+        <Enabled>false</Enabled>
+        <Category>AvailabilityHealth</Category>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <AlertAutoResolve>true</AlertAutoResolve>
+        <AlertOnState>None</AlertOnState>
+        <AlertPriority>Normal</AlertPriority>
+        <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+        <AlertName>One or More Monitored Eventlog Error Events logged</AlertName>
+        <AlertDescription>This rollup monitor will alert if one or more Monitored Eventlog events have been triggered. 
+
+Please refer to Health Explorer to see what specific events is the cause of this error. </AlertDescription>
+      </DependencyMonitorConfig>
+    </Instance>
+  </Instances>
+</TemplateGroup>

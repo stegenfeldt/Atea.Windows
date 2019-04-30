@@ -46,12 +46,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_53950D255F9649DC80B517E8902CA97A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_C58F4C60AE9D4646B6B73E6E83A7F892"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -59,6 +53,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_989F92A89DCC4C05A2671096BBB0BFB7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_53950D255F9649DC80B517E8902CA97A"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -79,6 +79,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -100,7 +116,7 @@
             "Enabled" = "11:FALSE"
             "PromptEnabled" = "11:TRUE"
             "PrerequisitesLocation" = "2:1"
-            "Url" = "8:"
+            "Url" = "8:https://github.com/stegenfeldt/Atea.Windows/raw/master/Released/Atea.Windows.Installer.msi"
             "ComponentsUrl" = "8:"
                 "Items"
                 {
@@ -139,7 +155,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.File.Monitoring, Version=1.0.3.2, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.File.Monitoring, Version=1.0.3.101, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_4E738A19F12B461CB0E1656840A98197"
@@ -170,7 +186,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Service.Monitoring, Version=1.0.3.2, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Service.Monitoring, Version=1.0.3.101, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_53950D255F9649DC80B517E8902CA97A"
@@ -201,7 +217,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Library, Version=1.0.3.2, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Library, Version=1.0.3.101, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_989F92A89DCC4C05A2671096BBB0BFB7"
@@ -232,7 +248,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Server.Monitoring, Version=1.0.3.2, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Server.Monitoring, Version=1.0.3.220, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_C58F4C60AE9D4646B6B73E6E83A7F892"
@@ -349,7 +365,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Atea Windows - MP Package"
         "ProductCode" = "8:{0BDBCC52-6F5E-4844-8E96-C05705F5A9FA}"
-        "PackageCode" = "8:{4189E1E6-7136-47BE-85C9-CE753796406C}"
+        "PackageCode" = "8:{FB70A253-AD22-4DBB-B7BB-156FA67B24C3}"
         "UpgradeCode" = "8:{44CB4EA9-89BB-4063-91FA-3CC9EA76F800}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -362,7 +378,7 @@
         "ARPHELPLINK" = "8:https://github.com/stegenfeldt/Atea.Windows/issues"
         "Title" = "8:Atea.Windows.Installer"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Samuel Tegenfledt - Atea Sverige AB"
+        "ARPCONTACT" = "8:Samuel Tegenfeldt - Atea Sverige AB"
         "Keywords" = "8:OpsMgr, System Center, Management Pack"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"

@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build;CopyDeploy" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <ProjectGuid>{e346d1c7-2ca1-4e15-a871-663f747fbfde}</ProjectGuid>
     <RootNamespace>Atea.Windows.Server.Monitoring</RootNamespace>
     <Name>Atea.Windows.Server.Monitoring</Name>
     <ManagementPackName>Atea.Windows.Server.Monitoring</ManagementPackName>
-    <Version>1.0.3.0</Version>
+    <Version>1.0.3.230</Version>
     <MpFrameworkVersion>v7.0</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
@@ -62,17 +62,56 @@
     </ManagementPackReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="HealthModel\Discoveries\Discoveries.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
+    <Content Include="HealthModel\Monitors\AggregateMonitors.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
+    <Content Include="HealthModel\Monitors\EventMonitoring.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
     <Content Include="HealthModel\Rules\PerformanceCollection.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HealthModel\Discoveries\Discoveries.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>HealthModel\Discoveries\Discoveries.mptg</DependentUpon>
+    </Compile>
+    <Compile Include="HealthModel\Monitors\AggregateMonitors.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>HealthModel\Monitors\AggregateMonitors.mptg</DependentUpon>
+    </Compile>
+    <Compile Include="HealthModel\Monitors\EventMonitoring.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>HealthModel\Monitors\EventMonitoring.mptg</DependentUpon>
+    </Compile>
     <Compile Include="HealthModel\Rules\PerformanceCollection.mptg.mpx">
       <SubType>Code</SubType>
       <DependentUpon>HealthModel\Rules\PerformanceCollection.mptg</DependentUpon>
     </Compile>
+    <Compile Include="HealthModel\Tasks\AddMonitoredEventTask.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ManagementPack.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServiceModel\Classes\MonitoredEvent.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServiceModel\Classes\MonitoredEventSeed.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServiceModel\RelationShips\ComputerHostsMonitoredEvent.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\AddMonitoredEventTaskPSProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -86,11 +125,25 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HealthModel" />
+    <Folder Include="HealthModel\Discoveries" />
+    <Folder Include="HealthModel\Monitors" />
+    <Folder Include="HealthModel\Tasks" />
     <Folder Include="HealthModel\Rules" />
+    <Folder Include="ServiceModel\RelationShips" />
+    <Folder Include="TypeLibrary" />
+    <Folder Include="ServiceModel" />
     <Folder Include="Scripts" />
+    <Folder Include="ServiceModel\Classes" />
+    <Folder Include="TypeLibrary\ModuleTypes" />
+    <Folder Include="TypeLibrary\ModuleTypes\ProbeActions" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\Add-MonitoredWindowsEventKey.ps1" />
     <EmbeddedResource Include="Scripts\DiskUsageProbe.vbs" />
+    <EmbeddedResource Include="Scripts\Get-MonitoredEventDiscoveryDS.ps1" />
   </ItemGroup>
+  <Target Name="CopyDeploy" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)\Atea.Windows.Server.Monitoring.mp" DestinationFolder="$(ProjectDir)..\Released" />
+  </Target>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
