@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - This changelog!
 - File Age Monitor
 - MonitoredEvent class, task and discovery
+- MonitoredEvent dependency monitor on Microsoft.Windows.Computer
 
 ### Changed
 
