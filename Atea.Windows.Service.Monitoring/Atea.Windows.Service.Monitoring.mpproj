@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build;CopyDeploy" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <ProjectGuid>{53470240-d3b9-4ef1-b4e1-6a075fb07593}</ProjectGuid>
@@ -181,5 +181,8 @@
     <EmbeddedResource Include="Scripts\Remove-MonitoredServiceKey.ps1" />
     <EmbeddedResource Include="Scripts\Restart-MonitoredService.ps1" />
   </ItemGroup>
+  <Target Name="CopyDeploy" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)\Atea.Windows.Service.Monitoring.mp" DestinationFolder="$(ProjectDir)..\Released" />
+  </Target>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>

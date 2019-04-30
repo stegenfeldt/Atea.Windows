@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build;CopyDeploy" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <ProjectGuid>{c55b880e-f609-462c-aed3-67f44531d4d7}</ProjectGuid>
@@ -142,5 +142,8 @@
       <Generator>FragmentGenerator</Generator>
     </Content>
   </ItemGroup>
+  <Target Name="CopyDeploy" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)\Atea.Windows.File.Monitoring.mp" DestinationFolder="$(ProjectDir)..\Released" />
+  </Target>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>

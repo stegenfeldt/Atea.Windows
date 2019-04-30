@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build;CopyDeploy" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <ProjectGuid>{e346d1c7-2ca1-4e15-a871-663f747fbfde}</ProjectGuid>
@@ -66,6 +66,10 @@
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>
+    <Content Include="HealthModel\Monitors\AggregateMonitors.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
     <Content Include="HealthModel\Monitors\EventMonitoring.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
@@ -79,6 +83,10 @@
     <Compile Include="HealthModel\Discoveries\Discoveries.mptg.mpx">
       <SubType>Code</SubType>
       <DependentUpon>HealthModel\Discoveries\Discoveries.mptg</DependentUpon>
+    </Compile>
+    <Compile Include="HealthModel\Monitors\AggregateMonitors.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>HealthModel\Monitors\AggregateMonitors.mptg</DependentUpon>
     </Compile>
     <Compile Include="HealthModel\Monitors\EventMonitoring.mptg.mpx">
       <SubType>Code</SubType>
@@ -134,5 +142,8 @@
     <EmbeddedResource Include="Scripts\DiskUsageProbe.vbs" />
     <EmbeddedResource Include="Scripts\Get-MonitoredEventDiscoveryDS.ps1" />
   </ItemGroup>
+  <Target Name="CopyDeploy" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)\Atea.Windows.Server.Monitoring.mp" DestinationFolder="$(ProjectDir)..\Released" />
+  </Target>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
