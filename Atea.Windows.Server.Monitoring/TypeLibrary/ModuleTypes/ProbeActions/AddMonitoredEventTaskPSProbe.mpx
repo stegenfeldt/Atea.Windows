@@ -73,7 +73,7 @@
                   </Parameter>
                   <Parameter>
                     <Name>shortDescription</Name>
-                    <Value>$Config/HealthyEventLog$</Value>
+                    <Value>$Config/ShortDescription$</Value>
                   </Parameter>
                 </Parameters>
                 <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>

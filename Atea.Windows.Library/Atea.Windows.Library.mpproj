@@ -56,6 +56,7 @@
     <Folder Include="HealthModel" />
     <Folder Include="HealthModel\Discoveries" />
     <Folder Include="Resources" />
+    <Folder Include="Resources\Images" />
     <Folder Include="TypeLibrary" />
     <Folder Include="ServiceModel" />
     <Folder Include="ServiceModel\Classes" />
@@ -67,7 +68,52 @@
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>
-    <Content Include="Resources\WindowsLogo_100.png">
+    <Content Include="Resources\Images\icons8-event-log-16.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-event-log-32.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-event-log-48.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-file-preview-16.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-file-preview-32.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-file-preview-48.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-gear-outline-100.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-gear-outline-16.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-gear-outline-32.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-gear-outline-48.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-server-16.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-server-32.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-server-48.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-windows-light-client-16.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-windows-light-client-32.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Images\icons8-windows-light-client-48.png">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>
