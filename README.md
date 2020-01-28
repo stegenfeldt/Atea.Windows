@@ -16,7 +16,6 @@ This project is built using Visual Studio 2017 (Community).
 In addition to that, you'd need the following extensions:
 
 - VSAE - Visual Studio Authoring Extensions
-- Auto Deploy - <https://marketplace.visualstudio.com/items?itemName=lennyomg.AutoDeploy>
 - Microsoft Visual Studio 2017/2015 Installer Projects
 
 ## Customers/Sponsors
