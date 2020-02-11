@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.Server.Monitoring</ID>
-      <Version>1.0.3.232</Version>
+      <Version>1.0.3.250</Version>
     </Identity>
     <Name>Atea.Windows.Server.Monitoring</Name>
     <References>
@@ -537,7 +537,7 @@ Call oAPI.Return(oBag)]]></ScriptBody>
           <Description>Monitors for events according to registry configuration of "MonitoredEvent".</Description>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.Server.Monitoring.EventMonitor.AlertMessage">
-          <Name>Error Event Triggered!</Name>
+          <Name>{0} Error Event Triggered!</Name>
           <Description>{0}:
 {1}
 
