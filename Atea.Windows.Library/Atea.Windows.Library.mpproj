@@ -135,6 +135,7 @@
   <Target Name="CopyDeploy" AfterTargets="Build">
     <Copy SourceFiles="$(OutputPath)\Atea.Windows.Library.mp" DestinationFolder="$(ProjectDir)..\Released" />
     <Copy SourceFiles="$(OutputPath)\Atea.Windows.Library.mpb" DestinationFolder="$(ProjectDir)..\Released" />
+    <Copy SourceFiles="$(OutputPath)\Atea.Windows.Library.xml" DestinationFolder="$(ProjectDir)..\Released\unsealed" />
   </Target>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>

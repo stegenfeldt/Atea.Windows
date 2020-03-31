@@ -32,7 +32,7 @@
         <AlertOnState>Error</AlertOnState>
         <AlertPriority>Normal</AlertPriority>
         <AlertSeverity>MatchMonitorHealth</AlertSeverity>
-        <AlertName>Error Event Triggered!</AlertName>
+        <AlertName>$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/EventMonitorName$ Error Event Triggered!</AlertName>
         <AlertDescription>$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/EventMonitorName$:
 $Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/ShortDescription$
 

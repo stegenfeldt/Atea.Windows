@@ -2,7 +2,13 @@
 
 The Atea.Windows MP collection is a number of, somewhat related, management packs developed by Atea Sverige AB for our customers.
 
-[![Build Status](https://stegenfeldt.visualstudio.com/SCOM%20MP%20-%20Atea.Windows/_apis/build/status/stegenfeldt.Atea.Windows)](https://stegenfeldt.visualstudio.com/SCOM%20MP%20-%20Atea.Windows/_build/latest?definitionId=1)
+## Build Status
+
+### Develop branch (latest, tested)
+[![Build Status](https://stegenfeldt.visualstudio.com/SCOM%20MP%20-%20Atea.Windows/_apis/build/status/stegenfeldt.Atea.Windows?branchName=develop)](https://stegenfeldt.visualstudio.com/SCOM%20MP%20-%20Atea.Windows/_build/latest?definitionId=1&branchName=develop)
+
+### Master branch (stable)
+[![Build Status](https://stegenfeldt.visualstudio.com/SCOM%20MP%20-%20Atea.Windows/_apis/build/status/stegenfeldt.Atea.Windows?branchName=master)](https://stegenfeldt.visualstudio.com/SCOM%20MP%20-%20Atea.Windows/_build/latest?definitionId=1&branchName=master)
 
 ## Tools needed
 
@@ -10,7 +16,6 @@ This project is built using Visual Studio 2017 (Community).
 In addition to that, you'd need the following extensions:
 
 - VSAE - Visual Studio Authoring Extensions
-- Auto Deploy - <https://marketplace.visualstudio.com/items?itemName=lennyomg.AutoDeploy>
 - Microsoft Visual Studio 2017/2015 Installer Projects
 
 ## Customers/Sponsors

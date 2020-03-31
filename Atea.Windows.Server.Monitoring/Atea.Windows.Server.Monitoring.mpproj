@@ -6,7 +6,7 @@
     <RootNamespace>Atea.Windows.Server.Monitoring</RootNamespace>
     <Name>Atea.Windows.Server.Monitoring</Name>
     <ManagementPackName>Atea.Windows.Server.Monitoring</ManagementPackName>
-    <Version>1.0.3.230</Version>
+    <Version>1.0.3.250</Version>
     <MpFrameworkVersion>v7.0</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
@@ -144,6 +144,7 @@
   </ItemGroup>
   <Target Name="CopyDeploy" AfterTargets="Build">
     <Copy SourceFiles="$(OutputPath)\Atea.Windows.Server.Monitoring.mp" DestinationFolder="$(ProjectDir)..\Released" />
+    <Copy SourceFiles="$(OutputPath)\Atea.Windows.Server.Monitoring.xml" DestinationFolder="$(ProjectDir)..\Released\unsealed" />
   </Target>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
