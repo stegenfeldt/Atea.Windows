@@ -35,6 +35,7 @@ param(
 )
 
 $Error.Clear()
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 [string[]] $mpFiles = @(
     "Atea.Windows.Library.mp",
