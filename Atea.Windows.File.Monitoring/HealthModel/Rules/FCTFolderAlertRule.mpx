@@ -48,7 +48,7 @@
           <Name>Atea File Creation Time Folder Alerting Rule</Name>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder.AlertRule.Message">
-          <Name>File Creation-Time alert has been triggered in {2}</Name>
+          <Name>File CreationTime alert has been triggered in {2}</Name>
           <Description>
             {0} was created {1} minutes ago in {2} which triggered this alert according to the configured query.
             Full Path to file is {3}
