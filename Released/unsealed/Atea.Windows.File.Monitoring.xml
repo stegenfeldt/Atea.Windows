@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.File.Monitoring</ID>
-      <Version>1.0.3.232</Version>
+      <Version>1.0.3.231</Version>
     </Identity>
     <Name>Atea.Windows.File.Monitoring</Name>
     <References>
@@ -991,7 +991,8 @@ if (Test-Path -Path $RegistryPath) {
           <AlertPriority>Normal</AlertPriority>
           <AlertSeverity>MatchMonitorHealth</AlertSeverity>
           <AlertParameters>
-            <AlertParameter1>$Data/Context/Property[@Name="Summary"]$</AlertParameter1>
+            <AlertParameter1>$Data/Context/Property[@Name="FolderFriendlyName"]$</AlertParameter1>
+            <AlertParameter2>$Data/Context/Property[@Name="Summary"]$</AlertParameter2>
           </AlertParameters>
         </AlertSettings>
         <OperationalStates>
@@ -1030,8 +1031,8 @@ if (Test-Path -Path $RegistryPath) {
           <Description>This monitor will look for files in a folder, recursively if configured so, and alert if one of more files are found.</Description>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.Monitoring.FileAgeMonitor.AlertMessage">
-          <Name>Files with bad timestamp found</Name>
-          <Description>{0}</Description>
+          <Name>Bad files found - {0}</Name>
+          <Description>{1}</Description>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.Monitoring.FileAgeMonitor" SubElementID="Healthy">
           <Name>No Files Found</Name>
@@ -1045,7 +1046,7 @@ if (Test-Path -Path $RegistryPath) {
           <Name>Atea File Creation Time Folder Alerting Rule</Name>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder.AlertRule.Message">
-          <Name>File Creation-Time alert has been triggered in {2}</Name>
+          <Name>File CreationTime alert has been triggered in {2}</Name>
           <Description>
             {0} was created {1} minutes ago in {2} which triggered this alert according to the configured query.
             Full Path to file is {3}
