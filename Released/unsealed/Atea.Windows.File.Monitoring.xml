@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.File.Monitoring</ID>
-      <Version>1.0.3.234</Version>
+      <Version>1.0.3.235</Version>
     </Identity>
     <Name>Atea.Windows.File.Monitoring</Name>
     <References>
@@ -1032,7 +1032,7 @@ if (Test-Path -Path $RegistryPath) {
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.Monitoring.FileAgeMonitor.AlertMessage">
           <Name>Bad files found - {0}</Name>
-          <Description>{1}</Description>
+          <Description>{1} </Description>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.Monitoring.FileAgeMonitor" SubElementID="Healthy">
           <Name>No Files Found</Name>

@@ -33,7 +33,8 @@
         <AlertPriority>Normal</AlertPriority>
         <AlertSeverity>MatchMonitorHealth</AlertSeverity>
         <AlertName>Bad files found - $Data/Context/Property[@Name="FolderFriendlyName"]$</AlertName>
-        <AlertDescription>$Data/Context/Property[@Name="Summary"]$</AlertDescription>
+        <AlertDescription>$Data/Context/Property[@Name="Summary"]$
+</AlertDescription>
         <ConfirmDelivery>false</ConfirmDelivery>
       </UnitMonitorConfig>
     </Instance>
