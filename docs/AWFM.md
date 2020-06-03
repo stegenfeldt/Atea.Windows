@@ -55,7 +55,7 @@ Another example from a customer. This time we're looking for `prt`-files that ar
 Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Atea\FileAgeMonitoring\UiPath Error Files]
-"FolderPath"="\\filesshare\appX\err"
+"FolderPath"="\\\\filesshare\\appX\\err"
 "Recursive"="false"
 "FilePattern"="*"
 "AgeInMinutes"="0"
