@@ -1,8 +1,8 @@
 param($computerName)
-### Gather vars and modules before script execution
+<### Gather vars and modules before script execution
 $startVars = (Get-Variable -Scope Global).Name
 $startModules = Get-Module
-###
+###>
 
 [string] $registryPath = "HKLM:\SOFTWARE\CommunityMP\WinEvents"
 
@@ -32,6 +32,7 @@ if ($isDebugging) {
 }
 
 [int] $eventCount = 0
+[string] $eventList = ""
 $discoData = $omApi.CreateDiscoveryData(0, $sourceId, $targetId)
 
 if (Test-Path -Path $registryPath) {
@@ -54,6 +55,7 @@ if (Test-Path -Path $registryPath) {
 		}
 		$discoData.AddInstance($discoInstance)
 		$eventCount++
+        $eventList += "`n`t$($subKey.PSChildName)"
 	}
 }
 
@@ -67,9 +69,10 @@ else {
 	$discoData
 }
 
-$omApi.LogScriptEvent("Get-MonitoredEventDiscoveryDS.ps1", 6110, 0, "Ran eventlog discovery, found $($eventCount) events to monitor.`n`nSourceId: $sourceId`nTargetId: $targetId`nPrincipalName: $computerName`nDebug: $isDebugging")
+$omApi.LogScriptEvent("Get-MonitoredEventDiscoveryDS.ps1", 6110, 0, "Ran eventlog discovery, found $($eventCount) events to monitor.`n$($eventList)`n`nSourceId: $sourceId`nTargetId: $targetId`nPrincipalName: $computerName`nDebug: $($isDebugging)")
 
-### Unload generated vars and modules
+
+<### Unload generated vars and modules
 foreach ($module in (Get-Module)) {
 	if ($module -notin $startModules) {
 		Remove-Module $module
@@ -80,4 +83,5 @@ foreach ($var in (Get-Variable -Scope Global).Name) {
 		Remove-Variable $var -ErrorAction SilentlyContinue
 	}
 }
-###
+###>
+
