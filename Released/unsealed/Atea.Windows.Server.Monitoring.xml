@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.Server.Monitoring</ID>
-      <Version>1.0.3.255</Version>
+      <Version>1.0.3.257</Version>
     </Identity>
     <Name>Atea.Windows.Server.Monitoring</Name>
     <References>
@@ -419,7 +419,7 @@ Call oAPI.Return(oBag)]]></ScriptBody>
           <AlertPriority>Normal</AlertPriority>
           <AlertSeverity>MatchMonitorHealth</AlertSeverity>
           <AlertParameters>
-            <AlertParameter1>$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/EventMonitorName$</AlertParameter1>
+            <AlertParameter1>$Target/Property[Type="System!System.Entity"]/DisplayName$</AlertParameter1>
             <AlertParameter2>$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/ShortDescription$</AlertParameter2>
             <AlertParameter3>$Data/Context/EventSourceName$</AlertParameter3>
             <AlertParameter4>$Data/Context/EventDisplayNumber$</AlertParameter4>
