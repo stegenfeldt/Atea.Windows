@@ -38,8 +38,13 @@ $discoData = $omApi.CreateDiscoveryData(0, $sourceId, $targetId)
 if (Test-Path -Path $registryPath) {
 	$subKeys = Get-ChildItem -Path $registryPath
 	foreach ($subKey in $subKeys) {
+        if ($subKey.PSChildName.Length -gt 50) {
+            $EventMonitorName = $subKey.PSChildName.Substring(0,49)
+        } else {
+            $EventMonitorName = $subKey.PSChildName
+        }
 		$discoInstance = $discoData.CreateClassInstance("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']$")
-		$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/EventMonitorName$", $subKey.PSChildName)
+		$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/EventMonitorName$", $EventMonitorName)
 		$discoInstance.AddProperty("$MPElement[Name='System!System.Entity']/DisplayName$", $subKey.PSChildName)
 		$discoInstance.AddProperty("$MPElement[Name='Windows!Microsoft.Windows.Computer']/PrincipalName$", $computerName)
 		foreach ($itemProperties in (Get-ItemProperty -Path $subKey.PSPath)) {
