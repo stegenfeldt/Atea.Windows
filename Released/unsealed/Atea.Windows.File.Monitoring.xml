@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.File.Monitoring</ID>
-      <Version>1.0.3.241</Version>
+      <Version>1.0.3.251</Version>
     </Identity>
     <Name>Atea.Windows.File.Monitoring</Name>
     <References>
@@ -671,10 +671,14 @@ function Get-FileAgePropertyBags {
 	$fsUser = '$RunAs[Name="Atea.Windows.File.FileCreationTimeFolder.RunasProfile"]/UserName$'
 	$fsPass = '$RunAs[Name="Atea.Windows.File.FileCreationTimeFolder.RunasProfile"]/Password$'
 
-	if ($fsUser -notlike '*RunAs[*') {
-		$credentials = [System.Net.NetworkCredential]::new($fsUser, $fsPass)
-	} else {
+	Write-EventLog -LogName "Application" -Source $EventLogSourceName -EventID "100" -Message "Running File Age Probe on '$SubKeyName' with RunAs '$fsUser'" -EntryType Information -Category 0
+
+	if ($fsUser -match '^.RunAs\[.*' -or $fsUser.Trim().Length -le 0) {
 		$credentials = $null
+		$fsPass = $null
+		$fsUser = $(whoami)
+	} else {
+		$credentials = [System.Net.NetworkCredential]::new($fsUser, $fsPass)
 	}
 
 	if (Test-Path -Path $RegistryPath) {
@@ -704,7 +708,6 @@ function Get-FileAgePropertyBags {
 					}
 
 					$summaryMessage = "File Age Monitor on '$FriendlyName', looking for '$FilePattern' where $FileAgeAttribute $Operator $AgeInMinutes in $FolderPath"
-					$summaryMessage += "as user: $fsUser"
 
 					if ($Recursive.Trim() -eq "false") {
 						$Recursive = ""
@@ -714,6 +717,8 @@ function Get-FileAgePropertyBags {
 						$Recursive = "-Recurse"
 						$summaryMessage += ", Recursive`n`n"
 					}
+					$summaryMessage += "as user: $fsUser`n`n"
+
 
 					$command = "Get-ChildItem '$FolderPath' $Recursive -Attributes !Directory | Where-Object {(`$_.Name -like '$FilePattern') -and ((((Get-Date) - `$_.$FileAgeAttribute).TotalMinutes) $Operator $AgeInMinutes)}"
 					$ScriptBlock = $ExecutionContext.InvokeCommand.NewScriptBlock($command)
@@ -799,7 +804,7 @@ if ($host.Name -in $debugHosts) {
       </ProbeActionModuleType>
     </ModuleTypes>
     <MonitorTypes>
-      <UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal" RunAs="Atea.Windows.File.FileCreationTimeFolder.RunasProfile">
+      <UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal">
         <MonitorTypeStates>
           <MonitorTypeState ID="Healthy" />
           <MonitorTypeState ID="Error" />
