@@ -5,6 +5,7 @@
         <Configuration>
           <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" />
           <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:int" />
+          <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" />
         </Configuration>
         <OverrideableParameters>
           <OverrideableParameter ID="FileTimeAttribute" ParameterType="string" Selector="$Config/FileAgeAttribute$" />
@@ -19,8 +20,8 @@
                 <SnapIns />
                 <Parameters>
                   <Parameter>
-                    <Name>FileAgeAttribute</Name>
-                    <Value>$Config/FileAgeAttribute$</Value>
+                    <Name>SubKeyName</Name>
+                    <Value>$Config/FolderFriendlyName$</Value>
                   </Parameter>
                 </Parameters>
                 <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>

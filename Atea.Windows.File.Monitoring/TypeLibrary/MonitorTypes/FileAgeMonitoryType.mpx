@@ -28,6 +28,7 @@
             <ProbeAction ID="Probe" TypeID="Atea.Windows.File.Monitoring.FileAgeProbeModule">
               <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
               <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
             </ProbeAction>
             <ConditionDetection ID="FilterFolder" TypeID="System!System.ExpressionFilter">
               <Expression>
