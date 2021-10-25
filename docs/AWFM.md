@@ -64,3 +64,10 @@ Windows Registry Editor Version 5.00
 ```
 
 If any file is found in the Err-folder, it's bad. Here we use `>= 0` minutes to trigger on all existing files. This will raise one error with the first found files in the description. Error will be cleared when there is no longer any files in the error folder. 
+
+## Run-As considerations
+
+The File-age monitors allows for Runas account to be used to be able to access remote shares that require a specific user.  
+It can take either a Windows action account or a Basic action account. If the share is in the same domain and is windows authentication enabled, you could use a Windows action account.  
+All other shares require a Basic action account.
+You can target your action account to specific shares (object) if needed.
