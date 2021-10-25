@@ -1,8 +1,9 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <TypeDefinitions>
     <MonitorTypes>
-      <UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal" RunAs="Atea.Windows.File.FileCreationTimeFolder.RunasProfile">
-        <MonitorTypeStates>
+      <!--<UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal" RunAs="Atea.Windows.File.FileCreationTimeFolder.RunasProfile">-->
+      <UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal">
+          <MonitorTypeStates>
           <MonitorTypeState ID="Healthy"/>
           <MonitorTypeState ID="Error"/>
         </MonitorTypeStates>
@@ -28,6 +29,7 @@
             <ProbeAction ID="Probe" TypeID="Atea.Windows.File.Monitoring.FileAgeProbeModule">
               <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
               <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
             </ProbeAction>
             <ConditionDetection ID="FilterFolder" TypeID="System!System.ExpressionFilter">
               <Expression>

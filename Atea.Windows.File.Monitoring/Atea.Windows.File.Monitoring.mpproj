@@ -134,6 +134,7 @@
     <EmbeddedResource Include="Scripts\FileAgePB.ps1" />
     <EmbeddedResource Include="Scripts\AteaFileCreationTimePoSHDiscovery.ps1" />
     <EmbeddedResource Include="Scripts\FCTvbsPropertyBag.vbs" />
+    <EmbeddedResource Include="Scripts\FileAgePB.Tests.ps1" />
     <EmbeddedResource Include="Scripts\FileAgePoSHDiscovery.ps1" />
   </ItemGroup>
   <ItemGroup>
