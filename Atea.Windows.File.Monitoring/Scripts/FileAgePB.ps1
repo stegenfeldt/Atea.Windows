@@ -4,24 +4,26 @@
 # http://technet.microsoft.com/sv-se/library/ee176852(en-us).aspx
 [CmdletBinding()]
 Param(
-    # [ValidateSet("CreationTime", "LastWriteTime", "LastAccessTime")]
-    # [Parameter(Mandatory = $false)]
-    # [string] $FileAgeAttribute, 
-    [Parameter(Mandatory = $false)]
+    [Parameter(Mandatory = $true)]
     [string]
-    $SubKeyName = 'DEV'
+    $SubKeyName
+    ,[ValidateSet("true", "false")]
+    [Parameter(Mandatory = $false)]
+    [string] $VerboseLogging = 'false'
 )
 
 function Get-FileAgePropertyBags {	
     [CmdletBinding()]
     Param(
-        # [ValidateSet("CreationTime", "LastWriteTime", "LastAccessTime")]
-        # [Parameter(Mandatory = $true)]
-        # [string] $FileAgeAttribute, 
         [Parameter(Mandatory = $true)]
         [string]
         $SubKeyName
     )
+    
+    [bool] $verbose = $false
+    if ($VerbosePreference -eq 'Continue') {
+        $verbose = $true
+    }
 
     $RegistryPath = 'hklm:\Software\Atea\FileAgeMonitoring\'
     $EventLogSourceName = 'Atea FileAge Monitor'
@@ -33,11 +35,11 @@ function Get-FileAgePropertyBags {
     $fsUser = '$RunAs[Name="Atea.Windows.File.FileCreationTimeFolder.RunasProfile"]/UserName$'
     $fsPass = '$RunAs[Name="Atea.Windows.File.FileCreationTimeFolder.RunasProfile"]/Password$'
 
-    
-    Write-EventLog -LogName "Application" -Source $EventLogSourceName -EventID "100" -Message "Running File Age Probe on '$SubKeyName' with RunAs '$fsUser'" -EntryType Information -Category 0
+    if ($verbose) {
+        Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '100' -Message "Running File Age Probe on '$SubKeyName' with RunAs '$fsUser'" -EntryType Information -Category 0
+    }
 
-
-    if ($fsUser -match '^.RunAs\[.*' -or $fsUser.Length -le 0) {
+    if ($fsUser -match '^.RunAs\[.*' -or $fsUser.Length -le 0 -or $fsUser -eq 'nt authority\system') {
         $credentials = $null
         $fsPass = $null
         $fsUser = $(whoami)
@@ -83,7 +85,7 @@ function Get-FileAgePropertyBags {
                         $summaryMessage += ", Recursive`n"
                     }
 
-                    $summaryMessage += "`nas user: $fsUser`n"
+                    $summaryMessage += "as user: $fsUser`n`n"
 
                     if ($null -ne $credentials) {
                         New-PSDrive -Name $SubKeyName -PSProvider 'FileSystem' -Root $FolderPath -Credential $credentials
@@ -92,13 +94,10 @@ function Get-FileAgePropertyBags {
                     }
                     
                     $command = "Get-ChildItem '$($SubKeyName):\' $Recursive -Attributes !Directory | Where-Object {(`$_.Name -like '$FilePattern') -and ((((Get-Date) - `$_.$FileAgeAttribute).TotalMinutes) $Operator $AgeInMinutes)}"
+                    $command = $command -replace '  ', ' '
                     $ScriptBlock = $ExecutionContext.InvokeCommand.NewScriptBlock($command)
                     $Files = @(Invoke-Command -ScriptBlock $ScriptBlock) #DevSkim: ignore DS104456 
-                    # if ($null -ne $credentials) {
-                    # 	$Files = @(Invoke-Command  -ComputerName "." -ScriptBlock $ScriptBlock -Credential (Get-Credential -Credential $credentials)) #DevSkim: ignore DS104456 
-                    # } else {
-                    # 	$Files = @(Invoke-Command -ScriptBlock $ScriptBlock) #DevSkim: ignore DS104456 
-                    # }
+
                     if ($Files.Count -gt 0) {
                         $summaryMessage += "Found $($Files.Count) matching files:`n"
                         #$summaryMessage += "File Name`tFile Path`t`tAge (minutes)`tTimeStamp`n"
@@ -120,7 +119,9 @@ function Get-FileAgePropertyBags {
                         $propertyBag.AddValue('FileCount', $Files.Count)
 
                         $propertyBag
-                        Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '400' -Message $summaryMessage -EntryType Information -Category 0
+                        if ($verbose) {
+                            Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '400' -Message $summaryMessage -EntryType Information -Category 0
+                        }
 
                     } else {
                         # No matching files found
@@ -130,8 +131,14 @@ function Get-FileAgePropertyBags {
                         $propertyBag.AddValue('FileCount', $Files.Count)
 
                         $propertyBag
+                        if ($verbose) {
+                            Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '200' -Message $summaryMessage -EntryType Information -Category 0
+                        }
                     }
+                    Remove-PSDrive -Name $SubKeyName
+                    $credentials = $null
                 }
+
             }
         } else {
             # Registry does not contain any configured File Age Monitoring
@@ -151,5 +158,9 @@ $debugHosts = @('Visual Studio Code Host')
 if ($host.Name -in $debugHosts) {
     Get-FileAgePropertyBags -SubKeyName $SubKeyName -Verbose
 } else {
-    Get-FileAgePropertyBags -SubKeyName $SubKeyName
+    if ($VerboseLogging -eq 'true') {
+        Get-FileAgePropertyBags -SubKeyName $SubKeyName -Verbose
+    } else {
+        Get-FileAgePropertyBags -SubKeyName $SubKeyName
+    }
 }

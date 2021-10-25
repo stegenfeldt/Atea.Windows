@@ -1,7 +1,7 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Monitoring>
     <Rules>
-      <Rule ID="Atea.Windows.File.FileCreationTimeFolder.AlertRule" Enabled="true" Target="Atea.Windows.File.FileCreationTimeFolder" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="Atea.Windows.File.FileCreationTimeFolder.AlertRule" Enabled="false" Target="Atea.Windows.File.FileCreationTimeFolder" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>Alert</Category>
         <DataSources>
           <DataSource ID="DS" RunAs="Atea.Windows.File.FileCreationTimeFolder.RunasProfile" TypeID="Atea.Windows.File.FileCreationTime.vbsPropertyBag.DS">

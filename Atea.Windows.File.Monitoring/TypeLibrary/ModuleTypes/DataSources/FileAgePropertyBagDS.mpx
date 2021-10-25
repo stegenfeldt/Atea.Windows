@@ -7,10 +7,12 @@
           <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" />
           <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" />
           <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" />
+          <xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" />
         </Configuration>
         <OverrideableParameters>
           <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
           <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="EnableVerboseLogging" ParameterType="string" Selector="$Config/EnableVerboseLogging$" />
         </OverrideableParameters>
         <ModuleImplementation>
           <Composite>
@@ -27,6 +29,7 @@
                 <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
                 <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
                 <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
+                <EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
               </ProbeAction>
               <ConditionDetection ID="Filter" TypeID="System!System.ExpressionFilter">
                 <Expression>

@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.File.Monitoring</ID>
-      <Version>1.0.3.254</Version>
+      <Version>1.0.3.259</Version>
     </Identity>
     <Name>Atea.Windows.File.Monitoring</Name>
     <References>
@@ -186,10 +186,12 @@
           <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
           <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
           <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
         </Configuration>
         <OverrideableParameters>
           <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
           <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="EnableVerboseLogging" ParameterType="string" Selector="$Config/EnableVerboseLogging$" />
         </OverrideableParameters>
         <ModuleImplementation>
           <Composite>
@@ -206,6 +208,7 @@
                 <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
                 <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
                 <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
+                <EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
               </ProbeAction>
               <ConditionDetection ID="Filter" TypeID="System!System.ExpressionFilter">
                 <Expression>
@@ -626,10 +629,12 @@ $discoveryData
           <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
           <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
           <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
         </Configuration>
         <OverrideableParameters>
           <OverrideableParameter ID="FileTimeAttribute" ParameterType="string" Selector="$Config/FileAgeAttribute$" />
           <OverrideableParameter ID="TimeoutSeconds" ParameterType="int" Selector="$Config/TimeoutSeconds$" />
+          <OverrideableParameter ID="EnableVerboseLogging" ParameterType="string" Selector="$Config/EnableVerboseLogging$" />
         </OverrideableParameters>
         <ModuleImplementation>
           <Composite>
@@ -642,24 +647,26 @@ $discoveryData
 # http://technet.microsoft.com/sv-se/library/ee176852(en-us).aspx
 [CmdletBinding()]
 Param(
-    # [ValidateSet("CreationTime", "LastWriteTime", "LastAccessTime")]
-    # [Parameter(Mandatory = $false)]
-    # [string] $FileAgeAttribute, 
-    [Parameter(Mandatory = $false)]
+    [Parameter(Mandatory = $true)]
     [string]
-    $SubKeyName = 'DEV'
+    $SubKeyName
+    ,[ValidateSet("true", "false")]
+    [Parameter(Mandatory = $false)]
+    [string] $VerboseLogging = 'false'
 )
 
 function Get-FileAgePropertyBags {	
     [CmdletBinding()]
     Param(
-        # [ValidateSet("CreationTime", "LastWriteTime", "LastAccessTime")]
-        # [Parameter(Mandatory = $true)]
-        # [string] $FileAgeAttribute, 
         [Parameter(Mandatory = $true)]
         [string]
         $SubKeyName
     )
+    
+    [bool] $verbose = $false
+    if ($VerbosePreference -eq 'Continue') {
+        $verbose = $true
+    }
 
     $RegistryPath = 'hklm:\Software\Atea\FileAgeMonitoring\'
     $EventLogSourceName = 'Atea FileAge Monitor'
@@ -671,11 +678,11 @@ function Get-FileAgePropertyBags {
     $fsUser = '$RunAs[Name="Atea.Windows.File.FileCreationTimeFolder.RunasProfile"]/UserName$'
     $fsPass = '$RunAs[Name="Atea.Windows.File.FileCreationTimeFolder.RunasProfile"]/Password$'
 
-    
-    Write-EventLog -LogName "Application" -Source $EventLogSourceName -EventID "100" -Message "Running File Age Probe on '$SubKeyName' with RunAs '$fsUser'" -EntryType Information -Category 0
+    if ($verbose) {
+        Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '100' -Message "Running File Age Probe on '$SubKeyName' with RunAs '$fsUser'" -EntryType Information -Category 0
+    }
 
-
-    if ($fsUser -match '^.RunAs\[.*' -or $fsUser.Length -le 0) {
+    if ($fsUser -match '^.RunAs\[.*' -or $fsUser.Length -le 0 -or $fsUser -eq 'nt authority\system') {
         $credentials = $null
         $fsPass = $null
         $fsUser = $(whoami)
@@ -721,7 +728,7 @@ function Get-FileAgePropertyBags {
                         $summaryMessage += ", Recursive`n"
                     }
 
-                    $summaryMessage += "`nas user: $fsUser`n"
+                    $summaryMessage += "as user: $fsUser`n`n"
 
                     if ($null -ne $credentials) {
                         New-PSDrive -Name $SubKeyName -PSProvider 'FileSystem' -Root $FolderPath -Credential $credentials
@@ -730,13 +737,10 @@ function Get-FileAgePropertyBags {
                     }
                     
                     $command = "Get-ChildItem '$($SubKeyName):\' $Recursive -Attributes !Directory | Where-Object {(`$_.Name -like '$FilePattern') -and ((((Get-Date) - `$_.$FileAgeAttribute).TotalMinutes) $Operator $AgeInMinutes)}"
+                    $command = $command -replace '  ', ' '
                     $ScriptBlock = $ExecutionContext.InvokeCommand.NewScriptBlock($command)
                     $Files = @(Invoke-Command -ScriptBlock $ScriptBlock) #DevSkim: ignore DS104456 
-                    # if ($null -ne $credentials) {
-                    # 	$Files = @(Invoke-Command  -ComputerName "." -ScriptBlock $ScriptBlock -Credential (Get-Credential -Credential $credentials)) #DevSkim: ignore DS104456 
-                    # } else {
-                    # 	$Files = @(Invoke-Command -ScriptBlock $ScriptBlock) #DevSkim: ignore DS104456 
-                    # }
+
                     if ($Files.Count -gt 0) {
                         $summaryMessage += "Found $($Files.Count) matching files:`n"
                         #$summaryMessage += "File Name`tFile Path`t`tAge (minutes)`tTimeStamp`n"
@@ -758,7 +762,9 @@ function Get-FileAgePropertyBags {
                         $propertyBag.AddValue('FileCount', $Files.Count)
 
                         $propertyBag
-                        Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '400' -Message $summaryMessage -EntryType Information -Category 0
+                        if ($verbose) {
+                            Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '400' -Message $summaryMessage -EntryType Information -Category 0
+                        }
 
                     } else {
                         # No matching files found
@@ -768,8 +774,14 @@ function Get-FileAgePropertyBags {
                         $propertyBag.AddValue('FileCount', $Files.Count)
 
                         $propertyBag
+                        if ($verbose) {
+                            Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '200' -Message $summaryMessage -EntryType Information -Category 0
+                        }
                     }
+                    Remove-PSDrive -Name $SubKeyName
+                    $credentials = $null
                 }
+
             }
         } else {
             # Registry does not contain any configured File Age Monitoring
@@ -789,13 +801,21 @@ $debugHosts = @('Visual Studio Code Host')
 if ($host.Name -in $debugHosts) {
     Get-FileAgePropertyBags -SubKeyName $SubKeyName -Verbose
 } else {
-    Get-FileAgePropertyBags -SubKeyName $SubKeyName
+    if ($VerboseLogging -eq 'true') {
+        Get-FileAgePropertyBags -SubKeyName $SubKeyName -Verbose
+    } else {
+        Get-FileAgePropertyBags -SubKeyName $SubKeyName
+    }
 }]]></ScriptBody>
                 <SnapIns />
                 <Parameters>
                   <Parameter>
                     <Name>SubKeyName</Name>
                     <Value>$Config/FolderFriendlyName$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>VerboseLogging</Name>
+                    <Value>$Config/EnableVerboseLogging$</Value>
                   </Parameter>
                 </Parameters>
                 <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
@@ -821,11 +841,13 @@ if ($host.Name -in $debugHosts) {
           <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
           <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
           <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
         </Configuration>
         <OverrideableParameters>
           <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
           <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
           <OverrideableParameter ID="FileAgeAttribute" Selector="$Config/FileAgeAttribute$" ParameterType="string" />
+          <OverrideableParameter ID="EnableVerboseLogging" Selector="$Config/EnableVerboseLogging$" ParameterType="string" />
         </OverrideableParameters>
         <MonitorImplementation>
           <MemberModules>
@@ -834,11 +856,13 @@ if ($host.Name -in $debugHosts) {
               <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
               <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
               <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
+              <EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
             </DataSource>
             <ProbeAction ID="Probe" TypeID="Atea.Windows.File.Monitoring.FileAgeProbeModule">
               <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
               <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
               <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
+              <EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
             </ProbeAction>
             <ConditionDetection ID="FilterFolder" TypeID="System!System.ExpressionFilter">
               <Expression>
@@ -999,7 +1023,7 @@ if ($host.Name -in $debugHosts) {
       </Discovery>
     </Discoveries>
     <Rules>
-      <Rule ID="Atea.Windows.File.FileCreationTimeFolder.AlertRule" Enabled="true" Target="Atea.Windows.File.FileCreationTimeFolder" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="Atea.Windows.File.FileCreationTimeFolder.AlertRule" Enabled="false" Target="Atea.Windows.File.FileCreationTimeFolder" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>Alert</Category>
         <DataSources>
           <DataSource ID="DS" RunAs="Atea.Windows.File.FileCreationTimeFolder.RunasProfile" TypeID="Atea.Windows.File.FileCreationTime.vbsPropertyBag.DS">
@@ -1055,6 +1079,7 @@ if ($host.Name -in $debugHosts) {
           <IntervalSeconds>300</IntervalSeconds>
           <FolderFriendlyName>$Target/Property[Type="Atea.Windows.File.FileAgeFolder"]/FriendlyName$</FolderFriendlyName>
           <FileAgeAttribute>$Target/Property[Type="Atea.Windows.File.FileAgeFolder"]/FileAgeAttribute$</FileAgeAttribute>
+          <EnableVerboseLogging>false</EnableVerboseLogging>
         </Configuration>
       </UnitMonitor>
     </Monitors>
