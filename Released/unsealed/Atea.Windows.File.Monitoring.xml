@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.File.Monitoring</ID>
-      <Version>1.0.3.259</Version>
+      <Version>1.0.3.260</Version>
     </Identity>
     <Name>Atea.Windows.File.Monitoring</Name>
     <References>
@@ -49,6 +49,7 @@
     </EntityTypes>
     <SecureReferences>
       <SecureReference ID="Atea.Windows.File.FileCreationTimeFolder.RunasProfile" Accessibility="Public" Context="Atea.Windows.File.FileCreationTimeFolder" />
+      <SecureReference ID="Atea.Windows.File.FileShareMonitoring.RunasProfile" Accessibility="Public" Context="Atea.Windows.File.FileCreationTimeFolder" />
     </SecureReferences>
     <ModuleTypes>
       <DataSourceModuleType ID="Atea.Windows.File.FileCreationTime.Discovery.DataSource" Accessibility="Internal" Batching="false">
@@ -1138,6 +1139,10 @@ if ($host.Name -in $debugHosts) {
         <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder.RunasProfile">
           <Name>Atea File Creation-Time Folder RunAs Profile</Name>
           <Description>Configures the runas account to use when access a File Creation-Time folder.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileShareMonitoring.RunasProfile">
+          <Name>Atea File-Share Monitoring RunAs Profile</Name>
+          <Description>Configures the runas account to use when access a File Share.</Description>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.Monitoring">
           <Name>Atea Windows File Monitoring</Name>

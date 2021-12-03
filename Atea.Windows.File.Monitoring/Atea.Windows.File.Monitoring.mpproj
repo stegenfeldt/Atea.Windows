@@ -71,6 +71,9 @@
     <Compile Include="HealthModel\SecureReferences\FileMonitoringRunasAccount.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HealthModel\SecureReferences\FileShareMonitoringProfile.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ManagementPack.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -136,6 +139,7 @@
     <EmbeddedResource Include="Scripts\FCTvbsPropertyBag.vbs" />
     <EmbeddedResource Include="Scripts\FileAgePB.Tests.ps1" />
     <EmbeddedResource Include="Scripts\FileAgePoSHDiscovery.ps1" />
+    <EmbeddedResource Include="Scripts\Get-FileShareSpacePB.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="HealthModel\Monitors\FileAge.mptg">
