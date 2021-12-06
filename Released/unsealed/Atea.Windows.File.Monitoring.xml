@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.File.Monitoring</ID>
-      <Version>1.0.3.268</Version>
+      <Version>1.0.3.269</Version>
     </Identity>
     <Name>Atea.Windows.File.Monitoring</Name>
     <References>
@@ -45,7 +45,17 @@
           <Property ID="FriendlyName" Type="string" Key="true" CaseSensitive="false" MinLength="0" />
         </ClassType>
         <ClassType ID="Atea.Windows.File.Monitoring.Seed" Accessibility="Internal" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false" />
+        <ClassType ID="Atea.Windows.File.Monitoring.FileShareWatcher" Base="Windows!Microsoft.Windows.ApplicationComponent" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+          <Property ID="ShareName" Type="string" Key="true" MaxLength="512" />
+          <Property ID="UNCPath" Type="string" Key="true" MaxLength="512" />
+        </ClassType>
       </ClassTypes>
+      <RelationshipTypes>
+        <RelationshipType ID="Atea.Windows.File.Monitoring.WindowsComputerHostsFileShareWatcher" Base="System!System.Hosting" Abstract="false" Accessibility="Internal">
+          <Source ID="Source" Type="Windows!Microsoft.Windows.Computer" />
+          <Target ID="Target" Type="Atea.Windows.File.Monitoring.FileShareWatcher" />
+        </RelationshipType>
+      </RelationshipTypes>
     </EntityTypes>
     <SecureReferences>
       <SecureReference ID="Atea.Windows.File.FileCreationTimeFolder.RunasProfile" Accessibility="Public" Context="Atea.Windows.File.FileCreationTimeFolder" />
@@ -1444,6 +1454,14 @@ if ($host.Name -in $debugHosts) {
         <DisplayString ElementID="Atea.Windows.File.Monitoring.Seed">
           <Name>Atea Windows File-Monitoring Seed</Name>
           <Description>Target for the other file-related class discoveries. Provides no other monitoring.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareWatcher">
+          <Name>Atea FileShare Watcher Class</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.WindowsComputerHostsFileShareWatcher">
+          <Name>WindowsComputerHostsFileShareWatcher Relationship</Name>
+          <Description></Description>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.FileCreationTime.Discovery.DataSource">
           <Name>Atea File Creation-Time Folder Discovery Data Source</Name>

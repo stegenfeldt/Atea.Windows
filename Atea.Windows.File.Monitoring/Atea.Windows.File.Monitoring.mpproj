@@ -86,6 +86,12 @@
     <Compile Include="ServiceModel\Classes\FileMonitoringSeed.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServiceModel\Classes\FileShareWatcher.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServiceModel\Relationships\WindowsComputerHostsFileShareWatcher.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TypeLibrary\ModuleTypes\DataSources\FCTDiscoveryDS.mpx">
       <SubType>Code</SubType>
     </Compile>
