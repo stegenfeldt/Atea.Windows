@@ -98,6 +98,9 @@
     <Compile Include="TypeLibrary\ModuleTypes\DataSources\FileAgePropertyBagDS.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\DataSources\FileShareSpaceProbeDS.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FCTpsFolderDiscoveryProbe.mpx">
       <SubType>Code</SubType>
     </Compile>

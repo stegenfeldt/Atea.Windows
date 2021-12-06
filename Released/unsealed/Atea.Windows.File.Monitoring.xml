@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.File.Monitoring</ID>
-      <Version>1.0.3.260</Version>
+      <Version>1.0.3.268</Version>
     </Identity>
     <Name>Atea.Windows.File.Monitoring</Name>
     <References>
@@ -230,6 +230,227 @@
                 <Node ID="PropertyBag">
                   <Node ID="Scheduler" />
                 </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="Atea.Windows.File.FileShareSpace.TimedPropertyBag" Accessibility="Internal">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="ShareName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="UNCPath" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="UsePercent" type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FreeSpaceErrorThreshold" type="xsd:double" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FreeSpaceWarningThreshold" type="xsd:double" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation>
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval>$Config/IntervalSeconds$</Interval>
+                    <SpreadInitializationOverInterval>$Config/IntervalSeconds$</SpreadInitializationOverInterval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="PowerShellProbe" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagProbe">
+                <ScriptName>Get-FileShareSpacePB.ps1</ScriptName>
+                <ScriptBody><![CDATA[[CmdletBinding()]
+param (
+    [Parameter()]
+    [string]
+    $UNCPath = '\\tgds01\web'
+    , [Parameter()]
+    [string]
+    $ShareName = 'A ShareName'
+    , [Parameter()]
+    [double]
+    $FreeSpaceErrorThreshold = 3
+    , [Parameter()]
+    [double]
+    $FreeSpaceWarningThreshold = 10
+    , [Parameter()]
+    [bool]
+    $UsePercent = $true
+)
+
+
+function Get-FileShareFreeSpace {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [string]
+        $UNCPath
+        , [Parameter()]
+        [string]
+        $ShareName
+    )
+
+    $fsUser = '$RunAs[Name="Atea.Windows.File.FileShareMonitoring.RunasProfile"]/UserName$'
+    $fsPass = '$RunAs[Name="Atea.Windows.File.FileShareMonitoring.RunasProfile"]/Password$'
+
+    if ($fsUser -match '^.RunAs\[.*' -or $fsUser.Length -le 0 -or $fsUser -eq 'nt authority\system') {
+        $credentials = $null
+        $fsPass = $null
+        $fsUser = $(whoami)
+
+    } else {
+        $credentials = [PSCredential]::new($fsUser, (ConvertTo-SecureString -String $fsPass -AsPlainText -Force))
+    }
+
+    $FolderPath = $UNCPath
+
+    # Try to find a vacant drive-letter to use
+    $charCodes = 67..90
+    $drives = (Get-PSDrive).Name -as [string[]]
+    foreach ($charCode in $charCodes) {
+        $driveLetter = [char]$charCode
+        if ($driveLetter -notin $drives) {
+            $driveName = $driveLetter -as [string]
+            break
+        }
+    }
+
+    # Add a PSDrive with credentials (if needed). 
+    # Needs to be -Persist, otherwise we won't get usage information
+    if ($null -ne $credentials) {
+        $drive = New-PSDrive -Name $driveName -PSProvider 'FileSystem' -Root $FolderPath -Credential $credentials -Persist
+    } else {
+        $drive = New-PSDrive -Name $driveName -PSProvider 'FileSystem' -Root $FolderPath -Persist
+    }
+
+
+    if ($null -ne $drive) {
+        $usedGB = [math]::Round($($drive.Used / 1GB), 2) -as [double]
+        $freeGB = [math]::Round($($drive.Free / 1GB), 2) -as [double]
+        $totalGB = [math]::Round($usedGB + $freeGB, 2) -as [double]
+        $usedPct = [math]::Round(($usedGB / $totalGB) * 100, 2) -as [double]
+        $freePct = [math]::Round(($freeGB / $totalGB) * 100, 2) -as [double]
+        $driveData = @{
+            'Path'    = $UNCPath
+            'TotalGB' = $totalGB
+            'UsedGB'  = $usedGB
+            'UsedPct' = $usedPct
+            'FreeGB'  = $freeGB
+            'FreePct' = $freePct
+        }
+    }
+
+    Remove-PSDrive -Name $driveName
+
+    return $driveData
+}
+
+function Set-FileShareStatus {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [hashtable]
+        $DriveInfo
+        , [Parameter()]
+        [double]
+        $FreeSpaceErrorThreshold = 3
+        , [Parameter()]
+        [double]
+        $FreeSpaceWarningThreshold = 10
+        , [Parameter()]
+        [bool]
+        $UsePercent = $true
+    )
+
+    if ($UsePercent = $true) {
+        if ($DriveInfo.FreePct -le $FreeSpaceErrorThreshold) {
+            $status = 'ERROR'
+        } elseif ($DriveInfo.FreePct -le $FreeSpaceWarningThreshold) {
+            $status = 'WARNING'
+        } elseif ($DriveInfo.FreePct -gt $FreeSpaceWarningThreshold) {
+            $status = 'OK'
+        } else {
+            $status = 'UNDECIDED'
+        }
+    } elseif ($UsePercent = $false) {
+        if ($DriveInfo.FreeGB -le $FreeSpaceErrorThreshold) {
+            $status = 'ERROR'
+        } elseif ($DriveInfo.FreeGB -le $FreeSpaceWarningThreshold) {
+            $status = 'WARNING'
+        } elseif ($DriveInfo.FreeGB -gt $FreeSpaceWarningThreshold) {
+            $status = 'OK'
+        } else {
+            $status = 'UNDECIDED'
+        }
+    } else {
+        $status = 'WEIRD_INPUT'
+    }
+
+    $DriveInfo['Status'] = $status -as [string]
+    return $DriveInfo
+}
+
+function Send-FSPropertyBag {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [hashtable]
+        $DriveInfo
+    )
+
+    $omApi = New-Object -ComObject 'MOM.ScriptAPI'
+    $pb = $omApi.CreatePropertyBag()
+
+    foreach ($key in $DriveInfo.Keys) {
+        $pb.AddValue($key, $DriveInfo[$key])
+    }
+
+    if ($host.Name -in @('Visual Studio Code Host')) {
+        $omApi.AddItem($pb)
+        $omApi.ReturnItems()
+    } else {
+        $pb
+    }
+}
+
+$driveInfo = Get-FileShareFreeSpace -UNCPath $UNCPath -ShareName $ShareName
+$driveInfo = Set-FileShareStatus -DriveInfo $driveInfo -FreeSpaceErrorThreshold $FreeSpaceErrorThreshold -FreeSpaceWarningThreshold $FreeSpaceWarningThreshold -UsePercent $UsePercent
+Send-FSPropertyBag -DriveInfo $driveInfo
+]]></ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>UNCPath</Name>
+                    <Value>$Config/UNCPath$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>ShareName</Name>
+                    <Value>$Config/ShareName$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>FreeSpaceErrorThreshold</Name>
+                    <Value>$Config/FreeSpaceErrorThreshold$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>FreeSpaceWarningThreshold</Name>
+                    <Value>$Config/FreeSpaceWarningThreshold$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>UsePercent</Name>
+                    <Value>$Config/UsePercent$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PowerShellProbe">
+                <Node ID="Scheduler" />
               </Node>
             </Composition>
           </Composite>
@@ -1237,6 +1458,9 @@ if ($host.Name -in $debugHosts) {
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.FileAge.TimedPropertyBag">
           <Name>Atea Windows File - File Age PropertyBag Data Source</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileShareSpace.TimedPropertyBag">
+          <Name>Atea Windows File FileShare Space Monitoring - TimedPropertyBag</Name>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.FileCreationTime.vbsPropertyBag.ProbeAction">
           <Name>Probe Action VBScript PropertyBag</Name>

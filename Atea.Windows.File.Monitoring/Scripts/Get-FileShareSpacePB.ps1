@@ -5,7 +5,7 @@ param (
     $UNCPath = '\\tgds01\web'
     , [Parameter()]
     [string]
-    $ShareName
+    $ShareName = 'A ShareName'
     , [Parameter()]
     [double]
     $FreeSpaceErrorThreshold = 3
