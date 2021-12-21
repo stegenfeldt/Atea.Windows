@@ -1,0 +1,40 @@
+<TemplateGroup>
+  <Instances>
+    <Instance ID="Instance3d5876a2e98b4569931758d52012d10f" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.Discovery" Version="1.0.0.0">
+      <DiscoveryConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>FileShareWatcherDiscovery</Id>
+        <DisplayName>FileShare Watcher Discovery</DisplayName>
+        <Description>Discovers objects that monitors file-shares. </Description>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;3600&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;ScriptName&gt;FileShareWatcherDiscovery.ps1&lt;/ScriptName&gt;&lt;ScriptBody&gt;$IncludeFileContent/Scripts/FileShareWatcherDiscovery.ps1$&lt;/ScriptBody&gt;&lt;Parameters&gt;&lt;Parameter&gt;&lt;Name&gt;mpe&lt;/Name&gt;&lt;Value&gt;$MPElement$&lt;/Value&gt;&lt;/Parameter&gt;&lt;Parameter&gt;&lt;Name&gt;targetId&lt;/Name&gt;&lt;Value&gt;$Target/Id$&lt;/Value&gt;&lt;/Parameter&gt;&lt;Parameter&gt;&lt;Name&gt;computerName&lt;/Name&gt;&lt;Value&gt;$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$&lt;/Value&gt;&lt;/Parameter&gt;&lt;/Parameters&gt;&lt;TimeoutSeconds&gt;60&lt;/TimeoutSeconds&gt;</DataSourceConfig>
+        <DataSourceType>Windows!Microsoft.Windows.TimedPowerShell.DiscoveryProvider</DataSourceType>
+        <Target>Atea.Windows.File.Monitoring.Seed</Target>
+        <Enabled>true</Enabled>
+        <Remotable>false</Remotable>
+        <Priority>Normal</Priority>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Category>Discovery</Category>
+        <DiscoveryClasses>
+          <DiscoveryClassItem>
+            <TypeId>Atea.Windows.File.Monitoring.FileShareWatcher</TypeId>
+            <Properties>
+              <DiscoveredTypeProperty>
+                <TypeId>Atea.Windows.File.Monitoring.FileShareWatcher</TypeId>
+                <Property>ShareName</Property>
+              </DiscoveredTypeProperty>
+              <DiscoveredTypeProperty>
+                <TypeId>Atea.Windows.File.Monitoring.FileShareWatcher</TypeId>
+                <Property>UNCPath</Property>
+              </DiscoveredTypeProperty>
+              <DiscoveredTypeProperty>
+                <TypeId>System!System.Entity</TypeId>
+                <Property>DisplayName</Property>
+              </DiscoveredTypeProperty>
+            </Properties>
+          </DiscoveryClassItem>
+        </DiscoveryClasses>
+        <DiscoveryRelationships />
+      </DiscoveryConfig>
+    </Instance>
+  </Instances>
+</TemplateGroup>

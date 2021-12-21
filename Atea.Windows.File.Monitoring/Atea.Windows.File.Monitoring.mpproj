@@ -61,6 +61,10 @@
     <Compile Include="HealthModel\Discoveries\FileMonitoringSeedDiscovery.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HealthModel\Discoveries\ScriptDiscoveries.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>HealthModel\Discoveries\ScriptDiscoveries.mptg</DependentUpon>
+    </Compile>
     <Compile Include="HealthModel\Monitors\FileAge.mptg.mpx">
       <SubType>Code</SubType>
       <DependentUpon>HealthModel\Monitors\FileAge.mptg</DependentUpon>
@@ -148,9 +152,14 @@
     <EmbeddedResource Include="Scripts\FCTvbsPropertyBag.vbs" />
     <EmbeddedResource Include="Scripts\FileAgePB.Tests.ps1" />
     <EmbeddedResource Include="Scripts\FileAgePoSHDiscovery.ps1" />
+    <EmbeddedResource Include="Scripts\FileShareWatcherDiscovery.ps1" />
     <EmbeddedResource Include="Scripts\Get-FileShareSpacePB.ps1" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="HealthModel\Discoveries\ScriptDiscoveries.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
     <Content Include="HealthModel\Monitors\FileAge.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
