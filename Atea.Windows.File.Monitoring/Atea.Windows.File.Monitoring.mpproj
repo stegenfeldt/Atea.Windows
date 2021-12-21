@@ -69,6 +69,10 @@
       <SubType>Code</SubType>
       <DependentUpon>HealthModel\Monitors\FileAge.mptg</DependentUpon>
     </Compile>
+    <Compile Include="HealthModel\Monitors\FileShareSpaceMonitors.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>HealthModel\Monitors\FileShareSpaceMonitors.mptg</DependentUpon>
+    </Compile>
     <Compile Include="HealthModel\Rules\FCTFolderAlertRule.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -126,6 +130,9 @@
     <Compile Include="TypeLibrary\MonitorTypes\FileAgeMonitoryType.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\MonitorTypes\FileShareMonitorType.mpx">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HealthModel" />
@@ -161,6 +168,10 @@
       <Generator>FragmentGenerator</Generator>
     </Content>
     <Content Include="HealthModel\Monitors\FileAge.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
+    <Content Include="HealthModel\Monitors\FileShareSpaceMonitors.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>

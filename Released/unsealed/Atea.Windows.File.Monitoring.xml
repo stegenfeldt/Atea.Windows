@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.File.Monitoring</ID>
-      <Version>1.0.3.273</Version>
+      <Version>1.0.3.278</Version>
     </Identity>
     <Name>Atea.Windows.File.Monitoring</Name>
     <References>
@@ -289,8 +289,8 @@ param (
     [double]
     $FreeSpaceWarningThreshold = 10
     , [Parameter()]
-    [bool]
-    $UsePercent = $true
+    [string]
+    $UsePercent = 'true'
 )
 
 
@@ -428,8 +428,14 @@ function Send-FSPropertyBag {
     }
 }
 
+if ($UsePercent -eq 'false') {
+    $usePct = $false
+} else {
+    $usePct = $true
+}
+
 $driveInfo = Get-FileShareFreeSpace -UNCPath $UNCPath -ShareName $ShareName
-$driveInfo = Set-FileShareStatus -DriveInfo $driveInfo -FreeSpaceErrorThreshold $FreeSpaceErrorThreshold -FreeSpaceWarningThreshold $FreeSpaceWarningThreshold -UsePercent $UsePercent
+$driveInfo = Set-FileShareStatus -DriveInfo $driveInfo -FreeSpaceErrorThreshold $FreeSpaceErrorThreshold -FreeSpaceWarningThreshold $FreeSpaceWarningThreshold -UsePercent $usePct
 Send-FSPropertyBag -DriveInfo $driveInfo
 ]]></ScriptBody>
                 <SnapIns />
@@ -1166,6 +1172,127 @@ if ($host.Name -in $debugHosts) {
           </OnDemandDetections>
         </MonitorImplementation>
       </UnitMonitorType>
+      <UnitMonitorType ID="Atea.Windows.File.Monitoring.FileShareFreeSpace.MonitorType" Accessibility="Internal">
+        <MonitorTypeStates>
+          <MonitorTypeState ID="Healthy" />
+          <MonitorTypeState ID="Warning" />
+          <MonitorTypeState ID="Error" />
+        </MonitorTypeStates>
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="ShareName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="UNCPath" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FreeSpaceErrorThreshold" type="xsd:double" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FreeSpaceWarningThreshold" type="xsd:double" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="UsePercent" type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="FreeSpaceErrorThreshold" Selector="$Config/FreeSpaceErrorThreshold$" ParameterType="double" />
+          <OverrideableParameter ID="FreeSpaceWarningThreshold" Selector="$Config/FreeSpaceWarningThreshold$" ParameterType="double" />
+          <OverrideableParameter ID="UsePercent" Selector="$Config/UsePercent$" ParameterType="bool" />
+        </OverrideableParameters>
+        <MonitorImplementation>
+          <MemberModules>
+            <DataSource ID="PB" TypeID="Atea.Windows.File.FileShareSpace.TimedPropertyBag">
+              <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+              <ShareName>$Config/ShareName$</ShareName>
+              <UNCPath>$Config/UNCPath$</UNCPath>
+              <UsePercent>$Config/UsePercent$</UsePercent>
+              <FreeSpaceErrorThreshold>$Config/FreeSpaceErrorThreshold$</FreeSpaceErrorThreshold>
+              <FreeSpaceWarningThreshold>$Config/FreeSpaceWarningThreshold$</FreeSpaceWarningThreshold>
+            </DataSource>
+            <ConditionDetection ID="ErrorFilter" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">ERROR</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="WarningFilter" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">WARNING</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="HealthyFilter" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <Or>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Equal</Operator>
+                      <ValueExpression>
+                        <Value Type="String">OK</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Equal</Operator>
+                      <ValueExpression>
+                        <Value Type="String">UNDECIDED</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Equal</Operator>
+                      <ValueExpression>
+                        <Value Type="String">WEIRD_INPUT</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                </Or>
+              </Expression>
+            </ConditionDetection>
+          </MemberModules>
+          <RegularDetections>
+            <RegularDetection MonitorTypeStateID="Healthy">
+              <Node ID="HealthyFilter">
+                <Node ID="PB" />
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="Error">
+              <Node ID="ErrorFilter">
+                <Node ID="PB" />
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="Warning">
+              <Node ID="WarningFilter">
+                <Node ID="PB" />
+              </Node>
+            </RegularDetection>
+          </RegularDetections>
+        </MonitorImplementation>
+      </UnitMonitorType>
     </MonitorTypes>
   </TypeDefinitions>
   <Monitoring>
@@ -1413,11 +1540,39 @@ $discoveryData
           <EnableVerboseLogging>false</EnableVerboseLogging>
         </Configuration>
       </UnitMonitor>
+      <UnitMonitor ID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor" Accessibility="Public" Enabled="true" Target="Atea.Windows.File.Monitoring.FileShareWatcher" ParentMonitorID="Health!System.Health.AvailabilityState" Remotable="true" Priority="Normal" TypeID="Atea.Windows.File.Monitoring.FileShareFreeSpace.MonitorType" ConfirmDelivery="false">
+        <Category>AvailabilityHealth</Category>
+        <AlertSettings AlertMessage="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor.AlertMessage">
+          <AlertOnState>Warning</AlertOnState>
+          <AutoResolve>true</AutoResolve>
+          <AlertPriority>Normal</AlertPriority>
+          <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+          <AlertParameters>
+            <AlertParameter1>$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/ShareName$</AlertParameter1>
+            <AlertParameter2>$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/UNCPath$</AlertParameter2>
+          </AlertParameters>
+        </AlertSettings>
+        <OperationalStates>
+          <OperationalState ID="Healthy" MonitorTypeStateID="Healthy" HealthState="Success" />
+          <OperationalState ID="Error" MonitorTypeStateID="Error" HealthState="Error" />
+          <OperationalState ID="Warning" MonitorTypeStateID="Warning" HealthState="Warning" />
+        </OperationalStates>
+        <Configuration>
+          <TimeoutSeconds>60</TimeoutSeconds>
+          <IntervalSeconds>600</IntervalSeconds>
+          <ShareName>$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/ShareName$</ShareName>
+          <UNCPath>$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/UNCPath$</UNCPath>
+          <FreeSpaceErrorThreshold>3</FreeSpaceErrorThreshold>
+          <FreeSpaceWarningThreshold>10</FreeSpaceWarningThreshold>
+          <UsePercent>true</UsePercent>
+        </Configuration>
+      </UnitMonitor>
     </Monitors>
   </Monitoring>
   <Presentation>
     <StringResources>
       <StringResource ID="Atea.Windows.File.Monitoring.FileAgeMonitor.AlertMessage" />
+      <StringResource ID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor.AlertMessage" />
       <StringResource ID="Atea.Windows.File.FileCreationTimeFolder.AlertRule.Message" />
     </StringResources>
   </Presentation>
@@ -1453,6 +1608,28 @@ $discoveryData
         <DisplayString ElementID="Atea.Windows.File.Monitoring.FileAgeMonitor" SubElementID="Error">
           <Name>Bad Files Found</Name>
           <Description>Bad Files Found</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor">
+          <Name>FileShare Free Space Monitor</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor.AlertMessage">
+          <Name>{0} is running out of space</Name>
+          <Description>{0} is running low on free space.
+
+Path to share: {1}</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor" SubElementID="Healthy">
+          <Name>Free Space is OK</Name>
+          <Description>Free Space is OK</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor" SubElementID="Error">
+          <Name>Very Low on Free Space</Name>
+          <Description>Very Low on Free Space</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor" SubElementID="Warning">
+          <Name>Low on Free Space</Name>
+          <Description>Low on Free Space</Description>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder.AlertRule">
           <Name>Atea File Creation Time Folder Alerting Rule</Name>

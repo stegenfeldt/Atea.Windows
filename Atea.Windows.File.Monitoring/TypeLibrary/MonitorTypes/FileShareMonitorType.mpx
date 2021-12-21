@@ -1,0 +1,127 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<TypeDefinitions>
+		<MonitorTypes>
+			<UnitMonitorType ID="Atea.Windows.File.Monitoring.FileShareFreeSpace.MonitorType" Accessibility="Internal">
+				<MonitorTypeStates>
+					<MonitorTypeState ID="Healthy"/>
+					<MonitorTypeState ID="Warning"/>
+					<MonitorTypeState ID="Error"/>
+				</MonitorTypeStates>
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" />
+					<xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" />
+					<xsd:element minOccurs="1" name="ShareName" type="xsd:string" />
+					<xsd:element minOccurs="1" name="UNCPath" type="xsd:string" />
+					<xsd:element minOccurs="1" name="FreeSpaceErrorThreshold" type="xsd:double" />
+					<xsd:element minOccurs="1" name="FreeSpaceWarningThreshold" type="xsd:double" />
+					<xsd:element minOccurs="1" name="UsePercent" type="xsd:boolean" />
+				</Configuration>
+				<OverrideableParameters>
+					<OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+					<OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+					<OverrideableParameter ID="FreeSpaceErrorThreshold" Selector="$Config/FreeSpaceErrorThreshold$" ParameterType="double"/>
+					<OverrideableParameter ID="FreeSpaceWarningThreshold" Selector="$Config/FreeSpaceWarningThreshold$" ParameterType="double"/>
+					<OverrideableParameter ID="UsePercent" Selector="$Config/UsePercent$" ParameterType="bool"/>
+				</OverrideableParameters>
+				<MonitorImplementation>
+					<MemberModules>
+						<DataSource ID="PB" TypeID="Atea.Windows.File.FileShareSpace.TimedPropertyBag">
+							<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+							<IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+							<ShareName>$Config/ShareName$</ShareName>
+							<UNCPath>$Config/UNCPath$</UNCPath>
+							<UsePercent>$Config/UsePercent$</UsePercent>
+							<FreeSpaceErrorThreshold>$Config/FreeSpaceErrorThreshold$</FreeSpaceErrorThreshold>
+							<FreeSpaceWarningThreshold>$Config/FreeSpaceWarningThreshold$</FreeSpaceWarningThreshold>
+						</DataSource>
+						<ConditionDetection ID="ErrorFilter" TypeID="System!System.ExpressionFilter">
+							<Expression>
+								<SimpleExpression>
+									<ValueExpression>
+										<XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+									</ValueExpression>
+									<Operator>Equal</Operator>
+									<ValueExpression>
+										<Value Type="String">ERROR</Value>
+									</ValueExpression>
+								</SimpleExpression>
+							</Expression>
+						</ConditionDetection>
+						<ConditionDetection ID="WarningFilter" TypeID="System!System.ExpressionFilter">
+							<Expression>
+								<SimpleExpression>
+									<ValueExpression>
+										<XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+									</ValueExpression>
+									<Operator>Equal</Operator>
+									<ValueExpression>
+										<Value Type="String">WARNING</Value>
+									</ValueExpression>
+								</SimpleExpression>
+							</Expression>
+						</ConditionDetection>
+						<ConditionDetection ID="HealthyFilter" TypeID="System!System.ExpressionFilter">
+							<Expression>
+								<Or>
+									<Expression>
+										<SimpleExpression>
+											<ValueExpression>
+												<XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+											</ValueExpression>
+											<Operator>Equal</Operator>
+											<ValueExpression>
+												<Value Type="String">OK</Value>
+											</ValueExpression>
+										</SimpleExpression>
+									</Expression>
+									<Expression>
+										<SimpleExpression>
+											<ValueExpression>
+												<XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+											</ValueExpression>
+											<Operator>Equal</Operator>
+											<ValueExpression>
+												<Value Type="String">UNDECIDED</Value>
+											</ValueExpression>
+										</SimpleExpression>
+									</Expression>
+									<Expression>
+										<SimpleExpression>
+											<ValueExpression>
+												<XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+											</ValueExpression>
+											<Operator>Equal</Operator>
+											<ValueExpression>
+												<Value Type="String">WEIRD_INPUT</Value>
+											</ValueExpression>
+										</SimpleExpression>
+									</Expression>
+								</Or>
+							</Expression>
+						</ConditionDetection>
+					</MemberModules>
+					<RegularDetections>
+						<RegularDetection MonitorTypeStateID="Healthy">
+							<Node ID="HealthyFilter">
+								<Node ID="PB" />
+							</Node>
+						</RegularDetection>
+						<RegularDetection MonitorTypeStateID="Error">
+							<Node ID="ErrorFilter">
+								<Node ID="PB" />
+							</Node>
+						</RegularDetection>
+						<RegularDetection MonitorTypeStateID="Warning">
+							<Node ID="WarningFilter">
+								<Node ID="PB" />
+							</Node>
+						</RegularDetection>
+					</RegularDetections>
+				</MonitorImplementation>
+			</UnitMonitorType>
+		</MonitorTypes>
+	</TypeDefinitions>
+</ManagementPackFragment>

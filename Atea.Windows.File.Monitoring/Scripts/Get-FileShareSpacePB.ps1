@@ -13,8 +13,8 @@ param (
     [double]
     $FreeSpaceWarningThreshold = 10
     , [Parameter()]
-    [bool]
-    $UsePercent = $true
+    [string]
+    $UsePercent = 'true'
 )
 
 
@@ -152,6 +152,12 @@ function Send-FSPropertyBag {
     }
 }
 
+if ($UsePercent -eq 'false') {
+    $usePct = $false
+} else {
+    $usePct = $true
+}
+
 $driveInfo = Get-FileShareFreeSpace -UNCPath $UNCPath -ShareName $ShareName
-$driveInfo = Set-FileShareStatus -DriveInfo $driveInfo -FreeSpaceErrorThreshold $FreeSpaceErrorThreshold -FreeSpaceWarningThreshold $FreeSpaceWarningThreshold -UsePercent $UsePercent
+$driveInfo = Set-FileShareStatus -DriveInfo $driveInfo -FreeSpaceErrorThreshold $FreeSpaceErrorThreshold -FreeSpaceWarningThreshold $FreeSpaceWarningThreshold -UsePercent $usePct
 Send-FSPropertyBag -DriveInfo $driveInfo
