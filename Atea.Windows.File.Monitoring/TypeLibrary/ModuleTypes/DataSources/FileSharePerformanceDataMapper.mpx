@@ -12,6 +12,10 @@
 					<xsd:element name="InstanceName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
 					<xsd:element name="Value" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
 				</Configuration>
+				<OverrideableParameters>
+					<OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+					<OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+				</OverrideableParameters>
 				<ModuleImplementation>
 					<Composite>
 						<MemberModules>
@@ -28,6 +32,9 @@
 								<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
 								<ShareName>$Config/ShareName$</ShareName>
 								<UNCPath>$Config/UNCPath$</UNCPath>
+								<UsePercent>true</UsePercent>
+								<FreeSpaceErrorThreshold>0</FreeSpaceErrorThreshold>
+								<FreeSpaceWarningThreshold>0</FreeSpaceWarningThreshold>
 							</ProbeAction>
 							<ConditionDetection ID="DataMapper" TypeID="Perf!System.Performance.DataGenericMapper">
 								<ObjectName>$Config/ObjectName$</ObjectName>

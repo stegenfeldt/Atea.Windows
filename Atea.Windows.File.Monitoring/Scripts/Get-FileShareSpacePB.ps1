@@ -140,6 +140,8 @@ function Send-FSPropertyBag {
     $omApi = New-Object -ComObject 'MOM.ScriptAPI'
     $pb = $omApi.CreatePropertyBag()
 
+    $omApi.LogScriptEvent("FileShareSpace.ps1", 242, 0, ($DriveInfo | ConvertTo-Json))
+
     foreach ($key in $DriveInfo.Keys) {
         $pb.AddValue($key, $DriveInfo[$key])
     }
