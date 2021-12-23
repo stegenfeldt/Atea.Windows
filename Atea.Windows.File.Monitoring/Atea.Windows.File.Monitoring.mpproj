@@ -30,25 +30,36 @@
     <AssemblyOriginatorKeyFile>..\AteaST.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <ManagementPackReference Include="Microsoft.SystemCenter.DataWarehouse.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\Microsoft.SystemCenter.DataWarehouse.Library.mp</HintPath>
+      <Alias>MSDL</Alias>
+      <MinVersion>7.1.10226.0</MinVersion>
+    </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.Library">
       <Alias>SC</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.Windows.Library">
       <Alias>Windows</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.Health.Library">
       <Alias>Health</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.Library">
       <Alias>System</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.Visualization.Library">
       <Alias>Visualization</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Performance.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Performance.Library.mp</HintPath>
+      <Alias>Perf</Alias>
+      <MinVersion>7.0.8433.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +86,10 @@
     </Compile>
     <Compile Include="HealthModel\Rules\FCTFolderAlertRule.mpx">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HealthModel\Rules\PerformanceCollection.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>HealthModel\Rules\PerformanceCollection.mptg</DependentUpon>
     </Compile>
     <Compile Include="HealthModel\SecureReferences\FileMonitoringRunasAccount.mpx">
       <SubType>Code</SubType>
@@ -112,6 +127,9 @@
     <Compile Include="TypeLibrary\ModuleTypes\DataSources\FileAgePropertyBagDS.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\DataSources\FileSharePerformanceDataMapper.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TypeLibrary\ModuleTypes\DataSources\FileShareSpaceProbeDS.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -125,6 +143,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FileAgePoSHProbe.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypeLibrary\ModuleTypes\ProbeActions\FileShareSpacePropertyBagProbe.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TypeLibrary\MonitorTypes\FileAgeMonitoryType.mpx">
@@ -172,6 +193,10 @@
       <Generator>FragmentGenerator</Generator>
     </Content>
     <Content Include="HealthModel\Monitors\FileShareSpaceMonitors.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
+    <Content Include="HealthModel\Rules\PerformanceCollection.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>

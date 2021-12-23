@@ -1,0 +1,52 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<TypeDefinitions>
+		<ModuleTypes>
+			<DataSourceModuleType ID="Atea.Windows.File.FileSharePerformanceDataMapper.DataSource" Accessibility="Internal">
+				<Configuration>
+					<xsd:element name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element name="TimeoutSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="1" name="ShareName" type="xsd:string" />
+					<xsd:element minOccurs="1" name="UNCPath" type="xsd:string" />
+					<xsd:element name="ObjectName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element name="CounterName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element name="InstanceName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element name="Value" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+				</Configuration>
+				<ModuleImplementation>
+					<Composite>
+						<MemberModules>
+							<DataSource ID="Scheduler" TypeID="System!System.Scheduler">
+								<Scheduler>
+									<SimpleReccuringSchedule>
+										<Interval>$Config/IntervalSeconds$</Interval>
+										<SpreadInitializationOverInterval>$Config/IntervalSeconds$</SpreadInitializationOverInterval>
+									</SimpleReccuringSchedule>
+									<ExcludeDates />
+								</Scheduler>
+							</DataSource>
+							<ProbeAction ID="PropertyBag" TypeID="Atea.Windows.File.Monitoring.FileShareSpacePropertyBagProbe">
+								<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+								<ShareName>$Config/ShareName$</ShareName>
+								<UNCPath>$Config/UNCPath$</UNCPath>
+							</ProbeAction>
+							<ConditionDetection ID="DataMapper" TypeID="Perf!System.Performance.DataGenericMapper">
+								<ObjectName>$Config/ObjectName$</ObjectName>
+								<CounterName>$Config/CounterName$</CounterName>
+								<InstanceName>$Config/InstanceName$</InstanceName>
+								<Value>$Config/Value$</Value>
+							</ConditionDetection>
+						</MemberModules>
+						<Composition>
+							<Node ID="DataMapper">
+								<Node ID="PropertyBag">
+									<Node ID="Scheduler" />
+								</Node>
+							</Node>
+						</Composition>
+					</Composite>
+				</ModuleImplementation>
+				<OutputType>Perf!System.Performance.Data</OutputType>
+			</DataSourceModuleType>
+		</ModuleTypes>
+	</TypeDefinitions>
+</ManagementPackFragment>

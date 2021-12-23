@@ -13,7 +13,6 @@
 					<xsd:element minOccurs="1" name="UsePercent" type="xsd:boolean" />
 					<xsd:element minOccurs="1" name="FreeSpaceErrorThreshold" type="xsd:double" />
 					<xsd:element minOccurs="1" name="FreeSpaceWarningThreshold" type="xsd:double" />
-					<xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" />
 				</Configuration>
 				<ModuleImplementation>
 					<Composite>
@@ -27,33 +26,13 @@
 									<ExcludeDates />
 								</Scheduler>
 							</DataSource>
-							<ProbeAction ID="PowerShellProbe" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagProbe">
-								<ScriptName>Get-FileShareSpacePB.ps1</ScriptName>
-								<ScriptBody>$IncludeFileContent/Scripts/Get-FileShareSpacePB.ps1$</ScriptBody>
-								<SnapIns />
-								<Parameters>
-									<Parameter>
-										<Name>UNCPath</Name>
-										<Value>$Config/UNCPath$</Value>
-									</Parameter>
-									<Parameter>
-										<Name>ShareName</Name>
-										<Value>$Config/ShareName$</Value>
-									</Parameter>
-									<Parameter>
-										<Name>FreeSpaceErrorThreshold</Name>
-										<Value>$Config/FreeSpaceErrorThreshold$</Value>
-									</Parameter>
-									<Parameter>
-										<Name>FreeSpaceWarningThreshold</Name>
-										<Value>$Config/FreeSpaceWarningThreshold$</Value>
-									</Parameter>
-									<Parameter>
-										<Name>UsePercent</Name>
-										<Value>$Config/UsePercent$</Value>
-									</Parameter>
-								</Parameters>
+							<ProbeAction ID="PowerShellProbe" TypeID="Atea.Windows.File.Monitoring.FileShareSpacePropertyBagProbe">
 								<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+								<ShareName>$Config/ShareName$</ShareName>
+								<UNCPath>$Config/UNCPath$</UNCPath>
+								<UsePercent>$Config/UsePercent$</UsePercent>
+								<FreeSpaceErrorThreshold>$Config/FreeSpaceErrorThreshold$</FreeSpaceErrorThreshold>
+								<FreeSpaceWarningThreshold>$Config/FreeSpaceWarningThreshold$</FreeSpaceWarningThreshold>
 							</ProbeAction>
 						</MemberModules>
 						<Composition>
