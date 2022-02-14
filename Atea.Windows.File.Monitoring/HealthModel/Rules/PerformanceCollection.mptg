@@ -14,7 +14,7 @@
         <DiscardLevel>100</DiscardLevel>
         <ConditionDetectionId>CD</ConditionDetectionId>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;TimeoutSeconds&gt;60&lt;/TimeoutSeconds&gt;&lt;ShareName&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$&lt;/ShareName&gt;&lt;UNCPath&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/UNCPath$&lt;/UNCPath&gt;&lt;ObjectName&gt;$Target/Host/Property[Type='Windows!Microsoft.Windows.Computer']/NetbiosComputerName$&lt;/ObjectName&gt;&lt;CounterName&gt;FileShare_FreeGB&lt;/CounterName&gt;&lt;InstanceName&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$&lt;/InstanceName&gt;&lt;Value&gt;$Data/Property[@Name='FreeGB']$&lt;/Value&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;TimeoutSeconds&gt;60&lt;/TimeoutSeconds&gt;&lt;ShareName&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$&lt;/ShareName&gt;&lt;UNCPath&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/UNCPath$&lt;/UNCPath&gt;&lt;ObjectName&gt;FileShareSpace&lt;/ObjectName&gt;&lt;CounterName&gt;FileShareFreeGB&lt;/CounterName&gt;&lt;InstanceName&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$&lt;/InstanceName&gt;&lt;Value&gt;$Data/Property[@Name='FreeGB']$&lt;/Value&gt;</DataSourceConfig>
         <DataSourceType>Atea.Windows.File.FileSharePerformanceDataMapper.DataSource</DataSourceType>
         <CollectToDB>true</CollectToDB>
         <CollectToDW>true</CollectToDW>
@@ -34,7 +34,7 @@
         <DiscardLevel>100</DiscardLevel>
         <ConditionDetectionId>CD</ConditionDetectionId>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;TimeoutSeconds&gt;60&lt;/TimeoutSeconds&gt;&lt;ShareName&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$&lt;/ShareName&gt;&lt;UNCPath&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/UNCPath$&lt;/UNCPath&gt;&lt;ObjectName&gt;$Target/Host/Property[Type='Windows!Microsoft.Windows.Computer']/NetbiosComputerName$&lt;/ObjectName&gt;&lt;CounterName&gt;FileShare_FreePct&lt;/CounterName&gt;&lt;InstanceName&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$&lt;/InstanceName&gt;&lt;Value&gt;$Data/Property[@Name='FreePct']$&lt;/Value&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;TimeoutSeconds&gt;60&lt;/TimeoutSeconds&gt;&lt;ShareName&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$&lt;/ShareName&gt;&lt;UNCPath&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/UNCPath$&lt;/UNCPath&gt;&lt;ObjectName&gt;FileShareSpace&lt;/ObjectName&gt;&lt;CounterName&gt;FileShareFreePct&lt;/CounterName&gt;&lt;InstanceName&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$&lt;/InstanceName&gt;&lt;Value&gt;$Data/Property[@Name='FreePct']$&lt;/Value&gt;</DataSourceConfig>
         <DataSourceType>Atea.Windows.File.FileSharePerformanceDataMapper.DataSource</DataSourceType>
         <CollectToDB>true</CollectToDB>
         <CollectToDW>true</CollectToDW>

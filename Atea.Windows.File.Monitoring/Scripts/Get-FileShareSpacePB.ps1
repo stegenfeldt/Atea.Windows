@@ -67,8 +67,15 @@ function Get-FileShareFreeSpace {
         $usedGB = [math]::Round($($drive.Used / 1GB), 2) -as [double]
         $freeGB = [math]::Round($($drive.Free / 1GB), 2) -as [double]
         $totalGB = [math]::Round($usedGB + $freeGB, 2) -as [double]
-        $usedPct = [math]::Round(($usedGB / $totalGB) * 100, 2) -as [double]
-        $freePct = [math]::Round(($freeGB / $totalGB) * 100, 2) -as [double]
+        if ($null -ne $totalGB -and $totalGB -ne 0) {
+            $usedPct = [math]::Round(($usedGB / $totalGB) * 100, 2) -as [double]
+            $freePct = [math]::Round(($freeGB / $totalGB) * 100, 2) -as [double]
+        }
+        if ($null -eq $usedPct) {$usedPct = 0 -as [double]}
+        if ($null -eq $usedGB) {$usedGB = 0 -as [double]}
+        if ($null -eq $freePct) {$freePct = 0 -as [double]}
+        if ($null -eq $freeGB) {$freeGB = 0 -as [double]}
+        if ($null -eq $totalGB) {$totalGB = 0 -as [double]}
         $driveData = @{
             'Path'    = $UNCPath
             'TotalGB' = $totalGB

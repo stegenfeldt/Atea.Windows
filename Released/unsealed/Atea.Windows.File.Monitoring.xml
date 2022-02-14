@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.File.Monitoring</ID>
-      <Version>1.0.3.310</Version>
+      <Version>1.0.3.233</Version>
     </Identity>
     <Name>Atea.Windows.File.Monitoring</Name>
     <References>
@@ -1037,8 +1037,15 @@ function Get-FileShareFreeSpace {
         $usedGB = [math]::Round($($drive.Used / 1GB), 2) -as [double]
         $freeGB = [math]::Round($($drive.Free / 1GB), 2) -as [double]
         $totalGB = [math]::Round($usedGB + $freeGB, 2) -as [double]
-        $usedPct = [math]::Round(($usedGB / $totalGB) * 100, 2) -as [double]
-        $freePct = [math]::Round(($freeGB / $totalGB) * 100, 2) -as [double]
+        if ($null -ne $totalGB -and $totalGB -ne 0) {
+            $usedPct = [math]::Round(($usedGB / $totalGB) * 100, 2) -as [double]
+            $freePct = [math]::Round(($freeGB / $totalGB) * 100, 2) -as [double]
+        }
+        if ($null -eq $usedPct) {$usedPct = 0 -as [double]}
+        if ($null -eq $usedGB) {$usedGB = 0 -as [double]}
+        if ($null -eq $freePct) {$freePct = 0 -as [double]}
+        if ($null -eq $freeGB) {$freeGB = 0 -as [double]}
+        if ($null -eq $totalGB) {$totalGB = 0 -as [double]}
         $driveData = @{
             'Path'    = $UNCPath
             'TotalGB' = $totalGB
@@ -1623,8 +1630,8 @@ $discoveryData
             <TimeoutSeconds>60</TimeoutSeconds>
             <ShareName>$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$</ShareName>
             <UNCPath>$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/UNCPath$</UNCPath>
-            <ObjectName>$Target/Host/Property[Type='Windows!Microsoft.Windows.Computer']/NetbiosComputerName$</ObjectName>
-            <CounterName>FileShare_FreeGB</CounterName>
+            <ObjectName>FileShareSpace</ObjectName>
+            <CounterName>FileShareFreeGB</CounterName>
             <InstanceName>$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$</InstanceName>
             <Value>$Data/Property[@Name='FreeGB']$</Value>
           </DataSource>
@@ -1642,8 +1649,8 @@ $discoveryData
             <TimeoutSeconds>60</TimeoutSeconds>
             <ShareName>$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$</ShareName>
             <UNCPath>$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/UNCPath$</UNCPath>
-            <ObjectName>$Target/Host/Property[Type='Windows!Microsoft.Windows.Computer']/NetbiosComputerName$</ObjectName>
-            <CounterName>FileShare_FreePct</CounterName>
+            <ObjectName>FileShareSpace</ObjectName>
+            <CounterName>FileShareFreePct</CounterName>
             <InstanceName>$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$</InstanceName>
             <Value>$Data/Property[@Name='FreePct']$</Value>
           </DataSource>
