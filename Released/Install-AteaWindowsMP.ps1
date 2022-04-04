@@ -35,6 +35,7 @@ param(
 )
 
 $Error.Clear()
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 [string[]] $mpFiles = @(
     "Atea.Windows.Library.mp",
@@ -72,6 +73,9 @@ foreach ($mpFile in $mpFiles) {
         }
     }
     Write-Verbose "Saving $mpFileURL to $mpFilePath"
+    if (Test-Path -Path $mpFilePath) {
+        Remove-Item -Path $mpFilePath -Force
+    }
     Invoke-WebRequest -Uri $mpFileURL -OutFile $mpFilePath
 }
 

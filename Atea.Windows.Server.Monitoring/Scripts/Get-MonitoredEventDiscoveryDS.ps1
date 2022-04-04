@@ -1,8 +1,8 @@
 param($computerName)
-### Gather vars and modules before script execution
+<### Gather vars and modules before script execution
 $startVars = (Get-Variable -Scope Global).Name
 $startModules = Get-Module
-###
+###>
 
 [string] $registryPath = "HKLM:\SOFTWARE\CommunityMP\WinEvents"
 
@@ -32,13 +32,19 @@ if ($isDebugging) {
 }
 
 [int] $eventCount = 0
+[string] $eventList = ""
 $discoData = $omApi.CreateDiscoveryData(0, $sourceId, $targetId)
 
 if (Test-Path -Path $registryPath) {
 	$subKeys = Get-ChildItem -Path $registryPath
 	foreach ($subKey in $subKeys) {
+        if ($subKey.PSChildName.Length -gt 50) {
+            $EventMonitorName = $subKey.PSChildName.Substring(0,49)
+        } else {
+            $EventMonitorName = $subKey.PSChildName
+        }
 		$discoInstance = $discoData.CreateClassInstance("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']$")
-		$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/EventMonitorName$", $subKey.PSChildName)
+		$discoInstance.AddProperty("$MPElement[Name='Atea.Windows.Server.Monitoring.MonitoredEvent']/EventMonitorName$", $EventMonitorName)
 		$discoInstance.AddProperty("$MPElement[Name='System!System.Entity']/DisplayName$", $subKey.PSChildName)
 		$discoInstance.AddProperty("$MPElement[Name='Windows!Microsoft.Windows.Computer']/PrincipalName$", $computerName)
 		foreach ($itemProperties in (Get-ItemProperty -Path $subKey.PSPath)) {
@@ -54,6 +60,7 @@ if (Test-Path -Path $registryPath) {
 		}
 		$discoData.AddInstance($discoInstance)
 		$eventCount++
+        $eventList += "`n`t$($subKey.PSChildName)"
 	}
 }
 
@@ -67,9 +74,10 @@ else {
 	$discoData
 }
 
-$omApi.LogScriptEvent("Get-MonitoredEventDiscoveryDS.ps1", 6110, 0, "Ran eventlog discovery, found $($eventCount) events to monitor.`n`nSourceId: $sourceId`nTargetId: $targetId`nPrincipalName: $computerName`nDebug: $isDebugging")
+$omApi.LogScriptEvent("Get-MonitoredEventDiscoveryDS.ps1", 6110, 0, "Ran eventlog discovery, found $($eventCount) events to monitor.`n$($eventList)`n`nSourceId: $sourceId`nTargetId: $targetId`nPrincipalName: $computerName`nDebug: $($isDebugging)")
 
-### Unload generated vars and modules
+
+<### Unload generated vars and modules
 foreach ($module in (Get-Module)) {
 	if ($module -notin $startModules) {
 		Remove-Module $module
@@ -80,4 +88,5 @@ foreach ($var in (Get-Variable -Scope Global).Name) {
 		Remove-Variable $var -ErrorAction SilentlyContinue
 	}
 }
-###
+###>
+

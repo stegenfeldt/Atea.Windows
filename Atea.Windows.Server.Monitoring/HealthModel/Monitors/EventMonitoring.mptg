@@ -32,8 +32,8 @@
         <AlertOnState>Error</AlertOnState>
         <AlertPriority>Normal</AlertPriority>
         <AlertSeverity>MatchMonitorHealth</AlertSeverity>
-        <AlertName>$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/EventMonitorName$ Error Event Triggered!</AlertName>
-        <AlertDescription>$Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/EventMonitorName$:
+        <AlertName>$Target/Property[Type="System!System.Entity"]/DisplayName$ Error Event Triggered!</AlertName>
+        <AlertDescription>$Target/Property[Type="System!System.Entity"]/DisplayName$:
 $Target/Property[Type="Atea.Windows.Server.Monitoring.MonitoredEvent"]/ShortDescription$
 
 Source: $Data/Context/EventSourceName$

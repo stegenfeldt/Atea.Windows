@@ -1,0 +1,58 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<TypeDefinitions>
+		<ModuleTypes>
+			<ProbeActionModuleType ID="Atea.Windows.File.Monitoring.FileShareSpacePropertyBagProbe" Accessibility="Internal">
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:int" />
+					<xsd:element minOccurs="1" name="ShareName" type="xsd:string" />
+					<xsd:element minOccurs="1" name="UNCPath" type="xsd:string" />
+					<xsd:element minOccurs="0" name="UsePercent" type="xsd:boolean" />
+					<xsd:element minOccurs="0" name="FreeSpaceErrorThreshold" type="xsd:double" />
+					<xsd:element minOccurs="0" name="FreeSpaceWarningThreshold" type="xsd:double" />
+				</Configuration>
+				<ModuleImplementation>
+					<Composite>
+						<MemberModules>
+							<ProbeAction ID="PowerShellProbe" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagProbe">
+								<ScriptName>Get-FileShareSpacePB.ps1</ScriptName>
+								<ScriptBody>$IncludeFileContent/Scripts/Get-FileShareSpacePB.ps1$</ScriptBody>
+								<SnapIns />
+								<Parameters>
+									<Parameter>
+										<Name>UNCPath</Name>
+										<Value>$Config/UNCPath$</Value>
+									</Parameter>
+									<Parameter>
+										<Name>ShareName</Name>
+										<Value>$Config/ShareName$</Value>
+									</Parameter>
+									<Parameter>
+										<Name>FreeSpaceErrorThreshold</Name>
+										<Value>$Config/FreeSpaceErrorThreshold$</Value>
+									</Parameter>
+									<Parameter>
+										<Name>FreeSpaceWarningThreshold</Name>
+										<Value>$Config/FreeSpaceWarningThreshold$</Value>
+									</Parameter>
+									<Parameter>
+										<Name>UsePercent</Name>
+										<Value>$Config/UsePercent$</Value>
+									</Parameter>
+								</Parameters>
+								<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+							</ProbeAction>
+						</MemberModules>
+						<Composition>
+							<Node ID="PowerShellProbe" />
+						</Composition>
+					</Composite>
+				</ModuleImplementation>
+				<OutputType>System!System.PropertyBagData</OutputType>
+				<InputType>System!System.BaseData</InputType>
+			</ProbeActionModuleType>
+		</ModuleTypes>
+	</TypeDefinitions>
+</ManagementPackFragment>
