@@ -5,7 +5,7 @@ MPResources.resources
 
 # User-specific files
 *.suo
-*.user
+#*.user
 *.sln.docstates
 
 # Build results
@@ -190,10 +190,6 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /.vs/config/applicationhost.config
-/Atea.Windows.Library/AteaST.snk
-/Atea.Windows.File.Monitoring/AteaST.snk
-/Atea.Windows.Server.Monitoring/AteaST.snk
-/Atea.Windows.Service.Monitoring/AteaST.snk
-/AteaST.snk
+*.snk
 VisualStudioAuthoringConsole_x64.msi
 _Scripts/VisualStudioAuthoringConsole_x64.msi
