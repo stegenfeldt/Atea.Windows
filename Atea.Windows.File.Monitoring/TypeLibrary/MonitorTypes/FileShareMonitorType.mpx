@@ -52,15 +52,30 @@
 						</ConditionDetection>
 						<ConditionDetection ID="WarningFilter" TypeID="System!System.ExpressionFilter">
 							<Expression>
-								<SimpleExpression>
-									<ValueExpression>
-										<XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
-									</ValueExpression>
-									<Operator>Equal</Operator>
-									<ValueExpression>
-										<Value Type="String">WARNING</Value>
-									</ValueExpression>
-								</SimpleExpression>
+                <Or>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Equal</Operator>
+                      <ValueExpression>
+                        <Value Type="String">WARNING</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Equal</Operator>
+                      <ValueExpression>
+                        <Value Type="String">CONNECT_FAILED</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                </Or>
 							</Expression>
 						</ConditionDetection>
 						<ConditionDetection ID="HealthyFilter" TypeID="System!System.ExpressionFilter">
