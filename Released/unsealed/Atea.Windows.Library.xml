@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.Library</ID>
-      <Version>1.0.3.322</Version>
+      <Version>1.0.3.323</Version>
     </Identity>
     <Name>Atea.Windows.Library</Name>
     <References>

@@ -1,4 +1,5 @@
-﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+﻿<ManagementPackFragment SchemaVersion="2.0"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <TypeDefinitions>
     <SecureReferences>
       <SecureReference ID="Atea.Windows.File.FileCreationTimeFolder.RunasProfile" Accessibility="Public" Context="Atea.Windows.File.FileCreationTimeFolder" />

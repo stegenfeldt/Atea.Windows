@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.File.Monitoring</ID>
-      <Version>1.0.3.327</Version>
+      <Version>1.0.3.336</Version>
     </Identity>
     <Name>Atea.Windows.File.Monitoring</Name>
     <References>
@@ -1213,6 +1213,7 @@ Send-FSPropertyBag -DriveInfo $driveInfo -UNCPath $UNCPath
       <UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal">
         <MonitorTypeStates>
           <MonitorTypeState ID="Healthy" />
+          <MonitorTypeState ID="Warning" />
           <MonitorTypeState ID="Error" />
         </MonitorTypeStates>
         <Configuration>
@@ -1221,12 +1222,14 @@ Send-FSPropertyBag -DriveInfo $driveInfo -UNCPath $UNCPath
           <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
           <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
           <xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FileCountErrorThreshold" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
         </Configuration>
         <OverrideableParameters>
           <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
           <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
           <OverrideableParameter ID="FileAgeAttribute" Selector="$Config/FileAgeAttribute$" ParameterType="string" />
           <OverrideableParameter ID="EnableVerboseLogging" Selector="$Config/EnableVerboseLogging$" ParameterType="string" />
+          <OverrideableParameter ID="FileCountErrorThreshold" Selector="$Config/FileCountErrorThreshold$" ParameterType="int" />
         </OverrideableParameters>
         <MonitorImplementation>
           <MemberModules>
@@ -1260,24 +1263,52 @@ Send-FSPropertyBag -DriveInfo $driveInfo -UNCPath $UNCPath
               <Expression>
                 <SimpleExpression>
                   <ValueExpression>
-                    <XPathQuery Type="String">Property[@Name='FileCount']</XPathQuery>
+                    <XPathQuery Type="Integer">Property[@Name='FileCount']</XPathQuery>
                   </ValueExpression>
-                  <Operator>NotEqual</Operator>
+                  <Operator>GreaterEqual</Operator>
                   <ValueExpression>
-                    <Value Type="String">0</Value>
+                    <Value Type="Integer">$Config/FileCountErrorThreshold$</Value>
                   </ValueExpression>
                 </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="WarningFilter" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <And>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="Integer">Property[@Name='FileCount']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Less</Operator>
+                      <ValueExpression>
+                        <Value Type="Integer">$Config/FileCountErrorThreshold$</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="String">Property[@Name='FileCount']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>NotEqual</Operator>
+                      <ValueExpression>
+                        <Value Type="Integer">0</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                </And>
               </Expression>
             </ConditionDetection>
             <ConditionDetection ID="HealthyFilter" TypeID="System!System.ExpressionFilter">
               <Expression>
                 <SimpleExpression>
                   <ValueExpression>
-                    <XPathQuery Type="String">Property[@Name='FileCount']</XPathQuery>
+                    <XPathQuery Type="Integer">Property[@Name='FileCount']</XPathQuery>
                   </ValueExpression>
                   <Operator>Equal</Operator>
                   <ValueExpression>
-                    <Value Type="String">0</Value>
+                    <Value Type="Integer">0</Value>
                   </ValueExpression>
                 </SimpleExpression>
               </Expression>
@@ -1286,6 +1317,11 @@ Send-FSPropertyBag -DriveInfo $driveInfo -UNCPath $UNCPath
           <RegularDetections>
             <RegularDetection MonitorTypeStateID="Healthy">
               <Node ID="HealthyFilter">
+                <Node ID="TimedFileAgePropertyBag" />
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="Warning">
+              <Node ID="WarningFilter">
                 <Node ID="TimedFileAgePropertyBag" />
               </Node>
             </RegularDetection>
@@ -1298,6 +1334,13 @@ Send-FSPropertyBag -DriveInfo $driveInfo -UNCPath $UNCPath
           <OnDemandDetections>
             <OnDemandDetection MonitorTypeStateID="Healthy">
               <Node ID="HealthyFilter">
+                <Node ID="FilterFolder">
+                  <Node ID="Probe" />
+                </Node>
+              </Node>
+            </OnDemandDetection>
+            <OnDemandDetection MonitorTypeStateID="Warning">
+              <Node ID="WarningFilter">
                 <Node ID="FilterFolder">
                   <Node ID="Probe" />
                 </Node>
@@ -1725,6 +1768,7 @@ $discoveryData
         <OperationalStates>
           <OperationalState ID="Healthy" MonitorTypeStateID="Healthy" HealthState="Success" />
           <OperationalState ID="Error" MonitorTypeStateID="Error" HealthState="Error" />
+          <OperationalState ID="Warning" MonitorTypeStateID="Warning" HealthState="Warning" />
         </OperationalStates>
         <Configuration>
           <TimeoutSeconds>300</TimeoutSeconds>
@@ -1732,6 +1776,7 @@ $discoveryData
           <FolderFriendlyName>$Target/Property[Type="Atea.Windows.File.FileAgeFolder"]/FriendlyName$</FolderFriendlyName>
           <FileAgeAttribute>$Target/Property[Type="Atea.Windows.File.FileAgeFolder"]/FileAgeAttribute$</FileAgeAttribute>
           <EnableVerboseLogging>false</EnableVerboseLogging>
+          <FileCountErrorThreshold>1</FileCountErrorThreshold>
         </Configuration>
       </UnitMonitor>
       <UnitMonitor ID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor" Accessibility="Public" Enabled="true" Target="Atea.Windows.File.Monitoring.FileShareWatcher" ParentMonitorID="Health!System.Health.AvailabilityState" Remotable="true" Priority="Normal" TypeID="Atea.Windows.File.Monitoring.FileShareFreeSpace.MonitorType" ConfirmDelivery="false">
@@ -1805,8 +1850,12 @@ $discoveryData
           <Description>No Files Found</Description>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.Monitoring.FileAgeMonitor" SubElementID="Error">
-          <Name>Bad Files Found</Name>
-          <Description>Bad Files Found</Description>
+          <Name>Too Many Unwanted Files Found</Name>
+          <Description>Too Many Unwanted Files Found</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileAgeMonitor" SubElementID="Warning">
+          <Name>Some Unwanted Files Found</Name>
+          <Description>Some Unwanted Files Found</Description>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor">
           <Name>FileShare Free Space Monitor</Name>
