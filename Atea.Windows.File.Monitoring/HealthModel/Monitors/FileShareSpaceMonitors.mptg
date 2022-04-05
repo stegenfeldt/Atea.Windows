@@ -1,7 +1,7 @@
 <TemplateGroup>
   <Instances>
     <Instance ID="Instance1cb8bbbf42bb4bd8ba0ce5a2d4aaa2da" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
-      <UnitMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <UnitMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <MonitorType>Atea.Windows.File.Monitoring.FileShareFreeSpace.MonitorType</MonitorType>
         <MonitorConfig>&lt;TimeoutSeconds&gt;60&lt;/TimeoutSeconds&gt;&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;ShareName&gt;$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/ShareName$&lt;/ShareName&gt;&lt;UNCPath&gt;$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/UNCPath$&lt;/UNCPath&gt;&lt;FreeSpaceErrorThreshold&gt;3&lt;/FreeSpaceErrorThreshold&gt;&lt;FreeSpaceWarningThreshold&gt;10&lt;/FreeSpaceWarningThreshold&gt;&lt;UsePercent&gt;true&lt;/UsePercent&gt;</MonitorConfig>
         <MonitorOperationalStates>

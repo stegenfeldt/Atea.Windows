@@ -1,11 +1,12 @@
-﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+﻿<ManagementPackFragment SchemaVersion="2.0"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<TypeDefinitions>
 		<MonitorTypes>
 			<UnitMonitorType ID="Atea.Windows.File.Monitoring.FileShareFreeSpace.MonitorType" Accessibility="Internal">
 				<MonitorTypeStates>
-					<MonitorTypeState ID="Healthy"/>
-					<MonitorTypeState ID="Warning"/>
-					<MonitorTypeState ID="Error"/>
+					<MonitorTypeState ID="Healthy" />
+					<MonitorTypeState ID="Warning" />
+					<MonitorTypeState ID="Error" />
 				</MonitorTypeStates>
 				<Configuration>
 					<IncludeSchemaTypes>
@@ -22,9 +23,9 @@
 				<OverrideableParameters>
 					<OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
 					<OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
-					<OverrideableParameter ID="FreeSpaceErrorThreshold" Selector="$Config/FreeSpaceErrorThreshold$" ParameterType="double"/>
-					<OverrideableParameter ID="FreeSpaceWarningThreshold" Selector="$Config/FreeSpaceWarningThreshold$" ParameterType="double"/>
-					<OverrideableParameter ID="UsePercent" Selector="$Config/UsePercent$" ParameterType="bool"/>
+					<OverrideableParameter ID="FreeSpaceErrorThreshold" Selector="$Config/FreeSpaceErrorThreshold$" ParameterType="double" />
+					<OverrideableParameter ID="FreeSpaceWarningThreshold" Selector="$Config/FreeSpaceWarningThreshold$" ParameterType="double" />
+					<OverrideableParameter ID="UsePercent" Selector="$Config/UsePercent$" ParameterType="bool" />
 				</OverrideableParameters>
 				<MonitorImplementation>
 					<MemberModules>
@@ -52,30 +53,30 @@
 						</ConditionDetection>
 						<ConditionDetection ID="WarningFilter" TypeID="System!System.ExpressionFilter">
 							<Expression>
-                <Or>
-                  <Expression>
-                    <SimpleExpression>
-                      <ValueExpression>
-                        <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
-                      </ValueExpression>
-                      <Operator>Equal</Operator>
-                      <ValueExpression>
-                        <Value Type="String">WARNING</Value>
-                      </ValueExpression>
-                    </SimpleExpression>
-                  </Expression>
-                  <Expression>
-                    <SimpleExpression>
-                      <ValueExpression>
-                        <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
-                      </ValueExpression>
-                      <Operator>Equal</Operator>
-                      <ValueExpression>
-                        <Value Type="String">CONNECT_FAILED</Value>
-                      </ValueExpression>
-                    </SimpleExpression>
-                  </Expression>
-                </Or>
+								<Or>
+									<Expression>
+										<SimpleExpression>
+											<ValueExpression>
+												<XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+											</ValueExpression>
+											<Operator>Equal</Operator>
+											<ValueExpression>
+												<Value Type="String">WARNING</Value>
+											</ValueExpression>
+										</SimpleExpression>
+									</Expression>
+									<Expression>
+										<SimpleExpression>
+											<ValueExpression>
+												<XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+											</ValueExpression>
+											<Operator>Equal</Operator>
+											<ValueExpression>
+												<Value Type="String">CONNECT_FAILED</Value>
+											</ValueExpression>
+										</SimpleExpression>
+									</Expression>
+								</Or>
 							</Expression>
 						</ConditionDetection>
 						<ConditionDetection ID="HealthyFilter" TypeID="System!System.ExpressionFilter">
