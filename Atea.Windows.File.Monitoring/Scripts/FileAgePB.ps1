@@ -114,7 +114,7 @@ function Get-FileAgePropertyBags {
                         }
                         #We have old files, and a message. Build the property bag
                         #issue45 quick fix, truncate $summaryMessage to avoid overloading the propertybag
-                        $summaryMessage.subString(0, [System.Math]::Min(1024, $summaryMessage.Length))
+                        $summaryMessage = $summaryMessage.subString(0, [System.Math]::Min(1024, $summaryMessage.Length))
                         $propertyBag = $omApi.CreatePropertyBag()
                         $propertyBag.AddValue('FolderFriendlyName', $FriendlyName)
                         $propertyBag.AddValue('Summary', $summaryMessage)
