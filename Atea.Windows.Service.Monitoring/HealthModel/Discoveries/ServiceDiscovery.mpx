@@ -5,6 +5,7 @@
         <Category>Discovery</Category>
         <DiscoveryTypes>
           <DiscoveryClass TypeID="Atea.Windows.Service.Service">
+            <Property TypeID="System!System.Entity" PropertyID="DisplayName" />
             <Property TypeID="MSNL!Microsoft.SystemCenter.NTService" PropertyID="ServiceName" />
             <Property TypeID="MSNL!Microsoft.SystemCenter.NTService" PropertyID="ServiceProcessName" />
             <Property TypeID="MSNL!Microsoft.SystemCenter.NTService" PropertyID="DisplayName" />
@@ -16,10 +17,15 @@
           <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
           <TimeoutSeconds>300</TimeoutSeconds>
           <ScriptName>AteaWinSvcServiceDiscoveryDS.vbs</ScriptName>
+          <UseServiceDisplayName>false</UseServiceDisplayName>
           <Debug>false</Debug>
           <ClassId>$MPElement[Name="Atea.Windows.Service.Service"]$</ClassId>
           <InstanceSettings>
             <Settings>
+              <Setting>
+                <Name>$MPElement[Name='System!System.Entity']/DisplayName$</Name>
+                <Value>$Data/Property[@Name='EntityDisplayName']$</Value>
+              </Setting>
               <Setting>
                 <Name>$MPElement[Name='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$</Name>
                 <Value>$Data/Property[@Name='Name']$</Value>

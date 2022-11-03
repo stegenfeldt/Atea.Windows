@@ -1,0 +1,44 @@
+<TemplateGroup>
+  <Instances>
+    <Instance ID="Instance6e6966ef64584dabab974d07aee03c69" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>FileShareFreeGBCollection</Id>
+        <DisplayName>Fileshare Free GB Collection</DisplayName>
+        <Description>Collects Fileshare free space in GB.</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>Atea.Windows.File.Monitoring.FileShareWatcher</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;TimeoutSeconds&gt;60&lt;/TimeoutSeconds&gt;&lt;ShareName&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$&lt;/ShareName&gt;&lt;UNCPath&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/UNCPath$&lt;/UNCPath&gt;&lt;ObjectName&gt;FileShareSpace&lt;/ObjectName&gt;&lt;CounterName&gt;FileShareFreeGB&lt;/CounterName&gt;&lt;InstanceName&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$&lt;/InstanceName&gt;&lt;Value&gt;$Data/Property[@Name='FreeGB']$&lt;/Value&gt;</DataSourceConfig>
+        <DataSourceType>Atea.Windows.File.FileSharePerformanceDataMapper.DataSource</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+    <Instance ID="Instance0fb07aae68ba45dc89f12a7ae49fa3d1" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>FileShareFreePctCollection</Id>
+        <DisplayName>Fileshare Free Percent Collection</DisplayName>
+        <Description>Collects Fileshare free space in percent.</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>Atea.Windows.File.Monitoring.FileShareWatcher</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;TimeoutSeconds&gt;60&lt;/TimeoutSeconds&gt;&lt;ShareName&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$&lt;/ShareName&gt;&lt;UNCPath&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/UNCPath$&lt;/UNCPath&gt;&lt;ObjectName&gt;FileShareSpace&lt;/ObjectName&gt;&lt;CounterName&gt;FileShareFreePct&lt;/CounterName&gt;&lt;InstanceName&gt;$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$&lt;/InstanceName&gt;&lt;Value&gt;$Data/Property[@Name='FreePct']$&lt;/Value&gt;</DataSourceConfig>
+        <DataSourceType>Atea.Windows.File.FileSharePerformanceDataMapper.DataSource</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+  </Instances>
+</TemplateGroup>

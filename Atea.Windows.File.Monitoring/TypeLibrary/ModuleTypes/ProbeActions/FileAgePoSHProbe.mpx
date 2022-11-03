@@ -5,10 +5,13 @@
         <Configuration>
           <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" />
           <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:int" />
+          <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" />
+          <xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" />
         </Configuration>
         <OverrideableParameters>
           <OverrideableParameter ID="FileTimeAttribute" ParameterType="string" Selector="$Config/FileAgeAttribute$" />
           <OverrideableParameter ID="TimeoutSeconds" ParameterType="int" Selector="$Config/TimeoutSeconds$"/>
+          <OverrideableParameter ID="EnableVerboseLogging" ParameterType="string" Selector="$Config/EnableVerboseLogging$" />
         </OverrideableParameters>
         <ModuleImplementation>
           <Composite>
@@ -19,8 +22,12 @@
                 <SnapIns />
                 <Parameters>
                   <Parameter>
-                    <Name>FileAgeAttribute</Name>
-                    <Value>$Config/FileAgeAttribute$</Value>
+                    <Name>SubKeyName</Name>
+                    <Value>$Config/FolderFriendlyName$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>VerboseLogging</Name>
+                    <Value>$Config/EnableVerboseLogging$</Value>
                   </Parameter>
                 </Parameters>
                 <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>

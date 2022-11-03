@@ -10,12 +10,14 @@
           <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" />
           <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" />
           <xsd:element minOccurs="1" name="ScriptName" type="xsd:string" />
+          <xsd:element minOccurs="0" name="UseServiceDisplayName" type="xsd:boolean" />
           <xsd:element minOccurs="1" name="Debug" type="xsd:boolean" />
           <xsd:element minOccurs="1" name="ClassId" type="xsd:string" />
           <xsd:element minOccurs="1" name="InstanceSettings" type="SettingsType" />
         </Configuration>
         <OverrideableParameters>
           <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="UseServiceDisplayName" Selector="$Config/UseServiceDisplayName$" ParameterType="bool" />
           <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool" />
           <OverrideableParameter ID="TimeoutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
         </OverrideableParameters>
@@ -34,6 +36,7 @@
               <ProbeAction ID="PropertyBag" TypeID="Atea.Windows.Service.Probe.VBSPropertyBag">
                 <ScriptName>$Config/ScriptName$</ScriptName>
                 <ComputerName>$Config/ComputerName$</ComputerName>
+                <UseServiceDisplayName>$Config/UseServiceDisplayName$</UseServiceDisplayName>
                 <Debug>$Config/Debug$</Debug>
                 <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
               </ProbeAction>
@@ -70,6 +73,10 @@
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.Service.ServiceDiscoveryDS" SubElementID="TimeoutSeconds">
           <Name>Timeout Seconds</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.ServiceDiscoveryDS" SubElementID="UseServiceDisplayName">
+          <Name>Use Service Display Name</Name>
+          <Description>Use service display name instead of service name as display name of discovered services.</Description>
         </DisplayString>
       </DisplayStrings>
     </LanguagePack>

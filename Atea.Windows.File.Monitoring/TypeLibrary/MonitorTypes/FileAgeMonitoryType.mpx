@@ -1,21 +1,24 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <TypeDefinitions>
     <MonitorTypes>
-      <UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal" RunAs="Atea.Windows.File.FileCreationTimeFolder.RunasProfile">
-        <MonitorTypeStates>
-          <MonitorTypeState ID="Healthy"/>
-          <MonitorTypeState ID="Error"/>
+      <!--<UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal" RunAs="Atea.Windows.File.FileCreationTimeFolder.RunasProfile">-->
+      <UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal">
+          <MonitorTypeStates>
+              <MonitorTypeState ID="Healthy"/>
+              <MonitorTypeState ID="Error"/>
         </MonitorTypeStates>
         <Configuration>
           <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" />
           <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" />
           <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" />
           <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" />
+          <xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" />
         </Configuration>
         <OverrideableParameters>
           <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
           <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
           <OverrideableParameter ID="FileAgeAttribute" Selector="$Config/FileAgeAttribute$" ParameterType="string"/>
+          <OverrideableParameter ID="EnableVerboseLogging" Selector="$Config/EnableVerboseLogging$" ParameterType="string"/>
         </OverrideableParameters>
         <MonitorImplementation>
           <MemberModules>
@@ -24,10 +27,13 @@
               <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
               <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
               <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
+              <EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
             </DataSource>
             <ProbeAction ID="Probe" TypeID="Atea.Windows.File.Monitoring.FileAgeProbeModule">
               <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
               <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
+              <EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
             </ProbeAction>
             <ConditionDetection ID="FilterFolder" TypeID="System!System.ExpressionFilter">
               <Expression>
