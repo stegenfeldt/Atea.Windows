@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ManagementPackReference Include="Microsoft.SystemCenter.DataWarehouse.Library">
-      <HintPath>C:\Program Files (x86)\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\Microsoft.SystemCenter.DataWarehouse.Library.mp</HintPath>
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012\Microsoft.SystemCenter.DataWarehouse.Library.mp</HintPath>
       <Alias>MSDL</Alias>
       <MinVersion>7.0.8427.0</MinVersion>
     </ManagementPackReference>
@@ -56,7 +56,7 @@
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.Performance.Library">
-      <HintPath>C:\Program Files (x86)\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\System.Performance.Library.mp</HintPath>
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012\System.Performance.Library.mp</HintPath>
       <Alias>Perf</Alias>
       <MinVersion>7.0.8427.0</MinVersion>
     </ManagementPackReference>
