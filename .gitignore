@@ -197,3 +197,5 @@ ModelManifest.xml
 /AteaST.snk
 VisualStudioAuthoringConsole_x64.msi
 _Scripts/VisualStudioAuthoringConsole_x64.msi
+/.vs/VSWorkspaceState.json
+/.vs/slnx.sqlite
