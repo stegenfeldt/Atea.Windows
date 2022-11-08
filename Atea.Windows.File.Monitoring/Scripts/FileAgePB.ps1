@@ -7,7 +7,7 @@ Param(
     [Parameter(Mandatory = $true)]
     [string]
     $SubKeyName
-    ,[ValidateSet("true", "false")]
+    , [ValidateSet("true", "false")]
     [Parameter(Mandatory = $false)]
     [string] $VerboseLogging = 'false'
 )
@@ -44,7 +44,8 @@ function Get-FileAgePropertyBags {
         $fsPass = $null
         $fsUser = $(whoami)
 
-    } else {
+    }
+    else {
         $credentials = [PSCredential]::new($fsUser, (ConvertTo-SecureString -String $fsPass -AsPlainText -Force))
     }
 
@@ -80,7 +81,8 @@ function Get-FileAgePropertyBags {
                     if ($Recursive.Trim() -eq 'false') {
                         $Recursive = ''
                         $summaryMessage += "`n"
-                    } else {
+                    }
+                    else {
                         $Recursive = '-Recurse'
                         $summaryMessage += ", Recursive`n"
                     }
@@ -89,7 +91,8 @@ function Get-FileAgePropertyBags {
 
                     if ($null -ne $credentials) {
                         New-PSDrive -Name $SubKeyName -PSProvider 'FileSystem' -Root $FolderPath -Credential $credentials
-                    } else {
+                    }
+                    else {
                         New-PSDrive -Name $SubKeyName -PSProvider 'FileSystem' -Root $FolderPath
                     }
                     
@@ -125,7 +128,8 @@ function Get-FileAgePropertyBags {
                             Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '400' -Message $summaryMessage -EntryType Information -Category 0
                         }
 
-                    } else {
+                    }
+                    else {
                         # No matching files found
                         $propertyBag = $omApi.CreatePropertyBag()
                         $propertyBag.AddValue('FolderFriendlyName', $FriendlyName)
@@ -142,13 +146,15 @@ function Get-FileAgePropertyBags {
                 }
 
             }
-        } else {
+        }
+        else {
             # Registry does not contain any configured File Age Monitoring
             # or we don't have access to read the keys
             $propertyBag = $omApi.CreatePropertyBag()
             $propertyBag
         }
-    } else {
+    }
+    else {
         #Nope, not able to read from the registry path
         Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '404' -Message "$RegistryPath is not found on this system, unable to read file age monitoring configuration.`n`nReturning an empty property bag." -EntryType Error -Category 0
         $propertyBag = $omApi.CreatePropertyBag()
@@ -159,10 +165,12 @@ function Get-FileAgePropertyBags {
 $debugHosts = @('Visual Studio Code Host')
 if ($host.Name -in $debugHosts) {
     Get-FileAgePropertyBags -SubKeyName $SubKeyName -Verbose
-} else {
+}
+else {
     if ($VerboseLogging -eq 'true') {
         Get-FileAgePropertyBags -SubKeyName $SubKeyName -Verbose
-    } else {
+    }
+    else {
         Get-FileAgePropertyBags -SubKeyName $SubKeyName
     }
 }
