@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Exclusions on AutoService discovery
 - Standard Service Restart recovery task now supports services with spaces
 - Service displaystring discovery
+- [File Age monitor truncates description to avoid buffer overflow](https://github.com/stegenfeldt/Atea.Windows/pull/49)
 
 ### Removed
 
