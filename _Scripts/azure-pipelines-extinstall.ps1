@@ -9,8 +9,6 @@ $msiFilePath = (Get-ChildItem -Path ".\$vsaeFileName").FullName
 $vsaeInstalled = $false
 $installedSoftware = Get-ChildItem "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall"
 foreach ($obj in $InstalledSoftware) {
-    write-host $obj.GetValue('DisplayName')
-    # write-host " - " -NoNewline; write-host $obj.GetValue('DisplayVersion')
     if ($obj.GetValue('DisplayName') -like '*Visual Studio Authoring*') {
         $vsaeInstalled = $true
     }
