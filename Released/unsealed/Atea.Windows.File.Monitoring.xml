@@ -1,0 +1,2045 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ManagementPack SchemaVersion="2.0" ContentReadable="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Manifest>
+    <Identity>
+      <ID>Atea.Windows.File.Monitoring</ID>
+      <Version>1.0.3.341</Version>
+    </Identity>
+    <Name>Atea.Windows.File.Monitoring</Name>
+    <References>
+      <Reference Alias="MSDL">
+        <ID>Microsoft.SystemCenter.DataWarehouse.Library</ID>
+        <Version>7.1.10226.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="SC">
+        <ID>Microsoft.SystemCenter.Library</ID>
+        <Version>7.0.8433.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="Windows">
+        <ID>Microsoft.Windows.Library</ID>
+        <Version>7.5.8501.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="Health">
+        <ID>System.Health.Library</ID>
+        <Version>7.0.8433.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="System">
+        <ID>System.Library</ID>
+        <Version>7.5.8501.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="Perf">
+        <ID>System.Performance.Library</ID>
+        <Version>7.0.8433.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+    </References>
+  </Manifest>
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+        <ClassType ID="Atea.Windows.File.FileAgeFolder" Accessibility="Public" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false">
+          <Property ID="FolderPath" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="Recursive" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="FilePattern" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="AgeInMinutes" Type="int" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="Operator" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="FriendlyName" Type="string" Key="true" CaseSensitive="false" MinLength="0" />
+          <Property ID="FileAgeAttribute" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+        </ClassType>
+        <ClassType ID="Atea.Windows.File.FileCreationTimeFolder" Accessibility="Public" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false">
+          <Property ID="FolderPath" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="Recursive" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="FilePattern" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="AgeInMinutes" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="Operator" Type="string" Key="false" CaseSensitive="false" MinLength="0" />
+          <Property ID="FriendlyName" Type="string" Key="true" CaseSensitive="false" MinLength="0" />
+        </ClassType>
+        <ClassType ID="Atea.Windows.File.Monitoring.Seed" Accessibility="Internal" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false" />
+        <ClassType ID="Atea.Windows.File.Monitoring.FileShareWatcher" Base="Windows!Microsoft.Windows.ApplicationComponent" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+          <Property ID="ShareName" Type="string" Key="true" MaxLength="512" />
+          <Property ID="UNCPath" Type="string" Key="true" MaxLength="512" />
+        </ClassType>
+      </ClassTypes>
+      <RelationshipTypes>
+        <RelationshipType ID="Atea.Windows.File.Monitoring.WindowsComputerHostsFileShareWatcher" Base="System!System.Hosting" Abstract="false" Accessibility="Internal">
+          <Source ID="Source" Type="Windows!Microsoft.Windows.Computer" />
+          <Target ID="Target" Type="Atea.Windows.File.Monitoring.FileShareWatcher" />
+        </RelationshipType>
+      </RelationshipTypes>
+    </EntityTypes>
+    <SecureReferences>
+      <SecureReference ID="Atea.Windows.File.FileCreationTimeFolder.RunasProfile" Accessibility="Public" Context="Atea.Windows.File.FileCreationTimeFolder" />
+      <SecureReference ID="Atea.Windows.File.FileShareMonitoring.RunasProfile" Accessibility="Public" Context="Atea.Windows.File.FileCreationTimeFolder" />
+    </SecureReferences>
+    <ModuleTypes>
+      <DataSourceModuleType ID="Atea.Windows.File.FileCreationTime.Discovery.DataSource" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Health!System.Health.AlertSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="MPElement" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="TargetID" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.Discovery.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval>$Config/IntervalSeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="PoSHDiscovery" TypeID="Atea.Windows.File.FileCreationTime.psFolderDiscovery.ProbeAction">
+                <MPElement>$Config/MPElement$</MPElement>
+                <TargetID>$Config/TargetID$</TargetID>
+                <ComputerName>$Config/ComputerName$</ComputerName>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PoSHDiscovery">
+                <Node ID="Scheduler" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="Atea.Windows.File.FileCreationTime.vbsPropertyBag.DS" Accessibility="Public" Batching="false">
+        <Configuration>
+          <xsd:element minOccurs="1" name="TimeOutSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="Interval" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="Arguments" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeOutSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/Interval$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval>$Config/Interval$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="Probe" TypeID="Atea.Windows.File.FileCreationTime.vbsPropertyBag.ProbeAction">
+                <Arguments>$Config/Arguments$</Arguments>
+                <TimeoutSeconds>$Config/TimeOutSeconds$</TimeoutSeconds>
+              </ProbeAction>
+              <ConditionDetection ID="Filter" TypeID="System!System.ExpressionFilter">
+                <Expression>
+                  <SimpleExpression>
+                    <ValueExpression>
+                      <XPathQuery>Property[@Name='FolderFriendlyName']</XPathQuery>
+                    </ValueExpression>
+                    <Operator>Equal</Operator>
+                    <ValueExpression>
+                      <Value>$Config/FolderFriendlyName$</Value>
+                    </ValueExpression>
+                  </SimpleExpression>
+                </Expression>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="Filter">
+                <Node ID="Probe">
+                  <Node ID="Scheduler" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="Atea.Windows.File.FileAgeFolder.DiscoveryDS" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Health!System.Health.AlertSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="MPElement" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="TargetID" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.Discovery.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval>$Config/IntervalSeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="PoSHDiscovery" TypeID="Atea.Windows.File.FileAgeFolder.DiscoveryProbe">
+                <MPElement>$Config/MPElement$</MPElement>
+                <TargetID>$Config/TargetID$</TargetID>
+                <ComputerName>$Config/ComputerName$</ComputerName>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PoSHDiscovery">
+                <Node ID="Scheduler" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="Atea.Windows.File.FileAge.TimedPropertyBag" Accessibility="Public">
+        <Configuration>
+          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="EnableVerboseLogging" ParameterType="string" Selector="$Config/EnableVerboseLogging$" />
+        </OverrideableParameters>
+        <ModuleImplementation>
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval>$Config/IntervalSeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="PropertyBag" TypeID="Atea.Windows.File.Monitoring.FileAgeProbeModule">
+                <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+                <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
+                <EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
+              </ProbeAction>
+              <ConditionDetection ID="Filter" TypeID="System!System.ExpressionFilter">
+                <Expression>
+                  <SimpleExpression>
+                    <ValueExpression>
+                      <XPathQuery>Property[@Name='FolderFriendlyName']</XPathQuery>
+                    </ValueExpression>
+                    <Operator>Equal</Operator>
+                    <ValueExpression>
+                      <Value>$Config/FolderFriendlyName$</Value>
+                    </ValueExpression>
+                  </SimpleExpression>
+                </Expression>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="Filter">
+                <Node ID="PropertyBag">
+                  <Node ID="Scheduler" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="Atea.Windows.File.FileSharePerformanceDataMapper.DataSource" Accessibility="Internal">
+        <Configuration>
+          <xsd:element name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="TimeoutSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="ShareName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="UNCPath" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ObjectName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="CounterName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="InstanceName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="Value" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation>
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval>$Config/IntervalSeconds$</Interval>
+                    <SpreadInitializationOverInterval>$Config/IntervalSeconds$</SpreadInitializationOverInterval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="PropertyBag" TypeID="Atea.Windows.File.Monitoring.FileShareSpacePropertyBagProbe">
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+                <ShareName>$Config/ShareName$</ShareName>
+                <UNCPath>$Config/UNCPath$</UNCPath>
+                <UsePercent>true</UsePercent>
+                <FreeSpaceErrorThreshold>0</FreeSpaceErrorThreshold>
+                <FreeSpaceWarningThreshold>0</FreeSpaceWarningThreshold>
+              </ProbeAction>
+              <ConditionDetection ID="DataMapper" TypeID="Perf!System.Performance.DataGenericMapper">
+                <ObjectName>$Config/ObjectName$</ObjectName>
+                <CounterName>$Config/CounterName$</CounterName>
+                <InstanceName>$Config/InstanceName$</InstanceName>
+                <Value>$Config/Value$</Value>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="DataMapper">
+                <Node ID="PropertyBag">
+                  <Node ID="Scheduler" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Perf!System.Performance.Data</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="Atea.Windows.File.FileShareSpace.TimedPropertyBag" Accessibility="Internal">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="ShareName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="UNCPath" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="UsePercent" type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FreeSpaceErrorThreshold" type="xsd:double" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FreeSpaceWarningThreshold" type="xsd:double" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation>
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval>$Config/IntervalSeconds$</Interval>
+                    <SpreadInitializationOverInterval>$Config/IntervalSeconds$</SpreadInitializationOverInterval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="PowerShellProbe" TypeID="Atea.Windows.File.Monitoring.FileShareSpacePropertyBagProbe">
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+                <ShareName>$Config/ShareName$</ShareName>
+                <UNCPath>$Config/UNCPath$</UNCPath>
+                <UsePercent>$Config/UsePercent$</UsePercent>
+                <FreeSpaceErrorThreshold>$Config/FreeSpaceErrorThreshold$</FreeSpaceErrorThreshold>
+                <FreeSpaceWarningThreshold>$Config/FreeSpaceWarningThreshold$</FreeSpaceWarningThreshold>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PowerShellProbe">
+                <Node ID="Scheduler" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+      </DataSourceModuleType>
+      <ProbeActionModuleType ID="Atea.Windows.File.FileCreationTime.psFolderDiscovery.ProbeAction" Accessibility="Internal" Batching="false" PassThrough="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+            <SchemaType>System!System.ParamListSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="MPElement" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="TargetID" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSDiscovery" TypeID="Windows!Microsoft.Windows.PowerShellDiscoveryProbe">
+                <ScriptName>AteaFileCreationTimePoSHDiscovery.ps1</ScriptName>
+                <ScriptBody><![CDATA[# Begin with getting all the subkeys
+# http://technet.microsoft.com/en-us/library/ff730937.aspx
+# http://powershell.com/cs/blogs/tips/archive/2009/12/03/dynamically-create-script-blocks.aspx
+# http://technet.microsoft.com/sv-se/library/ee176852(en-us).aspx
+
+param([string]$sourceId,  [string]$managedEntityId, [string]$computerName)
+
+$RegistryPath = "hklm:\Software\Atea\FileCreationTime\"
+$SubKeys = Get-ChildItem $RegistryPath
+$omApi = New-Object -ComObject "MOM.ScriptAPI"
+#$omApi.LogScriptEvent("AteaFilCreationPoSHDiscovery.ps1", 242, 4, "Running File Creation Folder discovery with parameters $sourceId, $managedEntityId, $computerName")
+$discoveryData = $omApi.CreateDiscoveryData(0, $sourceId, $managedEntityId)
+ForEach ($SubKey in $SubKeys)
+{
+	$FriendlyName = ($SubKey.Name.Substring($SubKey.Name.LastIndexOfAny("\")+1))
+	$FolderPath = $SubKey.GetValue("FolderPath")
+	$Recursive = $SubKey.GetValue("Recursive")
+	$FilePattern = $SubKey.GetValue("FilePattern")
+	$AgeInMinutes = $SubKey.GetValue("AgeInMinutes")
+	$Operator = $SubKey.GetValue("Operator")
+
+
+	if (($FolderPath -ne $null) -and ($Recursive -ne $null) -and ($FilePattern -ne $null) -and ($AgeInMinutes -ne $null) -and ($Operator -ne $null))
+	{
+		$Operator = $Operator.Trim()
+
+		#Add values to property bag for Discovery
+		$discoveryInstance = $discoveryData.CreateClassInstance("$MPElement[Name='Atea.Windows.File.FileCreationTimeFolder']$")
+		$discoveryInstance.AddProperty("$MPElement[Name='Windows!Microsoft.Windows.Computer']/PrincipalName$", $computerName)
+		$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileCreationTimeFolder']/FriendlyName$",$FriendlyName)
+		$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileCreationTimeFolder']/FolderPath$",$FolderPath)
+		$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileCreationTimeFolder']/Recursive$",$Recursive)
+		$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileCreationTimeFolder']/FilePattern$",$FilePattern)
+		$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileCreationTimeFolder']/AgeInMinutes$",$AgeInMinutes)
+		$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileCreationTimeFolder']/Operator$",$Operator)
+		$discoveryData.AddInstance($discoveryInstance)
+	}
+}
+$discoveryData
+]]></ScriptBody>
+                <Parameters>
+                  <Parameter>
+                    <Name>sourceId</Name>
+                    <Value>$Config/MPElement$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>managedEntityId</Name>
+                    <Value>$Config/TargetID$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>ComputerName</Name>
+                    <Value>$Config/ComputerName$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>300</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSDiscovery" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+        <InputType>System!System.TriggerData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="Atea.Windows.File.FileCreationTime.vbsPropertyBag.ProbeAction" Accessibility="Internal" Batching="false" PassThrough="false">
+        <Configuration>
+          <xsd:element minOccurs="1" name="Arguments" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="vbsProbe" TypeID="Windows!Microsoft.Windows.ScriptPropertyBagProbe">
+                <ScriptName>FCTvbsPropertyBag.vbs</ScriptName>
+                <Arguments>$Config/Arguments$</Arguments>
+                <ScriptBody><![CDATA['' Recursive search for filepattern
+Option Explicit
+' Some much needed constants
+CONST HKLM = &H80000002
+CONST REG_SZ = 1
+CONST REG_EXPAND_SZ = 2
+CONST REG_BINARY = 3
+Const REG_DWORD = 4
+Const REG_MULTI_SZ = 7
+Const SCOM_INFO = 2
+CONST SCOM_WARNING = 1
+CONST SCOM_ERROR = 0
+CONST SCOM_SCRIPT_INFORMATION = 19200
+CONST SCOM_SCRIPT_WARNING = 19201
+CONST SCOM_SCRIPT_ERROR = 19202
+CONST SCOM_DEBUG = 19999
+
+' Declare all variables ahead, group them by "topic"
+Dim fsObject, folderCollection, folderObject, fileCollection, fileObject, subFolder, folderInstance
+Dim fileName, fileAge, filePath, fileCreationTime
+Dim argFolder, argFilePattern, argRecursive, argFileAge, argFriendlyName, argOperator, argRegKeyPath, argComputerName 
+Dim regexObject
+Dim regSubKeyCollection, regSubKey, regValueCollection, regValue, regValueContent, regObject
+Dim scomAPI, propertyBag, propertyBagExist
+
+Set scomAPI = CreateObject("MOM.ScriptAPI")
+
+argRegKeyPath = "Software\Atea\FileCreationTime"
+argComputerName = WScript.Arguments(0)
+'argComputerName = "."
+
+Set regObject = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & argComputerName & "\root\default:StdRegProv")
+regObject.EnumKey HKLM, argRegKeyPath, regSubKeyCollection
+For each regSubKey in regSubKeyCollection
+	argFriendlyName = regSubKey
+	regSubKey = argRegKeyPath & "\" & regSubKey
+	regObject.EnumValues HKLM, regSubKey, regValueCollection
+	If Not IsNull(regValueCollection) Then
+		If UBound(regValueCollection) >= 4 And Err.Number = 0 Then
+			For Each regValue In regValueCollection
+				regObject.GetStringValue HKLM, regSubKey, regValue, regValueContent
+				Select Case regValue
+					Case "FolderPath"
+						argFolder = regValueContent
+					Case "Recursive"
+						argRecursive = regValueContent
+					Case "FilePattern"
+						argFilePattern = regValueContent
+						argFilePattern = Replace(argFilePattern,".","\.")
+						argFilePattern = Replace(argFilePattern,"?",".")
+						argFilePattern = Replace(argFilePattern,"*",".*")						
+					Case "AgeInMinutes"
+						argFileAge = regValueContent
+					Case "Operator"
+						argOperator = regValueContent
+				End Select
+			Next
+			GetFolderInfo argFolder
+		End If
+	End If
+Next
+
+'' Return whatever propertybags may have been created
+If propertyBagExist = True Then
+	scomAPI.ReturnItems
+End If
+Set scomAPI = Nothing
+Set regObject = Nothing
+
+'' This will find all files in the specified folderpath,
+'' if it does exist, and send them to GetFileInfo()
+Sub GetFolderInfo(paramFolderPath)
+	If IsEmpty(fsObject) Then
+		Set fsObject = CreateObject("Scripting.FileSystemObject")
+	End If
+	
+	If fsObject.FolderExists(paramFolderPath) Then
+		Set folderObject = fsObject.GetFolder(paramFolderPath)
+		For Each fileObject In folderObject.Files
+			GetFileInfo fileObject
+		Next
+		If CBool(argRecursive) = True Then
+			Set folderCollection = folderObject.SubFolders
+			For Each subFolder In folderCollection
+				GetFolderInfo subFolder.Path
+			Next
+		End If
+	End If
+End Sub
+
+'' GetFileInfo() will take a FSO.File object and
+'' get Name, Path, CreationTime and Age (in minutes).
+'' This information will be inserted into a scomAPI
+'' propertybag
+Sub GetFileInfo(paramFileObject)
+	Dim makePropertyBag
+	makePropertyBag = False
+	Set regexObject = New RegExp
+	regexObject.Pattern = argFilePattern
+	regexObject.IgnoreCase = True
+	
+	If regexObject.Test(paramFileObject.Name) Then
+		Select Case argOperator
+			Case "<"
+				If CDbl(DateDiff("n",paramFileObject.DateCreated,Now)) <= CDbl(argFileAge) Then
+					WScript.Echo DateDiff("n",paramFileObject.DateCreated,Now) & argOperator & argFileAge & " case ""<"""
+					makePropertyBag = True
+				End If
+			Case "<="
+				If CDbl(DateDiff("n",paramFileObject.DateCreated,Now)) <= CDbl(argFileAge) Then
+					WScript.Echo DateDiff("n",paramFileObject.DateCreated,Now) & argOperator & argFileAge & " case ""<="""
+					makePropertyBag = True
+				End If
+			Case ">"
+				If CDbl(DateDiff("n",paramFileObject.DateCreated,Now)) >= CDbl(argFileAge) Then
+					WScript.Echo DateDiff("n",paramFileObject.DateCreated,Now) & argOperator & argFileAge & " case ""<"""
+					makePropertyBag = True
+				End If
+			Case ">="
+				If CDbl(DateDiff("n",paramFileObject.DateCreated,Now)) >= CDbl(argFileAge) Then
+					WScript.Echo DateDiff("n",paramFileObject.DateCreated,Now) & argOperator & argFileAge & " case "">="""
+					makePropertyBag = True
+				End If
+		End Select
+		If makePropertyBag = True Then
+			Set propertyBag = scomAPI.CreatePropertyBag()
+			Call propertyBag.AddValue("FileName",paramFileObject.Name)
+			Call propertyBag.AddValue("FileFullname",paramFileObject.Path)
+			Call propertyBag.AddValue("FileCreationTime",paramFileObject.DateCreated)
+			Call propertyBag.AddValue("FileSize",paramFileObject.Size)
+			Call propertyBag.AddValue("FileAgeMinutes",DateDiff("n",paramFileObject.DateCreated,Now))
+			Call propertyBag.AddValue("FolderFriendlyName",argFriendlyName)
+			Call scomAPI.AddItem(propertyBag)
+			propertyBagExist = True
+			makePropertyBag = False
+		End If
+	End If	
+End Sub
+
+
+'' Simple Sub to log an event to the Operations Manager
+'' event log.
+Sub LogEvent(logEventID, logSeverity, logMessage)
+	Dim scomApiEvent, scriptName
+	scriptName = WScript.ScriptName
+	
+	If logEventID <> SCOM_DEBUG Then
+		Set scomApiEvent = CreateObject("MOM.ScriptAPI")
+		Call scomApiEvent.LogScriptEvent(scriptName,logEventID,logSeverity,logMessage)
+		Set scomApiEvent = Nothing
+	Else
+		If debugEnabled Then
+			Set scomApiEvent = CreateObject("MOM.ScriptAPI")
+			Call scomApiEvent.LogScriptEvent(scriptName,logEventID,logSeverity,logMessage)
+			Set scomApiEvent = Nothing
+		End If
+	End If
+End Sub
+
+
+'' This "Folder" class is mainly to group all it's related
+'' functionality into one container
+Class FolderClass
+	Public Path
+	Public FilePattern
+	Public Recursive
+	Public FileAgeMinutes
+	Public FriendlyName
+	Public Operator
+	
+	Private Sub Class_Initialize()
+		Path = ""
+		FilePattern = ""
+		Recursive = ""
+		FileAgeMinutes = ""
+		FriendlyName = ""
+		Operator = ""
+	End Sub
+	
+	'' Receive a regkey object and look for the settings
+	Public Function GetFolderSettings(paramRegKeyObject)
+		Dim regValueCollection, regValue 
+		paramRegKeyObject.EnumValues HKLM, paramRegKeyObject, regValueCollection
+		For Each regValue In regValueCollection
+			WScript.Echo regValue
+		Next
+		FilePattern = Replace(FilePattern,".","\.")
+		FilePattern = Replace(FilePattern,"?",".")
+		FilePattern = Replace(FilePattern,"*",".*")
+	End Function
+End Class
+
+]]></ScriptBody>
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="vbsProbe" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <InputType>System!System.TriggerData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="Atea.Windows.File.FileAgeFolder.DiscoveryProbe" Accessibility="Internal" Batching="false" PassThrough="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+            <SchemaType>System!System.ParamListSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="MPElement" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="TargetID" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="ComputerName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSDiscovery" TypeID="Windows!Microsoft.Windows.PowerShellDiscoveryProbe">
+                <ScriptName>FileAgePoSHDiscovery.ps1</ScriptName>
+                <ScriptBody><![CDATA[# Begin with getting all the subkeys
+# http://technet.microsoft.com/en-us/library/ff730937.aspx
+# http://powershell.com/cs/blogs/tips/archive/2009/12/03/dynamically-create-script-blocks.aspx
+# http://technet.microsoft.com/sv-se/library/ee176852(en-us).aspx
+
+param([string]$sourceId,  [string]$managedEntityId, [string]$computerName)
+
+$EventLogSourceName = "Atea FileAge Monitor"
+$eventlogMessage = "Running FileAgeFolder discovery.`n"
+$eventlogMessage += "Params:`n`tsourceId=$sourceId`n`tmanagedEntityId=$managedEntityId`n`tcomputerName=$computerName`n`n"
+if (![System.Diagnostics.EventLog]::SourceExists($EventLogSourceName)) {
+	New-EventLog -Source $EventLogSourceName -logname "Application"
+}
+
+$RegistryPath = "hklm:\Software\Atea\FileAgeMonitoring\"
+$omApi = New-Object -ComObject "MOM.ScriptAPI"
+$discoveryData = $omApi.CreateDiscoveryData(0, $sourceId, $managedEntityId)
+if (Test-Path -Path $RegistryPath) {
+	# Registry path is accessible
+	$SubKeys = Get-ChildItem $RegistryPath
+	ForEach ($SubKey in $SubKeys)
+	{
+		$FriendlyName = ($SubKey.Name.Substring($SubKey.Name.LastIndexOfAny("\")+1))
+		$FolderPath = $SubKey.GetValue("FolderPath")
+		$Recursive = $SubKey.GetValue("Recursive")
+		$FilePattern = $SubKey.GetValue("FilePattern")
+		$AgeInMinutes = $SubKey.GetValue("AgeInMinutes")
+		$Operator = $SubKey.GetValue("Operator")
+		$FileAgeAttribute = $SubKey.GetValue("FileAgeAttribute")
+
+
+		if (($null -ne $FolderPath) -and ($null -ne $Recursive) -and ($null -ne $FilePattern) -and ($null -ne $AgeInMinutes) -and ($null -ne $Operator) -and ($null -ne $FileAgeAttribute))
+		{
+			$Operator = $Operator.Trim()
+
+			#Add values to property bag for Discovery
+			$discoveryInstance = $discoveryData.CreateClassInstance("$MPElement[Name='Atea.Windows.File.FileAgeFolder']$")
+			$discoveryInstance.AddProperty("$MPElement[Name='Windows!Microsoft.Windows.Computer']/PrincipalName$", $computerName)
+			$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileAgeFolder']/FriendlyName$",$FriendlyName)
+			$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileAgeFolder']/FolderPath$",$FolderPath)
+			$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileAgeFolder']/Recursive$",$Recursive)
+			$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileAgeFolder']/FilePattern$",$FilePattern)
+			$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileAgeFolder']/AgeInMinutes$",$AgeInMinutes)
+			$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileAgeFolder']/Operator$",$Operator)
+			$discoveryInstance.AddProperty("$MPElement[Name='Atea.Windows.File.FileAgeFolder']/FileAgeAttribute$",$FileAgeAttribute)
+			$discoveryData.AddInstance($discoveryInstance)
+			$eventlogMessage += "- Added $($FriendlyName) to discovery data`n"
+		}
+	}
+}
+
+Write-EventLog -LogName "Application" -Source $EventLogSourceName -EventID "200" -Message "" -EntryType Information -Category 0
+$discoveryData
+]]></ScriptBody>
+                <Parameters>
+                  <Parameter>
+                    <Name>sourceId</Name>
+                    <Value>$Config/MPElement$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>managedEntityId</Name>
+                    <Value>$Config/TargetID$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>ComputerName</Name>
+                    <Value>$Config/ComputerName$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>300</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSDiscovery" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+        <InputType>System!System.TriggerData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="Atea.Windows.File.Monitoring.FileAgeProbeModule" Accessibility="Internal">
+        <Configuration>
+          <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="FileTimeAttribute" ParameterType="string" Selector="$Config/FileAgeAttribute$" />
+          <OverrideableParameter ID="TimeoutSeconds" ParameterType="int" Selector="$Config/TimeoutSeconds$" />
+          <OverrideableParameter ID="EnableVerboseLogging" ParameterType="string" Selector="$Config/EnableVerboseLogging$" />
+        </OverrideableParameters>
+        <ModuleImplementation>
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="FileAgeProbeAction" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
+                <ScriptName>FileAgePB.ps1</ScriptName>
+                <ScriptBody><![CDATA[# Begin with getting all the subkeys
+# http://technet.microsoft.com/en-us/library/ff730937.aspx
+# http://powershell.com/cs/blogs/tips/archive/2009/12/03/dynamically-create-script-blocks.aspx
+# http://technet.microsoft.com/sv-se/library/ee176852(en-us).aspx
+[CmdletBinding()]
+Param(
+    [Parameter(Mandatory = $true)]
+    [string]
+    $SubKeyName
+    , [ValidateSet("true", "false")]
+    [Parameter(Mandatory = $false)]
+    [string] $VerboseLogging = 'false'
+)
+
+function Get-FileAgePropertyBags {	
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory = $true)]
+        [string]
+        $SubKeyName
+    )
+    
+    [bool] $verbose = $false
+    if ($VerbosePreference -eq 'Continue') {
+        $verbose = $true
+    }
+
+    $RegistryPath = 'hklm:\Software\Atea\FileAgeMonitoring\'
+    $EventLogSourceName = 'Atea FileAge Monitor'
+    $omApi = New-Object -ComObject 'MOM.ScriptAPI'
+    if (![System.Diagnostics.EventLog]::SourceExists($EventLogSourceName)) {
+        New-EventLog -Source $EventLogSourceName -LogName 'Application'
+    }
+
+    $fsUser = '$RunAs[Name="Atea.Windows.File.FileCreationTimeFolder.RunasProfile"]/UserName$'
+    $fsPass = '$RunAs[Name="Atea.Windows.File.FileCreationTimeFolder.RunasProfile"]/Password$'
+
+    if ($verbose) {
+        Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '100' -Message "Running File Age Probe on '$SubKeyName' with RunAs '$fsUser'" -EntryType Information -Category 0
+    }
+
+    if ($fsUser -match '^.RunAs\[.*' -or $fsUser.Length -le 0 -or $fsUser -eq 'nt authority\system') {
+        $credentials = $null
+        $fsPass = $null
+        $fsUser = $(whoami)
+
+    }
+    else {
+        $credentials = [PSCredential]::new($fsUser, (ConvertTo-SecureString -String $fsPass -AsPlainText -Force))
+    }
+
+    if (Test-Path -Path $RegistryPath) {
+        # Yes, we can read from $RegistryPath
+        $SubKeys = Get-ChildItem $RegistryPath | Where-Object { $_.PSChildName -eq $SubKeyName }
+
+        if ($null -ne $SubKeys) {
+            # Found configuration keys, processing folders
+            ForEach ($SubKey in $SubKeys) {
+                $FriendlyName = ($SubKey.Name.Substring($SubKey.Name.LastIndexOfAny('\') + 1))
+                $FolderPath = $SubKey.GetValue('FolderPath')
+                $Recursive = $SubKey.GetValue('Recursive')
+                $FilePattern = $SubKey.GetValue('FilePattern')
+                $AgeInMinutes = $SubKey.GetValue('AgeInMinutes')
+                $Operator = $SubKey.GetValue('Operator')
+                $FileAgeAttribute = $SubKey.GetValue('FileAgeAttribute') # Don't know if I really need this
+
+                if (($null -ne $FolderPath) -and ($null -ne $Recursive) -and ($null -ne $FilePattern) -and ($null -ne $AgeInMinutes) -and ($null -ne $Operator)) {
+                    $Operator = $Operator.Trim()
+
+                    switch ($Operator) {
+                        '<' { $Operator = '-lt' }
+                        '<=' { $Operator = '-le' }
+                        '>' { $Operator = '-gt' }
+                        '>=' { $Operator = '-ge' }
+                        default { $Operator = '-gt' }
+                    }
+
+                    $summaryMessage = "File Age Monitor on '$FriendlyName', looking for '$FilePattern' where $FileAgeAttribute $Operator $AgeInMinutes in $FolderPath"
+                    
+
+                    if ($Recursive.Trim() -eq 'false') {
+                        $Recursive = ''
+                        $summaryMessage += "`n"
+                    }
+                    else {
+                        $Recursive = '-Recurse'
+                        $summaryMessage += ", Recursive`n"
+                    }
+
+                    $summaryMessage += "as user: $fsUser`n`n"
+
+                    if ($null -ne $credentials) {
+                        New-PSDrive -Name $SubKeyName -PSProvider 'FileSystem' -Root $FolderPath -Credential $credentials
+                    }
+                    else {
+                        New-PSDrive -Name $SubKeyName -PSProvider 'FileSystem' -Root $FolderPath
+                    }
+                    
+                    $command = "Get-ChildItem '$($SubKeyName):\' $Recursive -Attributes !Directory | Where-Object {(`$_.Name -like '$FilePattern') -and ((((Get-Date) - `$_.$FileAgeAttribute).TotalMinutes) $Operator $AgeInMinutes)}"
+                    $command = $command -replace '  ', ' '
+                    $ScriptBlock = $ExecutionContext.InvokeCommand.NewScriptBlock($command)
+                    $Files = @(Invoke-Command -ScriptBlock $ScriptBlock) #DevSkim: ignore DS104456 
+
+                    if ($Files.Count -gt 0) {
+                        $summaryMessage += "Found $($Files.Count) matching files:`n"
+                        #$summaryMessage += "File Name`tFile Path`t`tAge (minutes)`tTimeStamp`n"
+                        ForEach ($File in $Files) {
+                            $FileName = $File.Name
+                            $FileFullname = $File.FullName
+                            switch ($FileAgeAttribute) {
+                                'CreationTime' { $FileDateTime = $File.CreationTime }
+                                'LastWriteTime' { $FileDateTime = $File.LastWriteTime }
+                                'LastAccessTime' { $FileDateTime = $File.LastAccessTime }
+                            }
+                            $FileAgeMinutes = [math]::Round(((Get-Date) - $FileDateTime).TotalMinutes, 0)
+                            $summaryMessage += "$FileName`n`tMinutes since $($FileAgeAttribute): $FileAgeMinutes`n`tTimestamp: $($FileDateTime -f 'o')`n`tFile Path: $FileFullName`n`n"
+                        }
+                        #We have old files, and a message. Build the property bag
+                        #issue45 quick fix, truncate $summaryMessage to avoid overloading the propertybag
+                        $summaryMessage = $summaryMessage.subString(0, [System.Math]::Min(1024, $summaryMessage.Length))
+                        $propertyBag = $omApi.CreatePropertyBag()
+                        $propertyBag.AddValue('FolderFriendlyName', $FriendlyName)
+                        $propertyBag.AddValue('Summary', $summaryMessage)
+                        $propertyBag.AddValue('FileCount', $Files.Count)
+
+                        $propertyBag
+                        if ($verbose) {
+                            Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '400' -Message $summaryMessage -EntryType Information -Category 0
+                        }
+
+                    }
+                    else {
+                        # No matching files found
+                        $propertyBag = $omApi.CreatePropertyBag()
+                        $propertyBag.AddValue('FolderFriendlyName', $FriendlyName)
+                        $propertyBag.AddValue('Summary', $summaryMessage)
+                        $propertyBag.AddValue('FileCount', $Files.Count)
+
+                        $propertyBag
+                        if ($verbose) {
+                            Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '200' -Message $summaryMessage -EntryType Information -Category 0
+                        }
+                    }
+                    Remove-PSDrive -Name $SubKeyName
+                    $credentials = $null
+                }
+
+            }
+        }
+        else {
+            # Registry does not contain any configured File Age Monitoring
+            # or we don't have access to read the keys
+            $propertyBag = $omApi.CreatePropertyBag()
+            $propertyBag
+        }
+    }
+    else {
+        #Nope, not able to read from the registry path
+        Write-EventLog -LogName 'Application' -Source $EventLogSourceName -EventId '404' -Message "$RegistryPath is not found on this system, unable to read file age monitoring configuration.`n`nReturning an empty property bag." -EntryType Error -Category 0
+        $propertyBag = $omApi.CreatePropertyBag()
+        $propertyBag
+    }
+}
+
+$debugHosts = @('Visual Studio Code Host')
+if ($host.Name -in $debugHosts) {
+    Get-FileAgePropertyBags -SubKeyName $SubKeyName -Verbose
+}
+else {
+    if ($VerboseLogging -eq 'true') {
+        Get-FileAgePropertyBags -SubKeyName $SubKeyName -Verbose
+    }
+    else {
+        Get-FileAgePropertyBags -SubKeyName $SubKeyName
+    }
+}]]></ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>SubKeyName</Name>
+                    <Value>$Config/FolderFriendlyName$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>VerboseLogging</Name>
+                    <Value>$Config/EnableVerboseLogging$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="FileAgeProbeAction" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <TriggerOnly>true</TriggerOnly>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="Atea.Windows.File.Monitoring.FileShareSpacePropertyBagProbe" Accessibility="Internal">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="ShareName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="UNCPath" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="0" name="UsePercent" type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="0" name="FreeSpaceErrorThreshold" type="xsd:double" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="0" name="FreeSpaceWarningThreshold" type="xsd:double" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation>
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PowerShellProbe" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagProbe">
+                <ScriptName>Get-FileShareSpacePB.ps1</ScriptName>
+                <ScriptBody><![CDATA[[CmdletBinding()]
+param (
+    [Parameter()]
+    [string]
+    $UNCPath = '\\server\share'
+    , [Parameter()]
+    [string]
+    $ShareName = 'A ShareName'
+    , [Parameter()]
+    [double]
+    $FreeSpaceErrorThreshold = 3
+    , [Parameter()]
+    [double]
+    $FreeSpaceWarningThreshold = 10
+    , [Parameter()]
+    [string]
+    $UsePercent = 'true'
+)
+
+
+function Get-FileShareFreeSpace {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [string]
+        $UNCPath
+        , [Parameter()]
+        [string]
+        $ShareName
+    )
+
+    $fsUser = '$RunAs[Name="Atea.Windows.File.FileShareMonitoring.RunasProfile"]/UserName$'
+    $fsPass = '$RunAs[Name="Atea.Windows.File.FileShareMonitoring.RunasProfile"]/Password$'
+
+    if ($fsUser -match '^.RunAs\[.*' -or $fsUser.Length -le 0 -or $fsUser -eq 'nt authority\system') {
+        $credentials = $null
+        $fsPass = $null
+        $fsUser = $(whoami)
+
+    } else {
+        $credentials = [PSCredential]::new($fsUser, (ConvertTo-SecureString -String $fsPass -AsPlainText -Force))
+    }
+
+    $FolderPath = $UNCPath
+
+    # Try to find a vacant drive-letter to use
+    $charCodes = 67..90
+    $drives = (Get-PSDrive).Name -as [string[]]
+    foreach ($charCode in $charCodes) {
+        $driveLetter = [char]$charCode
+        if ($driveLetter -notin $drives) {
+            $driveName = $driveLetter -as [string]
+            break
+        }
+    }
+
+    # Add a PSDrive with credentials (if needed). 
+    # Needs to be -Persist, otherwise we won't get usage information
+    if ($null -ne $credentials) {
+        $drive = New-PSDrive -Name $driveName -PSProvider 'FileSystem' -Root $FolderPath -Credential $credentials -Persist
+    } else {
+        $drive = New-PSDrive -Name $driveName -PSProvider 'FileSystem' -Root $FolderPath -Persist
+    }
+
+
+    if ($null -ne $drive) {
+        if ($null -ne $drive.Used -and $drive.Used -ne 0) {
+            $usedGB = [math]::Round($($drive.Used / 1GB), 2) -as [double]
+        }
+        if ($null -ne $drive.Free) {
+            $freeGB = [math]::Round($($drive.Free / 1GB), 2) -as [double]
+        }
+        if ($null -ne $usedGB -and $null -ne $freeGB) {
+            $totalGB = [math]::Round($usedGB + $freeGB, 2) -as [double]
+        }
+        if ($null -ne $totalGB -and $totalGB -ne 0) {
+            $usedPct = [math]::Round(($usedGB / $totalGB) * 100, 2) -as [double]
+            $freePct = [math]::Round(($freeGB / $totalGB) * 100, 2) -as [double]
+        }
+        if ($null -eq $usedPct) { $usedPct = -1 -as [double] }
+        if ($null -eq $usedGB) { $usedGB = -1 -as [double] }
+        if ($null -eq $freePct) { $freePct = -1 -as [double] }
+        if ($null -eq $freeGB) { $freeGB = -1 -as [double] }
+        if ($null -eq $totalGB) { $totalGB = -1 -as [double] }
+        $driveData = @{
+            'ShareName' = $ShareName
+            'Path'      = $UNCPath
+            'TotalGB'   = $totalGB
+            'UsedGB'    = $usedGB
+            'UsedPct'   = $usedPct
+            'FreeGB'    = $freeGB
+            'FreePct'   = $freePct
+            'RunAs'     = $fsUser
+        }
+    } else {
+        $driveData = @{
+            'ShareName' = $ShareName
+            'RunAs'     = $fsUser
+        }
+    }
+
+    Remove-PSDrive -Name $driveName
+
+    return $driveData
+}
+
+function Set-FileShareStatus {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [hashtable]
+        $DriveInfo
+        , [Parameter()]
+        [double]
+        $FreeSpaceErrorThreshold = 3
+        , [Parameter()]
+        [double]
+        $FreeSpaceWarningThreshold = 10
+        , [Parameter()]
+        [bool]
+        $UsePercent = $true
+    )
+
+    if ($null -ne $DriveInfo) {
+        if ($UsePercent = $true) {
+            if ($DriveInfo.FreePct -le $FreeSpaceErrorThreshold -and $DriveInfo.FreePct -ne -1 -and $null -ne $DriveInfo.FreePct) {
+                $status = 'ERROR'
+            } elseif ($DriveInfo.FreePct -le $FreeSpaceWarningThreshold -and $DriveInfo.FreePct -ne -1 -and $null -ne $DriveInfo.FreePct) {
+                $status = 'WARNING'
+            } elseif ($DriveInfo.FreePct -gt $FreeSpaceWarningThreshold -and $DriveInfo.FreePct -ne -1 -and $null -ne $DriveInfo.FreePct) {
+                $status = 'OK'
+            } elseif ($DriveInfo.FreePct -eq -1 -or $null -eq $DriveInfo.FreePct) {
+                $status = 'CONNECT_FAILED'
+            } else {
+                $status = 'UNDECIDED'
+            }
+        } elseif ($UsePercent = $false) {
+            if ($DriveInfo.FreeGB -le $FreeSpaceErrorThreshold -and $DriveInfo.FreeGB -ne -1 -and $null -ne $DriveInfo.FreeGB) {
+                $status = 'ERROR'
+            } elseif ($DriveInfo.FreeGB -le $FreeSpaceWarningThreshold -and $DriveInfo.FreeGB -ne -1 -and $null -ne $DriveInfo.FreeGB) {
+                $status = 'WARNING'
+            } elseif ($DriveInfo.FreeGB -gt $FreeSpaceWarningThreshold -and $DriveInfo.FreeGB -ne -1 -and $null -ne $DriveInfo.FreeGB) {
+                $status = 'OK'
+            } elseif ($DriveInfo.FreeGB -eq -1 -or $null -eq $DriveInfo.FreeGB) {
+                $status = 'CONNECT_FAILED'
+            } else {
+                $status = 'UNDECIDED'
+            }
+        } else {
+            $status = 'WEIRD_INPUT'
+        }
+    } else {
+        $status = 'DRIVEINFO_EMPTY'
+    }
+
+    $DriveInfo['Status'] = $status -as [string]
+    return $DriveInfo
+}
+
+function Send-FSPropertyBag {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [hashtable]
+        $DriveInfo
+        , [Parameter()]
+        [string]
+        $UNCPath
+    )
+
+    $omApi = New-Object -ComObject 'MOM.ScriptAPI'
+    $pb = $omApi.CreatePropertyBag()
+
+    if (($DriveInfo.Status -ne 'CONNECT_FAILED') -and ($DriveInfo.Status -ne 'DRIVEINFO_EMPTY') -and ($null -ne $DriveInfo)) {
+        $logMessage = "`n$($DriveInfo.ShareName)`nRunAs: $($DriveInfo.RunAs)`nDriveInfo:`n"
+        $logMessage += ($DriveInfo | ConvertTo-Json)
+    } else {
+        $logMessage = "`nProbing $UNCPath failed"
+    }
+    $omApi.LogScriptEvent('FileShareSpace.ps1', 242, 0, $logMessage)
+    $DriveInfo.Remove('RunAs') | Out-Null
+
+    foreach ($key in $DriveInfo.Keys) {
+        $pb.AddValue($key, $DriveInfo[$key])
+    }
+
+    if ($host.Name -in @('Visual Studio Code Host', 'Windows PowerShell ISE Host')) {
+        $omApi.AddItem($pb)
+        $omApi.ReturnItems()
+    } else {
+        $pb
+    }
+}
+
+if ($UsePercent -eq 'false') {
+    $usePct = $false
+} else {
+    $usePct = $true
+}
+
+$driveInfo = Get-FileShareFreeSpace -UNCPath $UNCPath -ShareName $ShareName
+$driveInfo = Set-FileShareStatus -DriveInfo $driveInfo -FreeSpaceErrorThreshold $FreeSpaceErrorThreshold -FreeSpaceWarningThreshold $FreeSpaceWarningThreshold -UsePercent $usePct
+Send-FSPropertyBag -DriveInfo $driveInfo -UNCPath $UNCPath
+]]></ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>UNCPath</Name>
+                    <Value>$Config/UNCPath$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>ShareName</Name>
+                    <Value>$Config/ShareName$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>FreeSpaceErrorThreshold</Name>
+                    <Value>$Config/FreeSpaceErrorThreshold$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>FreeSpaceWarningThreshold</Name>
+                    <Value>$Config/FreeSpaceWarningThreshold$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>UsePercent</Name>
+                    <Value>$Config/UsePercent$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PowerShellProbe" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+    </ModuleTypes>
+    <MonitorTypes>
+      <UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal">
+        <MonitorTypeStates>
+          <MonitorTypeState ID="Healthy" />
+          <MonitorTypeState ID="Warning" />
+          <MonitorTypeState ID="Error" />
+        </MonitorTypeStates>
+        <Configuration>
+          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FileCountErrorThreshold" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="FileAgeAttribute" Selector="$Config/FileAgeAttribute$" ParameterType="string" />
+          <OverrideableParameter ID="EnableVerboseLogging" Selector="$Config/EnableVerboseLogging$" ParameterType="string" />
+          <OverrideableParameter ID="FileCountErrorThreshold" Selector="$Config/FileCountErrorThreshold$" ParameterType="int" />
+        </OverrideableParameters>
+        <MonitorImplementation>
+          <MemberModules>
+            <DataSource ID="TimedFileAgePropertyBag" TypeID="Atea.Windows.File.FileAge.TimedPropertyBag">
+              <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+              <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
+              <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
+              <EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
+            </DataSource>
+            <ProbeAction ID="Probe" TypeID="Atea.Windows.File.Monitoring.FileAgeProbeModule">
+              <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
+              <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
+              <EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
+            </ProbeAction>
+            <ConditionDetection ID="FilterFolder" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery>Property[@Name='FolderFriendlyName']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value>$Config/FolderFriendlyName$</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="ErrorFilter" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="Integer">Property[@Name='FileCount']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>GreaterEqual</Operator>
+                  <ValueExpression>
+                    <Value Type="Integer">$Config/FileCountErrorThreshold$</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="WarningFilter" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <And>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="Integer">Property[@Name='FileCount']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Less</Operator>
+                      <ValueExpression>
+                        <Value Type="Integer">$Config/FileCountErrorThreshold$</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="String">Property[@Name='FileCount']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>NotEqual</Operator>
+                      <ValueExpression>
+                        <Value Type="Integer">0</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                </And>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="HealthyFilter" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="Integer">Property[@Name='FileCount']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="Integer">0</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+          </MemberModules>
+          <RegularDetections>
+            <RegularDetection MonitorTypeStateID="Healthy">
+              <Node ID="HealthyFilter">
+                <Node ID="TimedFileAgePropertyBag" />
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="Warning">
+              <Node ID="WarningFilter">
+                <Node ID="TimedFileAgePropertyBag" />
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="Error">
+              <Node ID="ErrorFilter">
+                <Node ID="TimedFileAgePropertyBag" />
+              </Node>
+            </RegularDetection>
+          </RegularDetections>
+          <OnDemandDetections>
+            <OnDemandDetection MonitorTypeStateID="Healthy">
+              <Node ID="HealthyFilter">
+                <Node ID="FilterFolder">
+                  <Node ID="Probe" />
+                </Node>
+              </Node>
+            </OnDemandDetection>
+            <OnDemandDetection MonitorTypeStateID="Warning">
+              <Node ID="WarningFilter">
+                <Node ID="FilterFolder">
+                  <Node ID="Probe" />
+                </Node>
+              </Node>
+            </OnDemandDetection>
+            <OnDemandDetection MonitorTypeStateID="Error">
+              <Node ID="ErrorFilter">
+                <Node ID="FilterFolder">
+                  <Node ID="Probe" />
+                </Node>
+              </Node>
+            </OnDemandDetection>
+          </OnDemandDetections>
+        </MonitorImplementation>
+      </UnitMonitorType>
+      <UnitMonitorType ID="Atea.Windows.File.Monitoring.FileShareFreeSpace.MonitorType" Accessibility="Internal">
+        <MonitorTypeStates>
+          <MonitorTypeState ID="Healthy" />
+          <MonitorTypeState ID="Warning" />
+          <MonitorTypeState ID="Error" />
+        </MonitorTypeStates>
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="ShareName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="UNCPath" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FreeSpaceErrorThreshold" type="xsd:double" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="FreeSpaceWarningThreshold" type="xsd:double" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="1" name="UsePercent" type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="FreeSpaceErrorThreshold" Selector="$Config/FreeSpaceErrorThreshold$" ParameterType="double" />
+          <OverrideableParameter ID="FreeSpaceWarningThreshold" Selector="$Config/FreeSpaceWarningThreshold$" ParameterType="double" />
+          <OverrideableParameter ID="UsePercent" Selector="$Config/UsePercent$" ParameterType="bool" />
+        </OverrideableParameters>
+        <MonitorImplementation>
+          <MemberModules>
+            <DataSource ID="PB" TypeID="Atea.Windows.File.FileShareSpace.TimedPropertyBag">
+              <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+              <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+              <ShareName>$Config/ShareName$</ShareName>
+              <UNCPath>$Config/UNCPath$</UNCPath>
+              <UsePercent>$Config/UsePercent$</UsePercent>
+              <FreeSpaceErrorThreshold>$Config/FreeSpaceErrorThreshold$</FreeSpaceErrorThreshold>
+              <FreeSpaceWarningThreshold>$Config/FreeSpaceWarningThreshold$</FreeSpaceWarningThreshold>
+            </DataSource>
+            <ConditionDetection ID="ErrorFilter" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">ERROR</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="WarningFilter" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <Or>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Equal</Operator>
+                      <ValueExpression>
+                        <Value Type="String">WARNING</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Equal</Operator>
+                      <ValueExpression>
+                        <Value Type="String">CONNECT_FAILED</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                </Or>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="HealthyFilter" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <Or>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Equal</Operator>
+                      <ValueExpression>
+                        <Value Type="String">OK</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Equal</Operator>
+                      <ValueExpression>
+                        <Value Type="String">UNDECIDED</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Equal</Operator>
+                      <ValueExpression>
+                        <Value Type="String">WEIRD_INPUT</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                </Or>
+              </Expression>
+            </ConditionDetection>
+          </MemberModules>
+          <RegularDetections>
+            <RegularDetection MonitorTypeStateID="Healthy">
+              <Node ID="HealthyFilter">
+                <Node ID="PB" />
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="Error">
+              <Node ID="ErrorFilter">
+                <Node ID="PB" />
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="Warning">
+              <Node ID="WarningFilter">
+                <Node ID="PB" />
+              </Node>
+            </RegularDetection>
+          </RegularDetections>
+        </MonitorImplementation>
+      </UnitMonitorType>
+    </MonitorTypes>
+  </TypeDefinitions>
+  <Monitoring>
+    <Discoveries>
+      <Discovery ID="Atea.Windows.File.FileCreationTime.Folder.Discovery" Enabled="true" Target="Atea.Windows.File.Monitoring.Seed" ConfirmDelivery="true" Remotable="false" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="Atea.Windows.File.FileCreationTimeFolder" />
+        </DiscoveryTypes>
+        <DataSource ID="DiscoveryDS" TypeID="Atea.Windows.File.FileCreationTime.Discovery.DataSource">
+          <MPElement>$MPElement$</MPElement>
+          <TargetID>$Target/Id$</TargetID>
+          <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</ComputerName>
+          <IntervalSeconds>14400</IntervalSeconds>
+        </DataSource>
+      </Discovery>
+      <Discovery ID="Atea.Windows.File.FileAgeFolder.Discovery" Enabled="true" Target="Atea.Windows.File.Monitoring.Seed" ConfirmDelivery="true" Remotable="false" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="Atea.Windows.File.FileAgeFolder" />
+        </DiscoveryTypes>
+        <DataSource ID="DiscoveryDS" TypeID="Atea.Windows.File.FileAgeFolder.DiscoveryDS">
+          <MPElement>$MPElement$</MPElement>
+          <TargetID>$Target/Id$</TargetID>
+          <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</ComputerName>
+          <IntervalSeconds>14400</IntervalSeconds>
+        </DataSource>
+      </Discovery>
+      <Discovery ID="Atea.Windows.File.Monitoring.Seed.Discovery" Enabled="true" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="Atea.Windows.File.Monitoring.Seed" />
+        </DiscoveryTypes>
+        <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.FilteredRegistryDiscoveryProvider">
+          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+          <RegistryAttributeDefinitions>
+            <RegistryAttributeDefinition>
+              <AttributeName>FCKeyExist</AttributeName>
+              <Path>SOFTWARE\Atea\FileCreationTime</Path>
+              <PathType>0</PathType>
+              <AttributeType>0</AttributeType>
+            </RegistryAttributeDefinition>
+            <RegistryAttributeDefinition>
+              <AttributeName>FAgeKeyExist</AttributeName>
+              <Path>SOFTWARE\Atea\FileAgeMonitoring</Path>
+              <PathType>0</PathType>
+              <AttributeType>0</AttributeType>
+            </RegistryAttributeDefinition>
+            <RegistryAttributeDefinition>
+              <AttributeName>FSWKeyExist</AttributeName>
+              <Path>SOFTWARE\Atea\FileShareMonitoring</Path>
+              <PathType>0</PathType>
+              <AttributeType>0</AttributeType>
+            </RegistryAttributeDefinition>
+          </RegistryAttributeDefinitions>
+          <Frequency>3600</Frequency>
+          <ClassId>$MPElement[Name="Atea.Windows.File.Monitoring.Seed"]$</ClassId>
+          <InstanceSettings>
+            <Settings>
+              <Setting>
+                <Name>$MPElement[Name="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Name>
+                <Value>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Value>
+              </Setting>
+            </Settings>
+          </InstanceSettings>
+          <Expression>
+            <Or>
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">Values/FCKeyExist</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">true</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">Values/FAgeKeyExist</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">true</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">Values/FSWKeyExist</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">true</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </Or>
+          </Expression>
+        </DataSource>
+      </Discovery>
+      <Discovery ID="Atea.Windows.File.Monitoring.FileShareWatcherDiscovery" Target="Atea.Windows.File.Monitoring.Seed" Enabled="true" ConfirmDelivery="false" Remotable="false" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="Atea.Windows.File.Monitoring.FileShareWatcher">
+            <Property TypeID="Atea.Windows.File.Monitoring.FileShareWatcher" PropertyID="ShareName" />
+            <Property TypeID="Atea.Windows.File.Monitoring.FileShareWatcher" PropertyID="UNCPath" />
+            <Property TypeID="System!System.Entity" PropertyID="DisplayName" />
+          </DiscoveryClass>
+        </DiscoveryTypes>
+        <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.TimedPowerShell.DiscoveryProvider">
+          <IntervalSeconds>14400</IntervalSeconds>
+          <SyncTime />
+          <ScriptName>FileShareWatcherDiscovery.ps1</ScriptName>
+          <ScriptBody><![CDATA[# Begin with getting all the subkeys
+# http://technet.microsoft.com/en-us/library/ff730937.aspx
+# http://powershell.com/cs/blogs/tips/archive/2009/12/03/dynamically-create-script-blocks.aspx
+# http://technet.microsoft.com/sv-se/library/ee176852(en-us).aspx
+
+param([string]$mpe,  [string]$targetId, [string]$computerName)
+
+if ($host.Name -in @('Visual Studio Code Host')) {
+	$mpe = ([guid]::NewGuid()).ToString()
+	$targetId = ([guid]::NewGuid()).ToString()
+	$computerName = $env:COMPUTERNAME
+}
+
+$EventLogSourceName = "Atea FileShare Watcher"
+$eventlogMessage = "Running FileShareFolder discovery.`n"
+$eventlogMessage += "Params:`n`tmpe=$mpe`n`ttargetId=$targetId`n`tcomputerName=$computerName`n`n"
+if (![System.Diagnostics.EventLog]::SourceExists($EventLogSourceName)) {
+	New-EventLog -Source $EventLogSourceName -logname "Application"
+}
+
+$RegistryPath = "hklm:\Software\Atea\FileShareMonitoring\"
+$omApi = New-Object -ComObject "MOM.ScriptAPI"
+$discoveryData = $omApi.CreateDiscoveryData(0, $mpe, $targetId)
+if (Test-Path -Path $RegistryPath) {
+	# Registry path is accessible
+	$SubKeys = Get-ChildItem $RegistryPath
+	ForEach ($SubKey in $SubKeys)
+	{
+		$ShareName = ($SubKey.Name.Substring($SubKey.Name.LastIndexOfAny("\")+1))
+		$UNCPath = $SubKey.GetValue("UNCPath")
+		$DisplayName = $ShareName + " Watcher ($($computerName.Split('.')[0]))"
+
+
+		if (($null -ne $UNCPath) -and ($null -ne $ShareName))
+		{
+			#Add values to property bag for Discovery
+			$discoveryInstance = $discoveryData.CreateClassInstance('$MPElement[Name="Atea.Windows.File.Monitoring.FileShareWatcher"]$')
+			$discoveryInstance.AddProperty('$MPElement[Name="System!System.Entity"]/DisplayName$',$DisplayName)
+			$discoveryInstance.AddProperty('$MPElement[Name="Windows!Microsoft.Windows.Computer"]/PrincipalName$', $computerName)
+			$discoveryInstance.AddProperty('$MPElement[Name="Atea.Windows.File.Monitoring.FileShareWatcher"]/ShareName$',$ShareName)
+			$discoveryInstance.AddProperty('$MPElement[Name="Atea.Windows.File.Monitoring.FileShareWatcher"]/UNCPath$',$UNCPath)
+			$discoveryData.AddInstance($discoveryInstance)
+			$eventlogMessage += "- Added $($DisplayName) to discovery data`n"
+		}
+	}
+}
+
+if ($PSVersionTable.PSVersion.Major -lt 6) {
+	Write-EventLog -LogName "Application" -Source $EventLogSourceName -EventID "200" -Message $eventlogMessage -EntryType Information -Category 0
+}
+$discoveryData
+]]></ScriptBody>
+          <Parameters>
+            <Parameter>
+              <Name>mpe</Name>
+              <Value>$MPElement$</Value>
+            </Parameter>
+            <Parameter>
+              <Name>targetId</Name>
+              <Value>$Target/Id$</Value>
+            </Parameter>
+            <Parameter>
+              <Name>computerName</Name>
+              <Value>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</Value>
+            </Parameter>
+          </Parameters>
+          <TimeoutSeconds>60</TimeoutSeconds>
+        </DataSource>
+      </Discovery>
+    </Discoveries>
+    <Rules>
+      <Rule ID="Atea.Windows.File.FileCreationTimeFolder.AlertRule" Enabled="false" Target="Atea.Windows.File.FileCreationTimeFolder" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>Alert</Category>
+        <DataSources>
+          <DataSource ID="DS" RunAs="Atea.Windows.File.FileCreationTimeFolder.RunasProfile" TypeID="Atea.Windows.File.FileCreationTime.vbsPropertyBag.DS">
+            <TimeOutSeconds>300</TimeOutSeconds>
+            <Interval>300</Interval>
+            <FolderFriendlyName>$Target/Property[Type="Atea.Windows.File.FileCreationTimeFolder"]/FriendlyName$</FolderFriendlyName>
+            <Arguments>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</Arguments>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteAlert" TypeID="Health!System.Health.GenerateAlert">
+            <Priority>1</Priority>
+            <Severity>1</Severity>
+            <AlertMessageId>$MPElement[Name="Atea.Windows.File.FileCreationTimeFolder.AlertRule.Message"]$</AlertMessageId>
+            <AlertParameters>
+              <AlertParameter1>$Data/Property[@Name='FileFullname']$</AlertParameter1>
+              <AlertParameter2>$Data/Property[@Name='FileAgeMinutes']$</AlertParameter2>
+              <AlertParameter3>$Data/Property[@Name='FolderFriendlyName']$</AlertParameter3>
+              <AlertParameter4>$Data/Property[@Name='FileFullname']$</AlertParameter4>
+              <AlertParameter5>$Target/Property[Type="Atea.Windows.File.FileCreationTimeFolder"]/FolderPath$</AlertParameter5>
+              <AlertParameter6>$Target/Property[Type="Atea.Windows.File.FileCreationTimeFolder"]/Recursive$</AlertParameter6>
+              <AlertParameter7>$Target/Property[Type="Atea.Windows.File.FileCreationTimeFolder"]/FilePattern$</AlertParameter7>
+              <AlertParameter8>$Target/Property[Type="Atea.Windows.File.FileCreationTimeFolder"]/Operator$</AlertParameter8>
+              <AlertParameter9>$Target/Property[Type="Atea.Windows.File.FileCreationTimeFolder"]/AgeInMinutes$</AlertParameter9>
+            </AlertParameters>
+            <Suppression>
+              <SuppressionValue>$Data/Property[@Name='FileFullname']$</SuppressionValue>
+              <SuppressionValue>$Data/Property[@Name='FolderFriendlyName']$</SuppressionValue>
+            </Suppression>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="Atea.Windows.File.Monitoring.FileShareFreeGBCollection" Target="Atea.Windows.File.Monitoring.FileShareWatcher" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Atea.Windows.File.FileSharePerformanceDataMapper.DataSource">
+            <IntervalSeconds>600</IntervalSeconds>
+            <TimeoutSeconds>60</TimeoutSeconds>
+            <ShareName>$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$</ShareName>
+            <UNCPath>$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/UNCPath$</UNCPath>
+            <ObjectName>FileShareSpace</ObjectName>
+            <CounterName>FileShareFreeGB</CounterName>
+            <InstanceName>$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$</InstanceName>
+            <Value>$Data/Property[@Name='FreeGB']$</Value>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="CollectToDB" TypeID="SC!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="CollectToDW" TypeID="MSDL!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="Atea.Windows.File.Monitoring.FileShareFreePctCollection" Target="Atea.Windows.File.Monitoring.FileShareWatcher" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Atea.Windows.File.FileSharePerformanceDataMapper.DataSource">
+            <IntervalSeconds>600</IntervalSeconds>
+            <TimeoutSeconds>60</TimeoutSeconds>
+            <ShareName>$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$</ShareName>
+            <UNCPath>$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/UNCPath$</UNCPath>
+            <ObjectName>FileShareSpace</ObjectName>
+            <CounterName>FileShareFreePct</CounterName>
+            <InstanceName>$Target/Property[Type='Atea.Windows.File.Monitoring.FileShareWatcher']/ShareName$</InstanceName>
+            <Value>$Data/Property[@Name='FreePct']$</Value>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="CollectToDB" TypeID="SC!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="CollectToDW" TypeID="MSDL!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+    </Rules>
+    <Monitors>
+      <UnitMonitor ID="Atea.Windows.File.Monitoring.FileAgeMonitor" Accessibility="Public" Enabled="true" Target="Atea.Windows.File.FileAgeFolder" ParentMonitorID="Health!System.Health.AvailabilityState" Remotable="true" Priority="Normal" TypeID="Windows.File.FileAge.MonitorType" ConfirmDelivery="false">
+        <Category>AvailabilityHealth</Category>
+        <AlertSettings AlertMessage="Atea.Windows.File.Monitoring.FileAgeMonitor.AlertMessage">
+          <AlertOnState>Error</AlertOnState>
+          <AutoResolve>true</AutoResolve>
+          <AlertPriority>Normal</AlertPriority>
+          <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+          <AlertParameters>
+            <AlertParameter1>$Data/Context/Property[@Name="FolderFriendlyName"]$</AlertParameter1>
+            <AlertParameter2>$Data/Context/Property[@Name="Summary"]$</AlertParameter2>
+          </AlertParameters>
+        </AlertSettings>
+        <OperationalStates>
+          <OperationalState ID="Healthy" MonitorTypeStateID="Healthy" HealthState="Success" />
+          <OperationalState ID="Error" MonitorTypeStateID="Error" HealthState="Error" />
+          <OperationalState ID="Warning" MonitorTypeStateID="Warning" HealthState="Warning" />
+        </OperationalStates>
+        <Configuration>
+          <TimeoutSeconds>300</TimeoutSeconds>
+          <IntervalSeconds>300</IntervalSeconds>
+          <FolderFriendlyName>$Target/Property[Type="Atea.Windows.File.FileAgeFolder"]/FriendlyName$</FolderFriendlyName>
+          <FileAgeAttribute>$Target/Property[Type="Atea.Windows.File.FileAgeFolder"]/FileAgeAttribute$</FileAgeAttribute>
+          <EnableVerboseLogging>false</EnableVerboseLogging>
+          <FileCountErrorThreshold>1</FileCountErrorThreshold>
+        </Configuration>
+      </UnitMonitor>
+      <UnitMonitor ID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor" Accessibility="Public" Enabled="true" Target="Atea.Windows.File.Monitoring.FileShareWatcher" ParentMonitorID="Health!System.Health.AvailabilityState" Remotable="true" Priority="Normal" TypeID="Atea.Windows.File.Monitoring.FileShareFreeSpace.MonitorType" ConfirmDelivery="false">
+        <Category>AvailabilityHealth</Category>
+        <AlertSettings AlertMessage="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor.AlertMessage">
+          <AlertOnState>Warning</AlertOnState>
+          <AutoResolve>true</AutoResolve>
+          <AlertPriority>Normal</AlertPriority>
+          <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+          <AlertParameters>
+            <AlertParameter1>$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/ShareName$</AlertParameter1>
+            <AlertParameter2>$Data/Context/Property[@Name="Path"]$</AlertParameter2>
+            <AlertParameter3>$Data/Context/Property[@Name="TotalGB"]$</AlertParameter3>
+            <AlertParameter4>$Data/Context/Property[@Name="UsedGB"]$</AlertParameter4>
+            <AlertParameter5>$Data/Context/Property[@Name="UsedPct"]$</AlertParameter5>
+            <AlertParameter6>$Data/Context/Property[@Name="FreeGB"]$</AlertParameter6>
+            <AlertParameter7>$Data/Context/Property[@Name="FreePct"]$</AlertParameter7>
+          </AlertParameters>
+        </AlertSettings>
+        <OperationalStates>
+          <OperationalState ID="Healthy" MonitorTypeStateID="Healthy" HealthState="Success" />
+          <OperationalState ID="Error" MonitorTypeStateID="Error" HealthState="Error" />
+          <OperationalState ID="Warning" MonitorTypeStateID="Warning" HealthState="Warning" />
+        </OperationalStates>
+        <Configuration>
+          <TimeoutSeconds>60</TimeoutSeconds>
+          <IntervalSeconds>600</IntervalSeconds>
+          <ShareName>$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/ShareName$</ShareName>
+          <UNCPath>$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/UNCPath$</UNCPath>
+          <FreeSpaceErrorThreshold>3</FreeSpaceErrorThreshold>
+          <FreeSpaceWarningThreshold>10</FreeSpaceWarningThreshold>
+          <UsePercent>true</UsePercent>
+        </Configuration>
+      </UnitMonitor>
+    </Monitors>
+  </Monitoring>
+  <Presentation>
+    <StringResources>
+      <StringResource ID="Atea.Windows.File.Monitoring.FileAgeMonitor.AlertMessage" />
+      <StringResource ID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor.AlertMessage" />
+      <StringResource ID="Atea.Windows.File.FileCreationTimeFolder.AlertRule.Message" />
+    </StringResources>
+  </Presentation>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTime.Folder.Discovery">
+          <Name>Atea File Creation-Time Folder Discovery</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder.Discovery">
+          <Name>Atea FileAge Folder Discovery</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.Seed.Discovery">
+          <Name>Atea File Monitoring Seed Discovery</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareWatcherDiscovery">
+          <Name>FileShare Watcher Discovery</Name>
+          <Description>Discovers objects that monitors file-shares. </Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileAgeMonitor">
+          <Name>File Age Monitor</Name>
+          <Description>This monitor will look for files in a folder, recursively if configured so, and alert if one of more files are found.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileAgeMonitor.AlertMessage">
+          <Name>Bad files found - {0}</Name>
+          <Description>{1}
+</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileAgeMonitor" SubElementID="Healthy">
+          <Name>No Files Found</Name>
+          <Description>No Files Found</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileAgeMonitor" SubElementID="Error">
+          <Name>Too Many Unwanted Files Found</Name>
+          <Description>Too Many Unwanted Files Found</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileAgeMonitor" SubElementID="Warning">
+          <Name>Some Unwanted Files Found</Name>
+          <Description>Some Unwanted Files Found</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor">
+          <Name>FileShare Free Space Monitor</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor.AlertMessage">
+          <Name>{0} is running out of space</Name>
+          <Description>{0} is running low on free space.
+
+Share checked: {1}
+Share Size: {2} GB
+Used: {3} GB ({4} %)
+Free: {5} GB ({6} %)</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor" SubElementID="Healthy">
+          <Name>Free Space is OK</Name>
+          <Description>Free Space is OK</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor" SubElementID="Error">
+          <Name>Very Low on Free Space</Name>
+          <Description>Very Low on Free Space</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreeSpaceMonitor" SubElementID="Warning">
+          <Name>Low on Free Space</Name>
+          <Description>Low on Free Space</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder.AlertRule">
+          <Name>Atea File Creation Time Folder Alerting Rule</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder.AlertRule.Message">
+          <Name>File CreationTime alert has been triggered in {2}</Name>
+          <Description>
+            {0} was created {1} minutes ago in {2} which triggered this alert according to the configured query.
+            Full Path to file is {3}
+
+            Monitored folder: {4}
+            Recursive check is: {5}
+
+            Alerts will be triggered from this query:
+            Filename = {6} where FileAge {7} {8} minutes
+          </Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreeGBCollection">
+          <Name>Fileshare Free GB Collection</Name>
+          <Description>Collects Fileshare free space in GB.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareFreePctCollection">
+          <Name>Fileshare Free Percent Collection</Name>
+          <Description>Collects Fileshare free space in percent.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder.RunasProfile">
+          <Name>Atea File Creation-Time Folder RunAs Profile</Name>
+          <Description>Configures the runas account to use when access a File Creation-Time folder.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileShareMonitoring.RunasProfile">
+          <Name>Atea File-Share Monitoring RunAs Profile</Name>
+          <Description>Configures the runas account to use when access a File Share.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring">
+          <Name>Atea Windows File Monitoring</Name>
+          <Description>
+            This management pack contains monitoring for various file-related scenarios. 
+          More info available at https://bitbucket.org/stegenfeldt/atea.windows/wiki/Atea.Windows.File.Monitoring.mp
+           </Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder">
+          <Name>Atea File Age Folder</Name>
+          <Description>
+            A folder configured to be monitored for files and their timestamps.
+          Configuration is reflected in the object properties.
+          </Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="FolderPath">
+          <Name>Folder Path</Name>
+          <Description>Path to folder. Make sure configured account has access to it.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="Recursive">
+          <Name>Recursive Check</Name>
+          <Description>
+            Defines whether the file lookup should be recursive or not.
+          Be careful with this in large folder structures as file system searches for certain properties can be slower than expected.
+          Might be better to configure multiple folder if possible.
+          </Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="FilePattern">
+          <Name>File Pattern</Name>
+          <Description>File pattern to use when matching files.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="AgeInMinutes">
+          <Name>Age in Minutes</Name>
+          <Description>Defines the file age to match against using the configured operator.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="Operator">
+          <Name>Operator</Name>
+          <Description>Defines what operator the file checks should use.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="FriendlyName">
+          <Name>Friendly Name</Name>
+          <Description>Used to give the folder a more descriptive name, becomes the Display Name.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder" SubElementID="FileAgeAttribute">
+          <Name>File Age Attribute</Name>
+          <Description>Used to define what timestamp to look at. Valid options is CreationTime, LastWriteTime and LastAccessTime.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder">
+          <Name>Atea File Creation-Time Folder</Name>
+          <Description>A folder configured to be monitored for files and their creation timestamps.
+          Configuration is reflected in the object properties.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder" SubElementID="FolderPath">
+          <Name>Folder Path</Name>
+          <Description>Path to folder. Make sure configured account has access to it.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder" SubElementID="Recursive">
+          <Name>Recursive Check</Name>
+          <Description>Defines whether the file lookup should be recursive or not.
+          Be careful with this in large folder structures as file system searches for certain properties can be slower than expected.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder" SubElementID="FilePattern">
+          <Name>File Pattern</Name>
+          <Description>File pattern to use when matching files.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder" SubElementID="AgeInMinutes">
+          <Name>Age in Minutes</Name>
+          <Description>Defines the file age to match against using the configured operator.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder" SubElementID="Operator">
+          <Name>Operator</Name>
+          <Description>Defines what operator the file checks should use.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTimeFolder" SubElementID="FriendlyName">
+          <Name>Friendly Name</Name>
+          <Description>Used to give the folder a more descriptive name, becomes the Display Name.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.Seed">
+          <Name>Atea Windows File-Monitoring Seed</Name>
+          <Description>Target for the other file-related class discoveries. Provides no other monitoring.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareWatcher">
+          <Name>Atea FileShare Watcher Class</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareWatcher" SubElementID="ShareName">
+          <Name>Share Name</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.FileShareWatcher" SubElementID="UNCPath">
+          <Name>UNC Path</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.Monitoring.WindowsComputerHostsFileShareWatcher">
+          <Name>WindowsComputerHostsFileShareWatcher Relationship</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTime.Discovery.DataSource">
+          <Name>Atea File Creation-Time Folder Discovery Data Source</Name>
+          <Description>This datasource provides the basic discovery data for the watched folders.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTime.vbsPropertyBag.DS">
+          <Name>Atea File Creation-Time Folder Property Bag Datasource</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAgeFolder.DiscoveryDS">
+          <Name>Atea File Age Folder Discovery Data Source</Name>
+          <Description>This datasource provides the basic discovery data for the watched folders.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileAge.TimedPropertyBag">
+          <Name>Atea Windows File - File Age PropertyBag Data Source</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileShareSpace.TimedPropertyBag">
+          <Name>Atea Windows File FileShare Space Monitoring - TimedPropertyBag</Name>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.File.FileCreationTime.vbsPropertyBag.ProbeAction">
+          <Name>Probe Action VBScript PropertyBag</Name>
+        </DisplayString>
+      </DisplayStrings>
+      <KnowledgeArticles></KnowledgeArticles>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPack>

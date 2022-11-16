@@ -1,0 +1,52 @@
+<TemplateGroup>
+  <Instances>
+    <Instance ID="Instance1cb8bbbf42bb4bd8ba0ce5a2d4aaa2da" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
+      <UnitMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <MonitorType>Atea.Windows.File.Monitoring.FileShareFreeSpace.MonitorType</MonitorType>
+        <MonitorConfig>&lt;TimeoutSeconds&gt;60&lt;/TimeoutSeconds&gt;&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;ShareName&gt;$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/ShareName$&lt;/ShareName&gt;&lt;UNCPath&gt;$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/UNCPath$&lt;/UNCPath&gt;&lt;FreeSpaceErrorThreshold&gt;3&lt;/FreeSpaceErrorThreshold&gt;&lt;FreeSpaceWarningThreshold&gt;10&lt;/FreeSpaceWarningThreshold&gt;&lt;UsePercent&gt;true&lt;/UsePercent&gt;</MonitorConfig>
+        <MonitorOperationalStates>
+          <OperationalState>
+            <OperationalStateId>Healthy</OperationalStateId>
+            <OperationalStateDisplayName>Free Space is OK</OperationalStateDisplayName>
+            <MonitorTypeStateId>Healthy</MonitorTypeStateId>
+            <HealthState>Success</HealthState>
+          </OperationalState>
+          <OperationalState>
+            <OperationalStateId>Error</OperationalStateId>
+            <OperationalStateDisplayName>Very Low on Free Space</OperationalStateDisplayName>
+            <MonitorTypeStateId>Error</MonitorTypeStateId>
+            <HealthState>Error</HealthState>
+          </OperationalState>
+          <OperationalState>
+            <OperationalStateId>Warning</OperationalStateId>
+            <OperationalStateDisplayName>Low on Free Space</OperationalStateDisplayName>
+            <MonitorTypeStateId>Warning</MonitorTypeStateId>
+            <HealthState>Warning</HealthState>
+          </OperationalState>
+        </MonitorOperationalStates>
+        <ParentMonitor>Health!System.Health.AvailabilityState</ParentMonitor>
+        <Accessibility>Public</Accessibility>
+        <Id>FileShareFreeSpaceMonitor</Id>
+        <DisplayName>FileShare Free Space Monitor</DisplayName>
+        <Description />
+        <Target>Atea.Windows.File.Monitoring.FileShareWatcher</Target>
+        <Enabled>true</Enabled>
+        <Category>AvailabilityHealth</Category>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <AlertAutoResolve>true</AlertAutoResolve>
+        <AlertOnState>Warning</AlertOnState>
+        <AlertPriority>Normal</AlertPriority>
+        <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+        <AlertName>$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/ShareName$ is running out of space</AlertName>
+        <AlertDescription>$Target/Property[Type="Atea.Windows.File.Monitoring.FileShareWatcher"]/ShareName$ is running low on free space.
+
+Share checked: $Data/Context/Property[@Name="Path"]$
+Share Size: $Data/Context/Property[@Name="TotalGB"]$ GB
+Used: $Data/Context/Property[@Name="UsedGB"]$ GB ($Data/Context/Property[@Name="UsedPct"]$ %)
+Free: $Data/Context/Property[@Name="FreeGB"]$ GB ($Data/Context/Property[@Name="FreePct"]$ %)</AlertDescription>
+        <ConfirmDelivery>false</ConfirmDelivery>
+      </UnitMonitorConfig>
+    </Instance>
+  </Instances>
+</TemplateGroup>

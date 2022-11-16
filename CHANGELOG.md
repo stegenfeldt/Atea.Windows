@@ -1,34 +1,46 @@
 # Change Log
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
 ### Added
+
 - Atea.Windows.Installer project Added
 - Release folder created
 - Automatic builds and MSI-packaging to /Release folder
 - Powershell based installation/update scripts
 - This changelog!
 - File Age Monitor
+- MonitoredEvent class, task and discovery
+- MonitoredEvent dependency monitor on Microsoft.Windows.Computer
 
 ### Changed
+
 - Updated documentation design
 - Install Script no longer uses the MSI-file, works directly with mp-files
 
 ### Fixed
+
 - [Svc Recovery alert has wrong eventlog name #6](https://github.com/stegenfeldt/Atea.Windows/issues/6)
 - Reconfigured Auto Deploy after extension update
 - Adv Service Recovery logging to task output
 - Exclusions on AutoService discovery
 - Standard Service Restart recovery task now supports services with spaces
+- Service displaystring discovery
+- [File Age monitor truncates description to avoid buffer overflow](https://github.com/stegenfeldt/Atea.Windows/pull/49)
 
 ### Removed
+
 - Old Downloads folder
 
 ## [1.0.2] - 2016-10-25
+
 ### Added
+
 - Atea.Windows.File.Monitoring MP from Atea.FileCreationTime, refactored for VSAE
 - Documentation available at [https://stegenfeldt.github.io/Atea.Windows](https://stegenfeldt.github.io/Atea.Windows)
 - List Running Services tasks
@@ -38,21 +50,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Advanced Service Restart tasks
 
 ### Changed
+
 - Bunch of spellchecks
 
 ### Fixed
+
 - "undiscovery" of services when last service is gone
 
 ## [1.0.1] - 2016-01-12
+
 ### Added
+
 - New class for Powershell enabled windows servers
 - Discovery of "Automatic" services, disabled by default
 - Service exclusion support in Automatic discovery
 - Recovery Monitor on monitored services for automatic restart
 - DiskUsedGB performance collection rule
 
-
 ### Changed
+
 - Converted Atea.WinSvc to VSAE project in Atea.Windows solution
 - Refactored Atea.WinSvc to Atea.Windows.Service
 - Updated discovery scripts to Powershell

@@ -1,0 +1,32 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+    <Tasks>
+      <Task ID="Atea.Windows.Server.Monitoring.MonitoredEvent.AddMonitoredEventTask" Accessibility="Public" Target="Windows!Microsoft.Windows.Computer" Enabled="true" Timeout="300" Remotable="false">
+        <Category>Maintenance</Category>
+        <ProbeAction ID="Probe" TypeID="Atea.Windows.Server.Monitoring.MonitoredEvent.AddMonitoredEventTask.PSProbe">
+          <EventMonitorName>CHANGEME</EventMonitorName>
+          <ErrorEventId>0</ErrorEventId>
+          <ErrorEventLevel>0</ErrorEventLevel>
+          <ErrorEventSource>CHANGEME</ErrorEventSource>
+          <ErrorEventLog>CHANGEME</ErrorEventLog>
+          <HealthyEventId>0</HealthyEventId>
+          <HealthyEventLevel>0</HealthyEventLevel>
+          <HealthyEventSource>CHANGEME</HealthyEventSource>
+          <HealthyEventLog>CHANGEME</HealthyEventLog>
+          <ShortDescription>CHANGEME</ShortDescription>
+          <TimeoutSeconds>300</TimeoutSeconds>
+        </ProbeAction>
+      </Task>
+    </Tasks>
+  </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Server.Monitoring.MonitoredEvent.AddMonitoredEventTask">
+          <Name>Add Monitored EventLog</Name>
+          <Description>Use this task to add a monitored eventlog event on this computer. Use overrides to set the friendly name, eventId, eventLevel et.c.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

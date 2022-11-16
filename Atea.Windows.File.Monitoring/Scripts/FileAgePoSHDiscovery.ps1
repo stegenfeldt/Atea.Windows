@@ -29,7 +29,7 @@ if (Test-Path -Path $RegistryPath) {
 		$FileAgeAttribute = $SubKey.GetValue("FileAgeAttribute")
 
 
-		if (($FolderPath -ne $null) -and ($Recursive -ne $null) -and ($FilePattern -ne $null) -and ($AgeInMinutes -ne $null) -and ($Operator -ne $null) -and ($FileAgeAttribute -ne $null))
+		if (($null -ne $FolderPath) -and ($null -ne $Recursive) -and ($null -ne $FilePattern) -and ($null -ne $AgeInMinutes) -and ($null -ne $Operator) -and ($null -ne $FileAgeAttribute))
 		{
 			$Operator = $Operator.Trim()
 
