@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.File.Monitoring</ID>
-      <Version>1.0.3.341</Version>
+      <Version>1.0.3.400</Version>
     </Identity>
     <Name>Atea.Windows.File.Monitoring</Name>
     <References>

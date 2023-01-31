@@ -6,7 +6,7 @@
     <RootNamespace>Atea.Windows.Server.Monitoring</RootNamespace>
     <Name>Atea.Windows.Server.Monitoring</Name>
     <ManagementPackName>Atea.Windows.Server.Monitoring</ManagementPackName>
-    <Version>1.0.3.320</Version>
+    <Version>1.0.3.400</Version>
     <MpFrameworkVersion>v7.0</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
