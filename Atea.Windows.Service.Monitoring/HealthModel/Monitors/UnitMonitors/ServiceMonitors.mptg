@@ -1,7 +1,7 @@
 <TemplateGroup>
   <Instances>
     <Instance ID="Instance1cb8bbbf42bb4bd8ba0ce5a2d4aaa2da" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
-      <UnitMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <UnitMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <MonitorType>Windows!Microsoft.Windows.CheckNTServiceStateMonitorType</MonitorType>
         <MonitorConfig>&lt;ComputerName&gt;$Target/Host/Property[Type='Windows!Microsoft.Windows.Computer']/PrincipalName$&lt;/ComputerName&gt;&lt;ServiceName&gt;$Target/Property[Type='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$&lt;/ServiceName&gt;&lt;CheckStartupType&gt;true&lt;/CheckStartupType&gt;</MonitorConfig>
         <MonitorOperationalStates>
@@ -32,6 +32,43 @@
         <AlertOnState>None</AlertOnState>
         <AlertPriority>Normal</AlertPriority>
         <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+        <ConfirmDelivery>false</ConfirmDelivery>
+      </UnitMonitorConfig>
+    </Instance>
+    <Instance ID="Instance14cf63c543624180a314e5b97e189e98" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
+      <UnitMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <MonitorType>Atea.Windows.Service.Monitoring.ServiceExistMonitorType</MonitorType>
+        <MonitorConfig>&lt;ComputerName&gt;$Target/Host/Property[Type='Windows!Microsoft.Windows.Computer']/PrincipalName$&lt;/ComputerName&gt;&lt;ServiceName&gt;$Target/Property[Type='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$&lt;/ServiceName&gt;&lt;Frequency&gt;3600&lt;/Frequency&gt;</MonitorConfig>
+        <MonitorOperationalStates>
+          <OperationalState>
+            <OperationalStateId>ServiceDoesNotExist</OperationalStateId>
+            <OperationalStateDisplayName>ServiceDoesNotExist</OperationalStateDisplayName>
+            <MonitorTypeStateId>ServiceDoesNotExist</MonitorTypeStateId>
+            <HealthState>Warning</HealthState>
+          </OperationalState>
+          <OperationalState>
+            <OperationalStateId>ServiceExist</OperationalStateId>
+            <OperationalStateDisplayName>ServiceExist</OperationalStateDisplayName>
+            <MonitorTypeStateId>ServiceExist</MonitorTypeStateId>
+            <HealthState>Success</HealthState>
+          </OperationalState>
+        </MonitorOperationalStates>
+        <ParentMonitor>Health!System.Health.ConfigurationState</ParentMonitor>
+        <Accessibility>Public</Accessibility>
+        <Id>ServiceExist</Id>
+        <DisplayName>Service Exist Monitor</DisplayName>
+        <Description>Check if service exist.</Description>
+        <Target>MSNL!Microsoft.SystemCenter.NTService</Target>
+        <Enabled>false</Enabled>
+        <Category>AvailabilityHealth</Category>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <AlertAutoResolve>true</AlertAutoResolve>
+        <AlertOnState>Warning</AlertOnState>
+        <AlertPriority>Normal</AlertPriority>
+        <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+        <AlertName>Service does not exist</AlertName>
+        <AlertDescription>The service '$Target/Property[Type='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$' does not exist.</AlertDescription>
         <ConfirmDelivery>false</ConfirmDelivery>
       </UnitMonitorConfig>
     </Instance>

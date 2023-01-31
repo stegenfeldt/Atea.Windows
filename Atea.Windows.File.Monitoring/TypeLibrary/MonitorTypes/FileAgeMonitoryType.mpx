@@ -1,110 +1,154 @@
-﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <TypeDefinitions>
-    <MonitorTypes>
-      <!--<UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal" RunAs="Atea.Windows.File.FileCreationTimeFolder.RunasProfile">-->
-      <UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal">
-          <MonitorTypeStates>
-              <MonitorTypeState ID="Healthy"/>
-              <MonitorTypeState ID="Error"/>
-        </MonitorTypeStates>
-        <Configuration>
-          <xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" />
-          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" />
-          <xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" />
-          <xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" />
-          <xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" />
-        </Configuration>
-        <OverrideableParameters>
-          <OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
-          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
-          <OverrideableParameter ID="FileAgeAttribute" Selector="$Config/FileAgeAttribute$" ParameterType="string"/>
-          <OverrideableParameter ID="EnableVerboseLogging" Selector="$Config/EnableVerboseLogging$" ParameterType="string"/>
-        </OverrideableParameters>
-        <MonitorImplementation>
-          <MemberModules>
-            <DataSource ID="TimedFileAgePropertyBag" TypeID="Atea.Windows.File.FileAge.TimedPropertyBag">
-              <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
-              <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
-              <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
-              <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
-              <EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
-            </DataSource>
-            <ProbeAction ID="Probe" TypeID="Atea.Windows.File.Monitoring.FileAgeProbeModule">
-              <FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
-              <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
-              <FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
-              <EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
-            </ProbeAction>
-            <ConditionDetection ID="FilterFolder" TypeID="System!System.ExpressionFilter">
-              <Expression>
-                <SimpleExpression>
-                  <ValueExpression>
-                    <XPathQuery>Property[@Name='FolderFriendlyName']</XPathQuery>
-                  </ValueExpression>
-                  <Operator>Equal</Operator>
-                  <ValueExpression>
-                    <Value>$Config/FolderFriendlyName$</Value>
-                  </ValueExpression>
-                </SimpleExpression>
-              </Expression>
-            </ConditionDetection>
-            <ConditionDetection ID="ErrorFilter" TypeID="System!System.ExpressionFilter">
-              <Expression>
-                <SimpleExpression>
-                  <ValueExpression>
-                    <XPathQuery Type="String">Property[@Name='FileCount']</XPathQuery>
-                  </ValueExpression>
-                  <Operator>NotEqual</Operator>
-                  <ValueExpression>
-                    <Value Type="String">0</Value>
-                  </ValueExpression>
-                </SimpleExpression>
-              </Expression>
-            </ConditionDetection>
-            <ConditionDetection ID="HealthyFilter" TypeID="System!System.ExpressionFilter">
-              <Expression>
-                <SimpleExpression>
-                  <ValueExpression>
-                    <XPathQuery Type="String">Property[@Name='FileCount']</XPathQuery>
-                  </ValueExpression>
-                  <Operator>Equal</Operator>
-                  <ValueExpression>
-                    <Value Type="String">0</Value>
-                  </ValueExpression>
-                </SimpleExpression>
-              </Expression>
-            </ConditionDetection>
-          </MemberModules>
-          <RegularDetections>
-            <RegularDetection MonitorTypeStateID="Healthy">
-              <Node ID="HealthyFilter">
-                <Node ID="TimedFileAgePropertyBag" />
-              </Node>
-            </RegularDetection>
-            <RegularDetection MonitorTypeStateID="Error">
-              <Node ID="ErrorFilter">
-                <Node ID="TimedFileAgePropertyBag" />
-              </Node>
-            </RegularDetection>
-          </RegularDetections>
-          <OnDemandDetections>
-            <OnDemandDetection MonitorTypeStateID="Healthy">
-              <Node ID="HealthyFilter">
-                <Node ID="FilterFolder">
-                  <Node ID="Probe" />
-                </Node>
-              </Node>
-            </OnDemandDetection>
-            <OnDemandDetection MonitorTypeStateID="Error">
-              <Node ID="ErrorFilter">
-                <Node ID="FilterFolder">
-                  <Node ID="Probe" />
-                </Node>
-              </Node>
-            </OnDemandDetection>
-          </OnDemandDetections>
-        </MonitorImplementation>
-      </UnitMonitorType>
-    </MonitorTypes>
-  </TypeDefinitions>
+﻿<ManagementPackFragment SchemaVersion="2.0"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<TypeDefinitions>
+		<MonitorTypes>
+			<!--<UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal" RunAs="Atea.Windows.File.FileCreationTimeFolder.RunasProfile">-->
+			<UnitMonitorType ID="Windows.File.FileAge.MonitorType" Accessibility="Internal">
+				<MonitorTypeStates>
+					<MonitorTypeState ID="Healthy" />
+					<MonitorTypeState ID="Warning" />
+					<MonitorTypeState ID="Error" />
+				</MonitorTypeStates>
+				<Configuration>
+					<xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" />
+					<xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" />
+					<xsd:element minOccurs="1" name="FolderFriendlyName" type="xsd:string" />
+					<xsd:element minOccurs="1" name="FileAgeAttribute" type="xsd:string" />
+					<xsd:element minOccurs="0" name="EnableVerboseLogging" type="xsd:string" />
+					<xsd:element minOccurs="1" name="FileCountErrorThreshold" type="xsd:integer" />
+				</Configuration>
+				<OverrideableParameters>
+					<OverrideableParameter ID="TimeOutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+					<OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+					<OverrideableParameter ID="FileAgeAttribute" Selector="$Config/FileAgeAttribute$" ParameterType="string" />
+					<OverrideableParameter ID="EnableVerboseLogging" Selector="$Config/EnableVerboseLogging$" ParameterType="string" />
+					<OverrideableParameter ID="FileCountErrorThreshold" Selector="$Config/FileCountErrorThreshold$" ParameterType="int" />
+				</OverrideableParameters>
+				<MonitorImplementation>
+					<MemberModules>
+						<DataSource ID="TimedFileAgePropertyBag" TypeID="Atea.Windows.File.FileAge.TimedPropertyBag">
+							<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+							<IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+							<FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
+							<FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
+							<EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
+						</DataSource>
+						<ProbeAction ID="Probe" TypeID="Atea.Windows.File.Monitoring.FileAgeProbeModule">
+							<FileAgeAttribute>$Config/FileAgeAttribute$</FileAgeAttribute>
+							<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+							<FolderFriendlyName>$Config/FolderFriendlyName$</FolderFriendlyName>
+							<EnableVerboseLogging>$Config/EnableVerboseLogging$</EnableVerboseLogging>
+						</ProbeAction>
+						<ConditionDetection ID="FilterFolder" TypeID="System!System.ExpressionFilter">
+							<Expression>
+								<SimpleExpression>
+									<ValueExpression>
+										<XPathQuery>Property[@Name='FolderFriendlyName']</XPathQuery>
+									</ValueExpression>
+									<Operator>Equal</Operator>
+									<ValueExpression>
+										<Value>$Config/FolderFriendlyName$</Value>
+									</ValueExpression>
+								</SimpleExpression>
+							</Expression>
+						</ConditionDetection>
+						<ConditionDetection ID="ErrorFilter" TypeID="System!System.ExpressionFilter">
+							<Expression>
+								<SimpleExpression>
+									<ValueExpression>
+										<XPathQuery Type="Integer">Property[@Name='FileCount']</XPathQuery>
+									</ValueExpression>
+									<Operator>GreaterEqual</Operator>
+									<ValueExpression>
+										<Value Type="Integer">$Config/FileCountErrorThreshold$</Value>
+									</ValueExpression>
+								</SimpleExpression>
+							</Expression>
+						</ConditionDetection>
+						<ConditionDetection ID="WarningFilter" TypeID="System!System.ExpressionFilter">
+							<Expression>
+								<And>
+									<Expression>
+										<SimpleExpression>
+											<ValueExpression>
+												<XPathQuery Type="Integer">Property[@Name='FileCount']</XPathQuery>
+											</ValueExpression>
+											<Operator>Less</Operator>
+											<ValueExpression>
+												<Value Type="Integer">$Config/FileCountErrorThreshold$</Value>
+											</ValueExpression>
+										</SimpleExpression>
+									</Expression>
+									<Expression>
+										<SimpleExpression>
+											<ValueExpression>
+												<XPathQuery Type="String">Property[@Name='FileCount']</XPathQuery>
+											</ValueExpression>
+											<Operator>NotEqual</Operator>
+											<ValueExpression>
+												<Value Type="Integer">0</Value>
+											</ValueExpression>
+										</SimpleExpression>
+									</Expression>
+								</And>
+							</Expression>
+						</ConditionDetection>
+						<ConditionDetection ID="HealthyFilter" TypeID="System!System.ExpressionFilter">
+							<Expression>
+								<SimpleExpression>
+									<ValueExpression>
+										<XPathQuery Type="Integer">Property[@Name='FileCount']</XPathQuery>
+									</ValueExpression>
+									<Operator>Equal</Operator>
+									<ValueExpression>
+										<Value Type="Integer">0</Value>
+									</ValueExpression>
+								</SimpleExpression>
+							</Expression>
+						</ConditionDetection>
+					</MemberModules>
+					<RegularDetections>
+						<RegularDetection MonitorTypeStateID="Healthy">
+							<Node ID="HealthyFilter">
+								<Node ID="TimedFileAgePropertyBag" />
+							</Node>
+						</RegularDetection>
+						<RegularDetection MonitorTypeStateID="Warning">
+							<Node ID="WarningFilter">
+								<Node ID="TimedFileAgePropertyBag" />
+							</Node>
+						</RegularDetection>
+						<RegularDetection MonitorTypeStateID="Error">
+							<Node ID="ErrorFilter">
+								<Node ID="TimedFileAgePropertyBag" />
+							</Node>
+						</RegularDetection>
+					</RegularDetections>
+					<OnDemandDetections>
+						<OnDemandDetection MonitorTypeStateID="Healthy">
+							<Node ID="HealthyFilter">
+								<Node ID="FilterFolder">
+									<Node ID="Probe" />
+								</Node>
+							</Node>
+						</OnDemandDetection>
+						<OnDemandDetection MonitorTypeStateID="Warning">
+							<Node ID="WarningFilter">
+								<Node ID="FilterFolder">
+									<Node ID="Probe" />
+								</Node>
+							</Node>
+						</OnDemandDetection>
+						<OnDemandDetection MonitorTypeStateID="Error">
+							<Node ID="ErrorFilter">
+								<Node ID="FilterFolder">
+									<Node ID="Probe" />
+								</Node>
+							</Node>
+						</OnDemandDetection>
+					</OnDemandDetections>
+				</MonitorImplementation>
+			</UnitMonitorType>
+		</MonitorTypes>
+	</TypeDefinitions>
 </ManagementPackFragment>

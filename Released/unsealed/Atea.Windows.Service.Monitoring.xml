@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>Atea.Windows.Service.Monitoring</ID>
-      <Version>1.0.3.236</Version>
+      <Version>1.0.3.400</Version>
     </Identity>
     <Name>Atea.Windows.Service.Monitoring</Name>
     <References>
@@ -905,6 +905,85 @@ Main]]></ScriptBody>
         <InputType>System!System.BaseData</InputType>
       </WriteActionModuleType>
     </ModuleTypes>
+    <MonitorTypes>
+      <UnitMonitorType ID="Atea.Windows.Service.Monitoring.ServiceExistMonitorType" Accessibility="Public">
+        <MonitorTypeStates>
+          <MonitorTypeState ID="ServiceDoesNotExist" />
+          <MonitorTypeState ID="ServiceExist" />
+        </MonitorTypeStates>
+        <Configuration>
+          <xsd:element name="ComputerName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ServiceName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="Frequency" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="Frequency" Selector="$Config/Frequency$" ParameterType="int" />
+        </OverrideableParameters>
+        <MonitorImplementation>
+          <MemberModules>
+            <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.Win32ServiceInformationProvider">
+              <ComputerName>$Config/ComputerName$</ComputerName>
+              <ServiceName>$Config/ServiceName$</ServiceName>
+              <Frequency>$Config/Frequency$</Frequency>
+            </DataSource>
+            <ProbeAction ID="Probe" TypeID="Windows!Microsoft.Windows.Win32ServiceInformationProbe">
+              <ComputerName>$Config/ComputerName$</ComputerName>
+              <ServiceName>$Config/ServiceName$</ServiceName>
+            </ProbeAction>
+            <ConditionDetection ID="ServiceExistCondition" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="Integer">Property[@Name='State']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>NotEqual</Operator>
+                  <ValueExpression>
+                    <Value Type="Integer">8</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="ServiceDoesNotExistCondition" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="Integer">Property[@Name='State']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="Integer">8</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+          </MemberModules>
+          <RegularDetections>
+            <RegularDetection MonitorTypeStateID="ServiceDoesNotExist">
+              <Node ID="ServiceDoesNotExistCondition">
+                <Node ID="DS" />
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="ServiceExist">
+              <Node ID="ServiceExistCondition">
+                <Node ID="DS" />
+              </Node>
+            </RegularDetection>
+          </RegularDetections>
+          <OnDemandDetections>
+            <OnDemandDetection MonitorTypeStateID="ServiceDoesNotExist">
+              <Node ID="ServiceDoesNotExistCondition">
+                <Node ID="Probe" />
+              </Node>
+            </OnDemandDetection>
+            <OnDemandDetection MonitorTypeStateID="ServiceExist">
+              <Node ID="ServiceExistCondition">
+                <Node ID="Probe" />
+              </Node>
+            </OnDemandDetection>
+          </OnDemandDetections>
+        </MonitorImplementation>
+      </UnitMonitorType>
+    </MonitorTypes>
   </TypeDefinitions>
   <Monitoring>
     <Discoveries>
@@ -1207,6 +1286,27 @@ Main]]></ScriptBody>
           <CheckStartupType>true</CheckStartupType>
         </Configuration>
       </UnitMonitor>
+      <UnitMonitor ID="Atea.Windows.Service.ServiceExist" Accessibility="Public" Enabled="false" Target="MSNL!Microsoft.SystemCenter.NTService" ParentMonitorID="Health!System.Health.ConfigurationState" Remotable="true" Priority="Normal" TypeID="Atea.Windows.Service.Monitoring.ServiceExistMonitorType" ConfirmDelivery="false">
+        <Category>AvailabilityHealth</Category>
+        <AlertSettings AlertMessage="Atea.Windows.Service.ServiceExist.AlertMessage">
+          <AlertOnState>Warning</AlertOnState>
+          <AutoResolve>true</AutoResolve>
+          <AlertPriority>Normal</AlertPriority>
+          <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+          <AlertParameters>
+            <AlertParameter1>$Target/Property[Type='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$</AlertParameter1>
+          </AlertParameters>
+        </AlertSettings>
+        <OperationalStates>
+          <OperationalState ID="ServiceDoesNotExist" MonitorTypeStateID="ServiceDoesNotExist" HealthState="Warning" />
+          <OperationalState ID="ServiceExist" MonitorTypeStateID="ServiceExist" HealthState="Success" />
+        </OperationalStates>
+        <Configuration>
+          <ComputerName>$Target/Host/Property[Type='Windows!Microsoft.Windows.Computer']/PrincipalName$</ComputerName>
+          <ServiceName>$Target/Property[Type='MSNL!Microsoft.SystemCenter.NTService']/ServiceName$</ServiceName>
+          <Frequency>3600</Frequency>
+        </Configuration>
+      </UnitMonitor>
     </Monitors>
     <Recoveries>
       <Recovery ID="Atea.Windows.Service.Service.AdvRecoveryTask" Accessibility="Public" Target="MSNL!Microsoft.SystemCenter.NTService" Enabled="false" ExecuteOnState="Error" Monitor="Atea.Windows.Service.RecoveryMonitor" ResetMonitor="true" Timeout="300" Remotable="false">
@@ -1233,6 +1333,7 @@ Main]]></ScriptBody>
   </Monitoring>
   <Presentation>
     <StringResources>
+      <StringResource ID="Atea.Windows.Service.ServiceExist.AlertMessage" />
       <StringResource ID="Atea.Windows.Service.AdvServiceRecoveryFailed.AlertMessage" />
     </StringResources>
   </Presentation>
@@ -1269,6 +1370,22 @@ Main]]></ScriptBody>
         <DisplayString ElementID="Atea.Windows.Service.RecoveryMonitor" SubElementID="NotRunning">
           <Name>NotRunning</Name>
           <Description>NotRunning</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.ServiceExist">
+          <Name>Service Exist Monitor</Name>
+          <Description>Check if service exist.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.ServiceExist.AlertMessage">
+          <Name>Service does not exist</Name>
+          <Description>The service '{0}' does not exist.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.ServiceExist" SubElementID="ServiceDoesNotExist">
+          <Name>ServiceDoesNotExist</Name>
+          <Description>ServiceDoesNotExist</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.ServiceExist" SubElementID="ServiceExist">
+          <Name>ServiceExist</Name>
+          <Description>ServiceExist</Description>
         </DisplayString>
         <DisplayString ElementID="Atea.Windows.Service.AdvServiceRecoveryFailed">
           <Name>Windows Service Adv Recovery Failed</Name>

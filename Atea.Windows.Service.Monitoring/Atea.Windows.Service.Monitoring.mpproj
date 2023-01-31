@@ -6,7 +6,7 @@
     <RootNamespace>Atea.Windows.Service</RootNamespace>
     <Name>Atea.Windows.Service.Monitoring</Name>
     <ManagementPackName>Atea.Windows.Service.Monitoring</ManagementPackName>
-    <Version>1.0.3.230</Version>
+    <Version>1.0.3.400</Version>
     <MpFrameworkVersion>v7.0</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
@@ -42,7 +42,7 @@
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.Windows.Library">
       <Alias>Windows</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.AdminItem.Library">
       <HintPath>C:\Program Files (x86)\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\System.AdminItem.Library.mp</HintPath>
@@ -154,6 +154,9 @@
     <Compile Include="TypeLibrary\ModuleTypes\WriteActions\AvdServiceRecoveryTask.WA.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeLibrary\MonitorTypes\ServiceExistMonitorType.mpx">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HealthModel" />
@@ -172,6 +175,7 @@
     <Folder Include="TypeLibrary\ModuleTypes\DataSources" />
     <Folder Include="TypeLibrary\ModuleTypes\WriteActions" />
     <Folder Include="TypeLibrary\ModuleTypes\ProbeActions" />
+    <Folder Include="TypeLibrary\MonitorTypes" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Add-MonitoredServiceKey.ps1" />

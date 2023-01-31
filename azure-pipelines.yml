@@ -5,7 +5,7 @@
 # Re-connected pipelines to project again
 
 pool:
-  vmImage: 'VS2017-Win2016'
+  vmImage: 'windows-2022'
 
 variables:
   solution: '**/*.sln'

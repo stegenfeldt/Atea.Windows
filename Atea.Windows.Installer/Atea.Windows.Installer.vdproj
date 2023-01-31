@@ -155,7 +155,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.File.Monitoring, Version=1.0.3.101, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.File.Monitoring, Version=1.0.3.400, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_4E738A19F12B461CB0E1656840A98197"
@@ -186,7 +186,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Service.Monitoring, Version=1.0.3.101, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Service.Monitoring, Version=1.0.3.400, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_53950D255F9649DC80B517E8902CA97A"
@@ -217,7 +217,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Library, Version=1.0.3.101, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Library, Version=1.0.3.400, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_989F92A89DCC4C05A2671096BBB0BFB7"
@@ -248,7 +248,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Atea.Windows.Server.Monitoring, Version=1.0.3.220, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Atea.Windows.Server.Monitoring, Version=1.0.3.400, Culture=neutral, PublicKeyToken=62373e1518b7f72f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_C58F4C60AE9D4646B6B73E6E83A7F892"
@@ -365,7 +365,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Atea Windows - MP Package"
         "ProductCode" = "8:{0BDBCC52-6F5E-4844-8E96-C05705F5A9FA}"
-        "PackageCode" = "8:{FB70A253-AD22-4DBB-B7BB-156FA67B24C3}"
+        "PackageCode" = "8:{A5879B57-A3EF-49FB-821C-356CCB484D6D}"
         "UpgradeCode" = "8:{44CB4EA9-89BB-4063-91FA-3CC9EA76F800}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
