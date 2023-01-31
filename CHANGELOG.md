@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Fixed
+
+### Removed
+
+
+## [1.0.3.400]
+
+### Added
+
 - Atea.Windows.Installer project Added
 - Release folder created
 - Automatic builds and MSI-packaging to /Release folder
@@ -17,11 +28,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - File Age Monitor
 - MonitoredEvent class, task and discovery
 - MonitoredEvent dependency monitor on Microsoft.Windows.Computer
+- [Missing Service monitor (@svantegraden)](https://github.com/stegenfeldt/Atea.Windows/pull/53)
+- Basic file share monitoring
+- [Registry Based event log monitoring](https://github.com/stegenfeldt/Atea.Windows/pull/37)
 
 ### Changed
 
 - Updated documentation design
 - Install Script no longer uses the MSI-file, works directly with mp-files
+- [File Age Monitor has parameter for number of files](https://github.com/stegenfeldt/Atea.Windows/pull/48)
+
 
 ### Fixed
 
@@ -31,7 +47,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Exclusions on AutoService discovery
 - Standard Service Restart recovery task now supports services with spaces
 - Service displaystring discovery
-- [File Age monitor truncates description to avoid buffer overflow](https://github.com/stegenfeldt/Atea.Windows/pull/49)
+- [File Age monitor truncates description to avoid buffer overflow (@AndreasB-atea)](https://github.com/stegenfeldt/Atea.Windows/pull/49)
+- [Fixed Azure Pipeline for build checking](https://github.com/stegenfeldt/Atea.Windows/pull/39)
 
 ### Removed
 
@@ -75,6 +92,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Shared and Own process services are now using the correct base class
 
 
-[Unreleased]: https://github.com/stegenfeldt/Atea.Windows/compare/v1.0.2.0...HEAD
+[Unreleased]: https://github.com/stegenfeldt/Atea.Windows/compare/v1.0.3.400...HEAD
+[1.0.3.400]: https://github.com/stegenfeldt/Atea.Windows/compare/v1.0.2.0...v1.0.3.400
 [1.0.2]: https://github.com/stegenfeldt/Atea.Windows/compare/1.0.1.0...v1.0.2.0
 [1.0.1]: https://github.com/stegenfeldt/Atea.Windows/compare/881b4000996b2785529d79e09279262a390ba972...1.0.1.0
