@@ -1,0 +1,84 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+    <Rules>
+      <Rule ID="Atea.Windows.Service.Service.Discovery.ErrorRule" Enabled="true" Target="Atea.Windows.Service.Seed" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>Alert</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.EventProvider">
+            <ComputerName>.</ComputerName>
+            <LogName>Operations Manager</LogName>
+            <Expression>
+              <And>
+                <Expression>
+                  <SimpleExpression>
+                    <ValueExpression>
+                      <XPathQuery Type="String">PublisherName</XPathQuery>
+                    </ValueExpression>
+                    <Operator>Equal</Operator>
+                    <ValueExpression>
+                      <Value Type="String">Health Service Script</Value>
+                    </ValueExpression>
+                  </SimpleExpression>
+                </Expression>
+                <Expression>
+                  <SimpleExpression>
+                    <ValueExpression>
+                      <XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+                    </ValueExpression>
+                    <Operator>Equal</Operator>
+                    <ValueExpression>
+                      <Value Type="UnsignedInteger">19202</Value>
+                    </ValueExpression>
+                  </SimpleExpression>
+                </Expression>
+                <Expression>
+                  <SimpleExpression>
+                    <ValueExpression>
+                      <XPathQuery Type="String">Params/Param[1]</XPathQuery>
+                    </ValueExpression>
+                    <Operator>Equal</Operator>
+                    <ValueExpression>
+                      <Value Type="String">AteaWinSvcServiceDiscoveryDS.vbs</Value>
+                    </ValueExpression>
+                  </SimpleExpression>
+                </Expression>
+              </And>
+            </Expression>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="Alert" TypeID="Health!System.Health.GenerateAlert">
+            <Priority>1</Priority>
+            <Severity>2</Severity>
+            <AlertMessageId>$MPElement[Name="Atea.Windows.Service.Service.Discovery.ErrorRule.AlertMessage"]$</AlertMessageId>
+            <AlertParameters>
+              <AlertParameter1>$Data/EventDescription$</AlertParameter1>
+            </AlertParameters>
+            <Suppression>
+              <SuppressionValue />
+            </Suppression>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+    </Rules>
+  </Monitoring>
+  <Presentation>
+    <StringResources>
+      <StringResource ID="Atea.Windows.Service.Service.Discovery.ErrorRule.AlertMessage" />
+    </StringResources>
+  </Presentation>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="Atea.Windows.Service.Service.Discovery.ErrorRule">
+          <Name>Service discovery error</Name>
+          <Description>Error from service discovery.</Description>
+        </DisplayString>
+        <DisplayString ElementID="Atea.Windows.Service.Service.Discovery.ErrorRule.AlertMessage">
+          <Name>Service discovery failed</Name>
+          <Description>{0}</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

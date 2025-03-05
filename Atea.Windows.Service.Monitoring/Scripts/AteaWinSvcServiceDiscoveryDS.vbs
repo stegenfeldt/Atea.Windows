@@ -13,9 +13,9 @@ CONST REG_EXPAND_SZ = 2
 CONST REG_BINARY = 3
 CONST REG_DWORD = 4
 CONST REG_MULTI_SZ = 7
-CONST SCOM_INFO = 2
-CONST SCOM_WARNING = 1
-CONST SCOM_ERROR = 0
+CONST SCOM_INFO = 4
+CONST SCOM_WARNING = 2
+CONST SCOM_ERROR = 1
 CONST SCOM_SCRIPT_INFORMATION = 19200
 CONST SCOM_SCRIPT_WARNING = 19201
 CONST SCOM_SCRIPT_ERROR = 19202
@@ -74,6 +74,12 @@ If NOT IsNull(registryValues) Then
 				Select Case returnValue
 					Case 242100
 						LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Could not properly connect to the service repository on " & computerName & ", check RunAs user rights."
+
+						'Add service to show that it doesn't exists
+						Set scomPropertyBag = scomApi.CreatePropertyBag()	' Instance of a new property bag
+						Call scomPropertyBag.AddValue("Name", serviceName)
+						Call scomPropertyBag.AddValue("EntityDisplayName", serviceName & " (non existant)")
+						Call scomApi.AddItem(scomPropertyBag)	' Add the property bag to the collection
 					Case 242101
 						LogEvent SCOM_SCRIPT_WARNING, SCOM_WARNING, "Could not match registry value """ & serviceName & """to an existing service."
 					Case 424
@@ -106,7 +112,7 @@ Else
 	LogEvent SCOM_DEBUG,SCOM_INFO,"Failed to read from: HKLM\" & keyPath & "\"
 
 	' Issue #4
-	' Discovery never removing services efter the only remaining string value is deleted.
+	' Discovery never removing services after the only remaining string value is deleted.
 	' Needs to return an empty property bag.
 	Set scomApi = CreateObject("MOM.ScriptAPI")
 	Set scomApi = CreateObject("MOM.ScriptingAPI")
