@@ -53,7 +53,12 @@ function Test-ServiceExist ($ServiceName) {
 function Start-ServiceAndWait ([string] $ServiceName, [int] $WaitSeconds)
 {
 	# Check if service is starting to prevent unnecessary restart of service
-	$serviceObject = Get-Service -Name $ServiceName
+	$serviceObject = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
+	if (-not $serviceObject) {
+		Write-SCOMTaskLog -Message "Service $ServiceName was not found (or could not be queried)." -ElapsedSeconds $timer.Elapsed.TotalSeconds
+		Write-SCOMEvent -LogMessage "Service $ServiceName was not found (or could not be queried)." -LogSeverity 1 -LogEventId 10100
+		return "NotFound"
+	}
 	if ($serviceObject.Status -eq "StartPending") {
 		Write-SCOMTaskLog -Message "Service $ServiceName is starting, waiting for $WaitSeconds seconds for service to start" -ElapsedSeconds $timer.Elapsed.TotalSeconds
 		Write-SCOMEvent -LogMessage "Service $ServiceName is starting, waiting for $WaitSeconds seconds for service to start" -LogSeverity 0 -LogEventId 10101

@@ -54,9 +54,6 @@
             <AlertParameters>
               <AlertParameter1>$Data/EventDescription$</AlertParameter1>
             </AlertParameters>
-            <Suppression>
-              <SuppressionValue />
-            </Suppression>
           </WriteAction>
         </WriteActions>
       </Rule>
