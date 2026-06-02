@@ -1,7 +1,7 @@
 <TemplateGroup>
   <Instances>
     <Instance ID="Instancedc1d6d1689744195bf3c3eaa5b8ccf2b" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.AlertRule" Version="1.0.0.0">
-      <AlertRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <AlertRuleConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Id>AdvServiceRecoveryFailed</Id>
         <DisplayName>Windows Service Adv Recovery Failed</DisplayName>
         <Description>Alerts on events indicating a failure to recover a stopped Windows service</Description>

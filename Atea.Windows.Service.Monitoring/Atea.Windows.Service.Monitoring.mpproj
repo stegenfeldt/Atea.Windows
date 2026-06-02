@@ -35,7 +35,7 @@
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.NTService.Library">
-      <HintPath>C:\Program Files (x86)\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\Microsoft.SystemCenter.NTService.Library.mp</HintPath>
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio 2022 Authoring Extensions\References\OM2012\Microsoft.SystemCenter.NTService.Library.mp</HintPath>
       <Alias>MSNL</Alias>
       <MinVersion>7.0.8560.0</MinVersion>
       <PackageToBundle>False</PackageToBundle>
@@ -45,7 +45,7 @@
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.AdminItem.Library">
-      <HintPath>C:\Program Files (x86)\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\System.AdminItem.Library.mp</HintPath>
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio 2022 Authoring Extensions\References\OM2012\System.AdminItem.Library.mp</HintPath>
       <Alias>SAL</Alias>
       <MinVersion>7.5.8501.0</MinVersion>
     </ManagementPackReference>
@@ -62,7 +62,7 @@
       <PackageToBundle>false</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.Software.Library">
-      <HintPath>C:\Program Files (x86)\System Center 2012 Visual Studio Authoring Extensions\References\OM2012\System.Software.Library.mp</HintPath>
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio 2022 Authoring Extensions\References\OM2012\System.Software.Library.mp</HintPath>
       <Alias>SSL</Alias>
       <MinVersion>7.5.8501.0</MinVersion>
     </ManagementPackReference>
@@ -105,6 +105,12 @@
     <Compile Include="HealthModel\Rules\AlertRules.mptg.mpx">
       <SubType>Code</SubType>
       <DependentUpon>HealthModel\Rules\AlertRules.mptg</DependentUpon>
+    </Compile>
+    <Compile Include="HealthModel\Rules\Service.Discovery.ErrorRule.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HealthModel\Rules\Service.Discovery.WarningRule.mpx">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="HealthModel\Tasks\AgentTasks\AddMonitoredServiceTask.mpx">
       <SubType>Code</SubType>

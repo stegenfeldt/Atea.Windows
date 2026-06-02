@@ -12,11 +12,13 @@ The Atea.Windows MP collection is a number of, somewhat related, management pack
 
 ## Tools needed
 
-This project is built using Visual Studio 2017 (Community).  
+This project is built using Visual Studio 2022 (Community).  
 In addition to that, you'd need the following extensions:
 
 - VSAE - Visual Studio Authoring Extensions
-- Microsoft Visual Studio 2017/2015 Installer Projects
+- Microsoft Visual Studio 2022 Installer Projects
+
+It *should* work with VS2017 and later, but this has not been tested.
 
 ## Customers/Sponsors
 
@@ -24,10 +26,10 @@ The following customers have graciously allowed us to co-develop this MP and sha
 
 - Clas Ohlson
 - Spendrups
-- ABB
+- Hitachi Energy
 - Borlänge Kommun
 - Piteå Kommun
-- Atea Integration Services
+- Atea Managed Services
 - Region Gävleborg
 - SSAB
 - Xylem Water Solutions
